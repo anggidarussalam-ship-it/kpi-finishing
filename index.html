@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACE Finishing Dashboard — Light</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ═══════════════════════════════
+   LIGHT THEME DESIGN TOKENS
+═══════════════════════════════ */
+:root {
+  /* Backgrounds */
+  --bg-base:      #f0f2f7;
+  --bg-subtle:    #e8ebf4;
+  --bg-white:     #ffffff;
+  --bg-card:      #ffffff;
+  --bg-sidebar:   #ffffff;
+  --bg-header:    rgba(255,255,255,0.92);
+
+  /* Royal Blue Accents */
+  --blue-900:     #0d2d6b;
+  --blue-800:     #1340a0;
+  --blue-700:     #1a52c8;
+  --blue-600:     #2563eb;
+  --blue-500:     #3b82f6;
+  --blue-400:     #60a5fa;
+  --blue-100:     #dbeafe;
+  --blue-50:      #eff6ff;
+
+  /* Semantic colors — muted, professional */
+  --green-600:    #16a34a;
+  --green-100:    #dcfce7;
+  --green-50:     #f0fdf4;
+  --yellow-600:   #ca8a04;
+  --yellow-100:   #fef9c3;
+  --yellow-50:    #fefce8;
+  --red-600:      #dc2626;
+  --red-100:      #fee2e2;
+  --red-50:       #fef2f2;
+  --orange-600:   #ea580c;
+  --orange-100:   #ffedd5;
+  --purple-600:   #7c3aed;
+  --purple-100:   #ede9fe;
+  --teal-600:     #0d9488;
+  --teal-100:     #ccfbf1;
+
+  /* Text */
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+  --text-white:     #ffffff;
+
+  /* Borders */
+  --border-light:   #e2e8f0;
+  --border-mid:     #cbd5e1;
+  --border-blue:    rgba(37, 99, 235, 0.25);
+
+  /* Shadows */
+  --shadow-xs:  0 1px 2px rgba(15,23,42,0.05);
+  --shadow-sm:  0 2px 8px rgba(15,23,42,0.07), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md:  0 4px 16px rgba(15,23,42,0.09), 0 1px 4px rgba(15,23,42,0.05);
+  --shadow-lg:  0 8px 32px rgba(15,23,42,0.12), 0 2px 8px rgba(15,23,42,0.06);
+  --shadow-blue: 0 4px 14px rgba(37,99,235,0.18);
+}
+
+/* ═══════════════════════════════
+   RESET + BASE
+═══════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle dot grid background */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: radial-gradient(circle, #c8d3e8 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Top accent stripe on page */
+body::after {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 200;
+  background: linear-gradient(90deg, var(--blue-700), var(--blue-500), var(--teal-600));
+}
+
+/* ═══════════════════════════════
+   UPLOAD SCREEN
+═══════════════════════════════ */
+#uploadScreen {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 28px;
+  background: var(--bg-base);
+}
+
+.upload-logo {
+  text-align: center;
+  animation: fadeInDown 0.7s ease;
+}
+
+.upload-logo-mark {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; margin: 0 auto 16px;
+  box-shadow: var(--shadow-blue);
+}
+
+.upload-logo h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.upload-logo h1 span { color: var(--blue-600); }
+
+.upload-logo p {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.upload-zone {
+  width: min(480px, 90vw);
+  border: 2px dashed var(--border-mid);
+  border-radius: 20px;
+  padding: 44px 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: var(--bg-white);
+  box-shadow: var(--shadow-md);
+  animation: fadeInUp 0.7s ease 0.15s both;
+  position: relative;
+}
+
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--blue-500);
+  box-shadow: var(--shadow-lg), 0 0 0 4px var(--blue-100);
+  transform: translateY(-3px);
+}
+
+.upload-icon {
+  font-size: 52px;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.upload-zone h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.upload-zone p {
+  color: var(--text-muted);
+  font-size: 0.83rem;
+  line-height: 1.6;
+}
+
+.btn-upload {
+  margin-top: 20px;
+  padding: 11px 32px;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  border: none; border-radius: 10px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: var(--shadow-blue);
+  transition: all 0.25s;
+}
+
+.btn-upload:hover {
+  box-shadow: 0 6px 20px rgba(37,99,235,0.32);
+  transform: translateY(-1px);
+}
+
+#fileInput { display: none; }
+
+.upload-hint {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  animation: fadeIn 1s ease 0.4s both;
+}
+
+/* ═══════════════════════════════
+   MAIN DASHBOARD
+═══════════════════════════════ */
+#dashboard {
+  display: none;
+  min-height: 100vh;
+  position: relative; z-index: 1;
+}
+
+/* ═══════════════════════════════
+   HEADER
+═══════════════════════════════ */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg-header);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 24px;
+  height: 62px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-brand {
+  display: flex; align-items: center; gap: 12px;
+}
+
+.brand-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  box-shadow: var(--shadow-blue);
+  flex-shrink: 0;
+}
+
+.brand-text h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.72rem, 2vw, 0.88rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.brand-text p {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: 1px;
+}
+
+.header-meta {
+  display: flex; align-items: center; gap: 12px;
+}
+
+.live-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--green-50);
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.63rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--green-600);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.live-dot {
+  width: 6px; height: 6px;
+  background: var(--green-600);
+  border-radius: 50%;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { opacity:1; box-shadow: 0 0 0 2px rgba(22,163,74,0.2); }
+  50% { opacity:0.5; box-shadow: none; }
+}
+
+.header-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: none;
+}
+@media(min-width:600px){ .header-time { display: block; } }
+
+.btn-reload {
+  padding: 6px 14px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-mid);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-reload:hover {
+  background: var(--blue-50);
+  border-color: var(--blue-400);
+  color: var(--blue-700);
+  box-shadow: var(--shadow-xs);
+}
+
+/* ═══════════════════════════════
+   LAYOUT
+═══════════════════════════════ */
+.main-layout {
+  display: flex;
+  min-height: calc(100vh - 62px);
+}
+
+/* ═══════════════════════════════
+   SIDEBAR
+═══════════════════════════════ */
+nav#sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-light);
+  padding: 16px 0 20px;
+  position: sticky;
+  top: 62px;
+  height: calc(100vh - 62px);
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 2px;
+  box-shadow: 2px 0 12px rgba(15,23,42,0.04);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-light) transparent;
+}
+
+@media(max-width:768px){
+  nav#sidebar {
+    position: fixed; left: -220px; top: 62px;
+    height: calc(100vh - 62px);
+    z-index: 40; transition: left 0.3s ease;
+    box-shadow: 4px 0 24px rgba(15,23,42,0.12);
+  }
+  nav#sidebar.open { left: 0; }
+}
+
+.nav-section-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  padding: 14px 20px 6px;
+  text-transform: uppercase;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  border-radius: 0 8px 8px 0;
+  margin-right: 8px;
+  transition: all 0.18s ease;
+  color: var(--text-secondary);
+  font-size: 0.87rem;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  border-left-color: var(--blue-300, #93c5fd);
+}
+
+.nav-item.active {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  border-left-color: var(--blue-600);
+  font-weight: 700;
+}
+
+.nav-item.active .nav-badge {
+  background: var(--blue-600);
+  color: #fff;
+  border-color: var(--blue-600);
+}
+
+.nav-icon {
+  font-size: 1.05rem;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  color: var(--blue-600);
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+/* ═══════════════════════════════
+   CONTENT AREA
+═══════════════════════════════ */
+.content {
+  flex: 1; overflow-x: hidden;
+  padding: 24px;
+  min-width: 0;
+}
+
+/* ═══════════════════════════════
+   SLIDES
+═══════════════════════════════ */
+.slide { display: none; animation: slideIn 0.35s ease; }
+.slide.active { display: block; }
+
+@keyframes slideIn {
+  from { opacity:0; transform: translateY(14px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════
+   PAGE HEADER
+═══════════════════════════════ */
+.page-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.page-icon {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 21px;
+  flex-shrink: 0;
+}
+
+.page-title h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+}
+
+.page-title p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* ═══════════════════════════════
+   GRIDS
+═══════════════════════════════ */
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+@media(max-width:900px){ .grid-3,.grid-4 { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:560px){ .grid-2,.grid-3,.grid-4 { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════
+   CARDS
+═══════════════════════════════ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Colored top border per category */
+.card-accent-blue   { border-top: 3px solid var(--blue-500); }
+.card-accent-green  { border-top: 3px solid var(--green-600); }
+.card-accent-yellow { border-top: 3px solid var(--yellow-600); }
+.card-accent-red    { border-top: 3px solid var(--red-600); }
+.card-accent-orange { border-top: 3px solid var(--orange-600); }
+.card-accent-purple { border-top: 3px solid var(--purple-600); }
+.card-accent-teal   { border-top: 3px solid var(--teal-600); }
+
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════
+   STAT CARDS
+═══════════════════════════════ */
+.stat-card { position: relative; overflow: hidden; }
+
+.stat-value {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1;
+  margin: 6px 0 4px;
+  letter-spacing: -1px;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.stat-bg-icon {
+  position: absolute;
+  right: 14px; bottom: 10px;
+  font-size: 44px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════
+   COLOR UTILITIES
+═══════════════════════════════ */
+.c-blue   { color: var(--blue-700); }
+.c-blue5  { color: var(--blue-500); }
+.c-green  { color: var(--green-600); }
+.c-yellow { color: var(--yellow-600); }
+.c-red    { color: var(--red-600); }
+.c-orange { color: var(--orange-600); }
+.c-purple { color: var(--purple-600); }
+.c-teal   { color: var(--teal-600); }
+.c-muted  { color: var(--text-secondary); }
+
+/* ═══════════════════════════════
+   BADGES
+═══════════════════════════════ */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.63rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.badge-good   { background: var(--green-100);  color: var(--green-600);  border: 1px solid #bbf7d0; }
+.badge-warn   { background: var(--yellow-100); color: var(--yellow-600); border: 1px solid #fde68a; }
+.badge-danger { background: var(--red-100);   color: var(--red-600);    border: 1px solid #fca5a5; }
+.badge-info   { background: var(--blue-100);  color: var(--blue-700);   border: 1px solid #bfdbfe; }
+
+/* ═══════════════════════════════
+   CHARTS
+═══════════════════════════════ */
+.chart-wrap { position: relative; width: 100%; }
+.chart-wrap canvas { max-height: 260px; }
+
+/* ═══════════════════════════════
+   TABLES
+═══════════════════════════════ */
+.kpi-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+
+.kpi-table th {
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  padding: 9px 14px;
+  text-align: left;
+  border-bottom: 2px solid var(--border-light);
+  text-transform: uppercase;
+  background: var(--bg-base);
+}
+
+.kpi-table th:first-child { border-radius: 8px 0 0 0; }
+.kpi-table th:last-child  { border-radius: 0 8px 0 0; }
+
+.kpi-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.kpi-table tr:last-child td { border-bottom: none; }
+.kpi-table tr:hover td { background: var(--blue-50); }
+
+/* ═══════════════════════════════
+   SECTION SPACING
+═══════════════════════════════ */
+.section-gap { margin-top: 18px; }
+
+/* ═══════════════════════════════
+   MOBILE TOGGLE
+═══════════════════════════════ */
+#menuToggle {
+  display: none;
+  background: none; border: none;
+  color: var(--text-primary); font-size: 1.3rem;
+  cursor: pointer; padding: 4px;
+  margin-right: 6px;
+}
+@media(max-width:768px){ #menuToggle { display: block; } }
+
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(15,23,42,0.3);
+  z-index: 39;
+  backdrop-filter: blur(2px);
+}
+
+/* ═══════════════════════════════
+   DIVIDER LINE
+═══════════════════════════════ */
+.divider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 16px 0;
+}
+
+/* ═══════════════════════════════
+   GROUP COMPARISON BARS
+═══════════════════════════════ */
+.compare-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.compare-row:last-child { border-bottom: none; }
+
+.compare-label {
+  width: 80px; flex-shrink: 0;
+  font-size: 0.72rem; font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.compare-track {
+  flex: 1; height: 24px;
+  background: var(--bg-base);
+  border-radius: 6px; overflow: hidden;
+}
+
+.compare-fill {
+  height: 100%;
+  display: flex; align-items: center;
+  padding-left: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; font-weight: 700;
+  color: #fff;
+  border-radius: 6px;
+  min-width: 36px;
+  transition: width 1.2s ease;
+}
+
+/* ═══════════════════════════════
+   ANIMATIONS
+═══════════════════════════════ */
+@keyframes fadeIn    { from{opacity:0} to{opacity:1} }
+@keyframes fadeInDown{ from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeInUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+/* ═══════════════════════════════
+   SCROLLBAR
+═══════════════════════════════ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ═══════════════════════════════
+   SPAN HELPERS
+═══════════════════════════════ */
+.col-span-2 { grid-column: span 2; }
+@media(max-width:560px){ .col-span-2 { grid-column: span 1; } }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     UPLOAD SCREEN
+══════════════════════════════════ -->
+<div id="uploadScreen">
+  <div class="upload-logo">
+    <div class="upload-logo-mark">⚙</div>
+    <h1>Casting-2 Production <span>KPI</span></h1>
+    <p>Finishing Performance Dashboard · Light Edition</p>
+  </div>
+
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+    <span class="upload-icon">📊</span>
+    <h3>Upload File Excel</h3>
+    <p>Drop file <strong>Check_Sheet_KPI.xlsx</strong> di sini,<br>atau klik tombol di bawah untuk browse file.</p>
+    <button class="btn-upload" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
+      Pilih File Excel
+    </button>
+  </div>
+
+  <p class="upload-hint">Format yang didukung: .xlsx · .xls</p>
+  <input type="file" id="fileInput" accept=".xlsx,.xls">
+</div>
+
+<!-- ══════════════════════════════════
+     DASHBOARD
+══════════════════════════════════ -->
+<div id="dashboard">
+
+  <!-- Header -->
+  <header>
+    <div style="display:flex;align-items:center">
+      <button id="menuToggle" onclick="toggleSidebar()">☰</button>
+      <div class="header-brand">
+        <div class="brand-icon">⚙</div>
+        <div class="brand-text">
+          <h1>CASTING-2 PRODUCTION</h1>
+          <p>Finishing Performance Monitor</p>
+        </div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+      <div class="header-time" id="clockDisplay">--:--:--</div>
+      <button class="btn-reload" onclick="document.getElementById('uploadScreen').style.display='flex'; document.getElementById('dashboard').style.display='none';">
+        ↑ Upload Baru
+      </button>
+    </div>
+  </header>
+
+  <div class="main-layout">
+
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="nav-section-label">Kategori KPI</div>
+
+      <div class="nav-item active" onclick="showSlide('safety',this)">
+        <span class="nav-icon">🛡️</span> Safety
+        <span class="nav-badge">A</span>
+      </div>
+      <div class="nav-item" onclick="showSlide('quality',this)">
+        <span class="nav-icon">✅</span> Quality
+        <span class="nav-badge">B</span>
+      </div>
+      <div class="nav-item" onclick="showSlide('productivity',this)">
+        <span class="nav-icon">⚡</span> Productivity
+        <span class="nav-badge">C</span>
+      </div>
+      <div class="nav-item" onclick="showSlide('monojukuri',this)">
+        <span class="nav-icon">📐</span> Monojukuri
+        <span class="nav-badge">D</span>
+      </div>
+      <div class="nav-item" onclick="showSlide('moral',this)">
+        <span class="nav-icon">🌟</span> Moral
+        <span class="nav-badge">E</span>
+      </div>
+
+      <div style="margin-top:auto;padding:16px 20px 0">
+        <div style="background:var(--blue-50);border:1px solid var(--blue-100);border-radius:10px;padding:12px">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--blue-700);letter-spacing:1px;margin-bottom:4px">LEGEND</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <div style="width:10px;height:10px;border-radius:2px;background:var(--blue-500)"></div>
+            <span style="font-size:0.72rem;color:var(--text-secondary)">Katun</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:10px;height:10px;border-radius:2px;background:var(--teal-600)"></div>
+            <span style="font-size:0.72rem;color:var(--text-secondary)">Kusuma</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- ══════════════════════════════════
+         CONTENT
+    ══════════════════════════════════ -->
+    <div class="content">
+
+      <!-- ═══ A. SAFETY ═══ -->
+      <div class="slide active" id="slide-safety">
+        <div class="page-header">
+          <div class="page-icon" style="background:var(--green-50);border:1.5px solid #bbf7d0">🛡️</div>
+          <div class="page-title">
+            <h2>A. Safety</h2>
+            <p>Accident · HYT Plan &amp; Aktual · Temuan · KYT</p>
+          </div>
+        </div>
+
+        <!-- KPI Stats -->
+        <div class="grid-4" style="margin-bottom:16px">
+          <div class="card stat-card card-accent-green">
+            <div class="card-header">
+              <span class="card-title">Accident — katun</span>
+              <span class="badge badge-good">AMAN</span>
+            </div>
+            <div class="stat-value c-green" id="s-accident-katun">–</div>
+            <div class="stat-label">Total Kejadian</div>
+            <span class="stat-bg-icon">🛡️</span>
+          </div>
+          <div class="card stat-card card-accent-green">
+            <div class="card-header">
+              <span class="card-title">Accident — kusuma</span>
+              <span class="badge badge-good">AMAN</span>
+            </div>
+            <div class="stat-value c-green" id="s-accident-kusuma">–</div>
+            <div class="stat-label">Total Kejadian</div>
+            <span class="stat-bg-icon">🛡️</span>
+          </div>
+          <div class="card stat-card card-accent-blue">
+            <div class="card-header">
+              <span class="card-title">KYT Plan — katun</span>
+              <span class="badge badge-info">TARGET</span>
+            </div>
+            <div class="stat-value c-blue" id="s-kytplan-katun">–</div>
+            <div class="stat-label">Kali per Bulan</div>
+            <span class="stat-bg-icon">📋</span>
+          </div>
+          <div class="card stat-card card-accent-blue">
+            <div class="card-header">
+              <span class="card-title">KYT Plan — kusuma</span>
+              <span class="badge badge-info">TARGET</span>
+            </div>
+            <div class="stat-value c-blue" id="s-kytplan-kusuma">–</div>
+            <div class="stat-label">Kali per Bulan</div>
+            <span class="stat-bg-icon">📋</span>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">HYT Plan vs Aktual</span></div>
+            <div class="chart-wrap"><canvas id="chart-hyt"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">KYT Plan vs Aktual</span></div>
+            <div class="chart-wrap"><canvas id="chart-kyt"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">HYT Temuan · Perbaikan · Remain — Perbandingan Grup</span>
+          </div>
+          <div class="chart-wrap"><canvas id="chart-hyt-detail"></canvas></div>
+        </div>
+      </div>
+
+      <!-- ═══ B. QUALITY ═══ -->
+      <div class="slide" id="slide-quality">
+        <div class="page-header">
+          <div class="page-icon" style="background:var(--blue-50);border:1.5px solid var(--blue-100)">✅</div>
+          <div class="page-title">
+            <h2>B. Quality</h2>
+            <p>Flowout · Patrol Internal</p>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:16px">
+          <div class="card stat-card card-accent-blue">
+            <div class="card-header"><span class="card-title">Flowout — katun</span></div>
+            <div class="stat-value c-blue" id="q-flowout-katun">–</div>
+            <div class="stat-label">Total Unit</div>
+            <span class="stat-bg-icon">🔍</span>
+          </div>
+          <div class="card stat-card card-accent-teal">
+            <div class="card-header"><span class="card-title">Flowout — kusuma</span></div>
+            <div class="stat-value c-teal" id="q-flowout-kusuma">–</div>
+            <div class="stat-label">Total Unit</div>
+            <span class="stat-bg-icon">🔍</span>
+          </div>
+          <div class="card stat-card card-accent-blue">
+            <div class="card-header"><span class="card-title">Patrol Internal — katun</span></div>
+            <div class="stat-value c-blue" id="q-patrol-katun">–</div>
+            <div class="stat-label">Total Temuan</div>
+            <span class="stat-bg-icon">🔎</span>
+          </div>
+          <div class="card stat-card card-accent-teal">
+            <div class="card-header"><span class="card-title">Patrol Internal — kusuma</span></div>
+            <div class="stat-value c-teal" id="q-patrol-kusuma">–</div>
+            <div class="stat-label">Total Temuan</div>
+            <span class="stat-bg-icon">🔎</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Flowout — Trend Harian</span></div>
+            <div class="chart-wrap"><canvas id="chart-flowout"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Patrol Internal — Trend Harian</span></div>
+            <div class="chart-wrap"><canvas id="chart-patrol"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Perbandingan Grup — Flowout &amp; Patrol</span></div>
+          <div class="chart-wrap"><canvas id="chart-quality-compare"></canvas></div>
+        </div>
+      </div>
+
+      <!-- ═══ C. PRODUCTIVITY ═══ -->
+      <div class="slide" id="slide-productivity">
+        <div class="page-header">
+          <div class="page-icon" style="background:var(--yellow-50);border:1.5px solid #fde68a">⚡</div>
+          <div class="page-title">
+            <h2>C. Productivity</h2>
+            <p>Prod% Plan &amp; Aktual · Losstime Analysis</p>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:16px">
+          <div class="card stat-card card-accent-yellow">
+            <div class="card-header">
+              <span class="card-title">Avg Prod% — katun</span>
+              <span class="badge badge-info">katun</span>
+            </div>
+            <div class="stat-value c-yellow" id="p-avg-katun">–</div>
+            <div class="stat-label">vs Plan 94%</div>
+            <span class="stat-bg-icon">📈</span>
+          </div>
+          <div class="card stat-card card-accent-yellow">
+            <div class="card-header">
+              <span class="card-title">Avg Prod% — kusuma</span>
+              <span class="badge badge-info">kusuma</span>
+            </div>
+            <div class="stat-value c-yellow" id="p-avg-kusuma">–</div>
+            <div class="stat-label">vs Plan 94%</div>
+            <span class="stat-bg-icon">📈</span>
+          </div>
+          <div class="card stat-card card-accent-orange">
+            <div class="card-header">
+              <span class="card-title">Avg Losstime — katun</span>
+              <span class="badge badge-warn">katun</span>
+            </div>
+            <div class="stat-value c-orange" id="p-loss-katun">–</div>
+            <div class="stat-label">Target ≤ 6 menit</div>
+            <span class="stat-bg-icon">⏱️</span>
+          </div>
+          <div class="card stat-card card-accent-orange">
+            <div class="card-header">
+              <span class="card-title">Avg Losstime — kusuma</span>
+              <span class="badge badge-warn">kusuma</span>
+            </div>
+            <div class="stat-value c-orange" id="p-loss-kusuma">–</div>
+            <div class="stat-label">Target ≤ 6 menit</div>
+            <span class="stat-bg-icon">⏱️</span>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header"><span class="card-title">Prod% Plan vs Aktual — Trend Harian</span></div>
+          <div class="chart-wrap"><canvas id="chart-prod-trend" style="max-height:230px"></canvas></div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Losstime Breakdown — Katun</span></div>
+            <div class="chart-wrap"><canvas id="chart-loss-katun"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Losstime Breakdown — Kusuma</span></div>
+            <div class="chart-wrap"><canvas id="chart-loss-kusuma"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Losstime Total — Group Comparison Trend</span></div>
+          <div class="chart-wrap"><canvas id="chart-loss-trend" style="max-height:220px"></canvas></div>
+        </div>
+      </div>
+
+      <!-- ═══ D. MONOJUKURI ═══ -->
+      <div class="slide" id="slide-monojukuri">
+        <div class="page-header">
+          <div class="page-icon" style="background:var(--blue-50);border:1.5px solid var(--blue-100)">📐</div>
+          <div class="page-title">
+            <h2>D. Monojukuri — Gentani</h2>
+            <p>Gentani Plan &amp; Aktual · Man-Hour Analysis</p>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:16px">
+          <div class="card stat-card card-accent-blue">
+            <div class="card-header"><span class="card-title">Gentani Plan — katun</span></div>
+            <div class="stat-value c-blue" id="m-gplan-katun">–</div>
+            <div class="stat-label">detik / unit</div>
+            <span class="stat-bg-icon">🎯</span>
+          </div>
+          <div class="card stat-card card-accent-blue">
+            <div class="card-header"><span class="card-title">Gentani Aktual — katun</span></div>
+            <div class="stat-value c-blue5" id="m-gact-katun">–</div>
+            <div class="stat-label">rata-rata aktual</div>
+            <span class="stat-bg-icon">📊</span>
+          </div>
+          <div class="card stat-card card-accent-teal">
+            <div class="card-header"><span class="card-title">Gentani Plan — kusuma</span></div>
+            <div class="stat-value c-teal" id="m-gplan-kusuma">–</div>
+            <div class="stat-label">detik / unit</div>
+            <span class="stat-bg-icon">🎯</span>
+          </div>
+          <div class="card stat-card card-accent-teal">
+            <div class="card-header"><span class="card-title">Gentani Aktual — kusuma</span></div>
+            <div class="stat-value c-teal" id="m-gact-kusuma">–</div>
+            <div class="stat-label">rata-rata aktual</div>
+            <span class="stat-bg-icon">📊</span>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header"><span class="card-title">Gentani Plan vs Aktual — Trend Harian</span></div>
+          <div class="chart-wrap"><canvas id="chart-gentani" style="max-height:220px"></canvas></div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">MH Plan vs Aktual — Bulan Ini (katun)</span></div>
+            <div class="chart-wrap"><canvas id="chart-mh-month-katun"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">MH Plan vs Aktual — Bulan Ini (kusuma)</span></div>
+            <div class="chart-wrap"><canvas id="chart-mh-month-kusuma"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">MH Plan vs Aktual — Per Minggu (Both Groups)</span></div>
+          <div class="chart-wrap"><canvas id="chart-mh-weekly" style="max-height:260px"></canvas></div>
+        </div>
+      </div>
+
+      <!-- ═══ E. MORAL ═══ -->
+      <div class="slide" id="slide-moral">
+        <div class="page-header">
+          <div class="page-icon" style="background:var(--yellow-50);border:1.5px solid #fde68a">🌟</div>
+          <div class="page-title">
+            <h2>E. Moral</h2>
+            <p>QCC · SS · Jisuken · 2R · APD · WI · Absensi</p>
+          </div>
+        </div>
+
+        <!-- Stat cards (filled by JS) -->
+        <div class="grid-4" style="margin-bottom:16px" id="moral-stats-katun"></div>
+
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Aktivitas — QCC / SS / Jisuken / 2R</span></div>
+            <div class="chart-wrap"><canvas id="chart-moral-activity"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Abnormal — APD &amp; WI</span></div>
+            <div class="chart-wrap"><canvas id="chart-moral-abnormal"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header"><span class="card-title">Absensi Trend — Perbandingan Grup</span></div>
+          <div class="chart-wrap"><canvas id="chart-absensi" style="max-height:220px"></canvas></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Moral KPI — Perbandingan Lengkap</span></div>
+          <div style="overflow-x:auto">
+            <table class="kpi-table">
+              <thead>
+                <tr>
+                  <th>Kategori</th>
+                  <th>Katun (Total)</th>
+                  <th>Kusuma (Total)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="moral-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main-layout -->
+</div><!-- /dashboard -->
+
+<!-- ══════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════ -->
+<script>
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let CHARTS = {};
+let DATA   = null;
+
+// ═══════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════
+function updateClock(){
+  const n = new Date();
+  document.getElementById('clockDisplay').textContent =
+    n.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) + '  ' +
+    n.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+}
+setInterval(updateClock, 1000); updateClock();
+
+// ═══════════════════════════════════════
+// SIDEBAR
+// ═══════════════════════════════════════
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.style.display = sb.classList.contains('open') ? 'block' : 'none';
+}
+
+function showSlide(name, el){
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('slide-' + name).classList.add('active');
+  if(el) el.classList.add('active');
+  const sb = document.getElementById('sidebar');
+  if(sb.classList.contains('open')) toggleSidebar();
+}
+
+// ═══════════════════════════════════════
+// UPLOAD
+// ═══════════════════════════════════════
+const uploadZone = document.getElementById('uploadZone');
+const fileInput  = document.getElementById('fileInput');
+
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('drag-over');
+  if(e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => { if(e.target.files[0]) processFile(e.target.files[0]); });
+
+function processFile(file){
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb  = XLSX.read(e.target.result, { type:'array' });
+      const ws  = wb.Sheets['Data'];
+      if(!ws){ alert('Sheet "Data" tidak ditemukan di file Excel ini.'); return; }
+      const raw = XLSX.utils.sheet_to_json(ws, { header:1, defval:null });
+      DATA = parseData(raw);
+      renderDashboard();
+      document.getElementById('uploadScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+    } catch(err){ alert('Error membaca file: ' + err.message); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ═══════════════════════════════════════
+// DATA PARSER
+// ═══════════════════════════════════════
+function parseData(raw){
+  const dates = raw[0].slice(2,33).filter(d => d != null).map(d => d);
+
+  function rowValues(row){
+    if(!row) return [];
+    return row.slice(2,33).map(v =>
+      (v == null || v === '' || isNaN(Number(v))) ? null : Number(v)
+    );
+  }
+
+  const katun = raw.slice(1,38);
+  const kusuma = raw.slice(38,75);
+
+  const rv1 = m => rowValues(katun.find(r => r && String(r[1]).toLowerCase() === m.toLowerCase()));
+  const rv2 = m => rowValues(kusuma.find(r => r && String(r[1]).toLowerCase() === m.toLowerCase()));
+  const first = v => (v.find(x => x != null && x !== 0) ?? 0);
+
+  function getMHMonthly(rows){
+    const labels = ['REG','DOT','HOT'];
+    const f = (rows, m, col=33) => {
+      const r = rows.find(rw => rw && String(rw[1]).toLowerCase() === m);
+      return r ? (Number(r[col]) || 0) : 0;
+    };
+    return {
+      labels,
+      plan:   [f(rows,'mh_reg_plan'),  f(rows,'mh_dot_plan'),  f(rows,'mh_hot_plan')],
+      actual: [f(rows,'mh_reg_actual'),f(rows,'mh_dot_actual'),f(rows,'mh_hot_actual')]
+    };
+  }
+
+  function getWeeklyMH(rows){
+    const r = rows.find(rw => rw && String(rw[1]).toLowerCase() === 'mh_total_plan');
+    if(!r) return { weeks:['W1','W2','W3','W4','W5'], plan:[0,0,0,0,0], actual:[0,0,0,0,0] };
+    const plan=[], actual=[];
+    for(let i=0;i<5;i++){
+      plan.push(  Number(r[45+i*2]) || 0);
+      actual.push(Number(r[46+i*2]) || 0);
+    }
+    return { weeks:['W1','W2','W3','W4','W5'], plan, actual };
+  }
+
+  return {
+    dates,
+    katun:{
+      safety:{
+        accident:   rv1('accident'),
+        hyt_plan:   rv1('hyt_plan'),   hyt_actual: rv1('hyt_actual'),
+        hyt_temuan: rv1('hyt_temuan'), hyt_perbaikan: rv1('hyt_perbaikan'),
+        remain:     rv1('remain'),
+        kyt_plan:   first(rv1('kyt_plan')), kyt_actual: first(rv1('kyt_actual')),
+      },
+      quality:{ flowout: rv1('flowout'), patrol: rv1('patrol_internal') },
+      productivity:{
+        prod_plan: rv1('prod_%_plan'), prod_actual: rv1('prod_%_actual'),
+        target_losstime: first(rv1('target_losstime')),
+        losstime_hm: rv1('losstime_handling_material'),
+        losstime_hp: rv1('losstime_handling_packaging'),
+        losstime_bdt: rv1('losstime_bdt'),
+        losstime_personal: rv1('losstime_personal'),
+        losstime_tc: rv1('losstime_tc'),
+        losstime_ct: rv1('losstime_ct'),
+        losstime_total: rv1('losstime_total'),
+      },
+      monojukuri:{
+        gentani_plan: rv1('gentani_plan'), gentani_actual: rv1('gentani_actual'),
+        mh_month: getMHMonthly(katun), mh_weekly: getWeeklyMH(katun),
+      },
+      moral:{
+        qcc: rv1('qcc'), ss: rv1('ss'), mini_jisuken: rv1('mini_jisuken'),
+        r2: rv1('2r'), abnormal_apd: rv1('abnormal_apd'),
+        abnormal_wi: rv1('abnormal_wi'), absensi: rv1('absensi'),
+      }
+    },
+    kusuma:{
+      safety:{
+        accident:   rv2('accident'),
+        hyt_plan:   rv2('hyt_plan'),   hyt_actual: rv2('hyt_actual'),
+        hyt_temuan: rv2('hyt_temuan'), hyt_perbaikan: rv2('hyt_perbaikan'),
+        remain:     rv2('remain'),
+        kyt_plan:   first(rv2('kyt_plan')), kyt_actual: first(rv2('kyt_actual')),
+      },
+      quality:{ flowout: rv2('flowout'), patrol: rv2('patrol_internal') },
+      productivity:{
+        prod_plan: rv2('prod_%_plan'), prod_actual: rv2('prod_%_actual'),
+        target_losstime: first(rv2('target_losstime')),
+        losstime_hm: rv2('losstime_handling_material'),
+        losstime_hp: rv2('losstime_handling_packaging'),
+        losstime_bdt: rv2('losstime_bdt'),
+        losstime_personal: rv2('losstime_personal'),
+        losstime_tc: rv2('losstime_tc'),
+        losstime_ct: rv2('losstime_ct'),
+        losstime_total: rv2('losstime_total'),
+      },
+      monojukuri:{
+        gentani_plan: rv2('gentani_plan'), gentani_actual: rv2('gentani_actual'),
+        mh_month: getMHMonthly(kusuma), mh_weekly: getWeeklyMH(kusuma),
+      },
+      moral:{
+        qcc: rv2('qcc'), ss: rv2('ss'), mini_jisuken: rv2('mini_jisuken'),
+        r2: rv2('2r'), abnormal_apd: rv2('abnormal_apd'),
+        abnormal_wi: rv2('abnormal_wi'), absensi: rv2('absensi'),
+      }
+    }
+  };
+}
+
+// ═══════════════════════════════════════
+// CHART SYSTEM — LIGHT PALETTE
+// ═══════════════════════════════════════
+const P = {
+  katun: {
+    line:   '#2563eb',
+    fill:   'rgba(37,99,235,0.08)',
+    bar:    'rgba(37,99,235,0.75)',
+    border: '#2563eb'
+  },
+  kusuma: {
+    line:   '#0d9488',
+    fill:   'rgba(13,148,136,0.08)',
+    bar:    'rgba(13,148,136,0.75)',
+    border: '#0d9488'
+  },
+  plan: {
+    line:   '#ca8a04',
+    bar:    'rgba(202,138,4,0.55)',
+    dash:   [6,4]
+  },
+  neutral: '#94a3b8'
+};
+
+// Register datalabels plugin globally
+Chart.register(ChartDataLabels);
+
+// ── Datalabel presets ──────────────────────────────────────────────
+// BAR: value on top of each bar, hidden when value is 0 or null
+const DL_BAR = {
+  datalabels: {
+    display: ctx => {
+      const v = ctx.dataset.data[ctx.dataIndex];
+      return v != null && v !== 0;
+    },
+    anchor: 'end',
+    align: 'top',
+    offset: 2,
+    font: { family:"'JetBrains Mono',monospace", size: 10, weight:'700' },
+    color: '#334155',
+    formatter: v => v == null ? '' : (Number.isInteger(v) ? v : Number(v).toFixed(1)),
+    clip: false,
+  }
+};
+
+// BAR with % suffix (prod%)
+const DL_BAR_PCT = {
+  datalabels: {
+    display: ctx => {
+      const v = ctx.dataset.data[ctx.dataIndex];
+      return v != null && v !== 0;
+    },
+    anchor: 'end',
+    align: 'top',
+    offset: 2,
+    font: { family:"'JetBrains Mono',monospace", size: 10, weight:'700' },
+    color: '#334155',
+    formatter: v => v == null ? '' : Number(v).toFixed(1) + '%',
+    clip: false,
+  }
+};
+
+// LINE: label on each data point, only for non-null non-zero values
+// For dense daily trends we show every 3rd point to avoid clutter
+const DL_LINE_SPARSE = {
+  datalabels: {
+    display: ctx => {
+      const v = ctx.dataset.data[ctx.dataIndex];
+      if (v == null || v === 0) return false;
+      return ctx.dataIndex % 3 === 0;          // every 3rd point
+    },
+    anchor: 'top',
+    align: 'top',
+    offset: 4,
+    font: { family:"'JetBrains Mono',monospace", size: 9, weight:'600' },
+    color: ctx => ctx.dataset.borderColor || '#334155',
+    backgroundColor: 'rgba(255,255,255,0.85)',
+    borderRadius: 3,
+    padding: { top:1, bottom:1, left:3, right:3 },
+    formatter: v => v == null ? '' : (Number.isInteger(v) ? v : Number(v).toFixed(1)),
+    clip: false,
+  }
+};
+
+// LINE with % suffix
+const DL_LINE_PCT = {
+  datalabels: {
+    display: ctx => {
+      const v = ctx.dataset.data[ctx.dataIndex];
+      if (v == null || v === 0) return false;
+      return ctx.dataIndex % 3 === 0;
+    },
+    anchor: 'top',
+    align: 'top',
+    offset: 4,
+    font: { family:"'JetBrains Mono',monospace", size: 9, weight:'600' },
+    color: ctx => ctx.dataset.borderColor || '#334155',
+    backgroundColor: 'rgba(255,255,255,0.85)',
+    borderRadius: 3,
+    padding: { top:1, bottom:1, left:3, right:3 },
+    formatter: v => v == null ? '' : Number(v).toFixed(1) + '%',
+    clip: false,
+  }
+};
+
+// DOUGHNUT: show "label: value" inside/outside slices
+const DL_DONUT = {
+  datalabels: {
+    display: ctx => {
+      const v = ctx.dataset.data[ctx.dataIndex];
+      return v != null && v > 0;
+    },
+    anchor: 'center',
+    align: 'center',
+    font: { family:"'JetBrains Mono',monospace", size: 10, weight:'700' },
+    color: '#ffffff',
+    textShadowBlur: 3,
+    textShadowColor: 'rgba(0,0,0,0.4)',
+    formatter: (v, ctx) => {
+      const total = ctx.dataset.data.reduce((a,b)=>(b||0)+a, 0);
+      const pct = total > 0 ? Math.round(v/total*100) : 0;
+      return pct >= 5 ? pct + '%' : '';   // hide tiny slices
+    },
+    clip: false,
+  }
+};
+
+// ──────────────────────────────────────────────────────────────────
+// Light-theme chart defaults
+const CD = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      labels: {
+        color: '#475569',
+        font: { family:"'DM Sans','Inter',sans-serif", size:11, weight:'600' },
+        padding: 14,
+        boxWidth: 12,
+        usePointStyle: true,
+        pointStyle: 'circle'
+      }
+    },
+    tooltip: {
+      backgroundColor: '#ffffff',
+      borderColor: '#e2e8f0',
+      borderWidth: 1,
+      titleColor: '#0f172a',
+      bodyColor: '#475569',
+      padding: 10,
+      titleFont: { family:"'Inter',sans-serif", size:11, weight:'700' },
+      bodyFont:  { family:"'DM Sans',sans-serif", size:12 },
+      boxShadow: '0 4px 12px rgba(15,23,42,0.1)',
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: '#94a3b8',
+        font: { family:"'JetBrains Mono',monospace", size:10 },
+        maxTicksLimit: 16
+      },
+      grid: { color: 'rgba(226,232,240,0.8)' }
+    },
+    y: {
+      ticks: {
+        color: '#94a3b8',
+        font: { family:"'JetBrains Mono',monospace", size:10 }
+      },
+      grid: { color: 'rgba(226,232,240,0.8)' }
+    }
+  }
+};
+
+function destroyChart(id){ if(CHARTS[id]){ CHARTS[id].destroy(); delete CHARTS[id]; } }
+
+function makeChart(id, cfg){
+  destroyChart(id);
+  const el = document.getElementById(id);
+  if(!el) return;
+  // Deep-clone defaults then overlay
+  const base = JSON.parse(JSON.stringify(CD));
+  CHARTS[id] = new Chart(el, deepMerge(base, cfg));
+}
+
+function deepMerge(t, s){
+  if(typeof s !== 'object' || s === null) return s;
+  const out = Array.isArray(s) ? s : Object.assign({}, t);
+  if(!Array.isArray(s)){
+    for(const k in s){
+      if(['data','datasets','labels'].includes(k)) out[k] = s[k];
+      else if(typeof s[k]==='object' && s[k]!==null && !Array.isArray(s[k])
+           && typeof t[k]==='object' && t[k]!==null){
+        out[k] = deepMerge(t[k], s[k]);
+      } else out[k] = s[k];
+    }
+  }
+  return out;
+}
+
+// Helpers
+const sum = arr => arr.filter(x=>x!=null).reduce((a,b)=>a+b,0);
+const avg = arr => { const f=arr.filter(x=>x!=null&&x>0); return f.length?f.reduce((a,b)=>a+b)/f.length:0; };
+const num = (v,d=1) => (v==null||isNaN(v)) ? '–' : Number(v).toFixed(d);
+const days = () => DATA.dates.map(v=>'H'+v);
+
+// ═══════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════
+function renderDashboard(){
+  renderSafety();
+  renderQuality();
+  renderProductivity();
+  renderMonojukuri();
+  renderMoral();
+}
+
+// ─── A. SAFETY ───
+function renderSafety(){
+  const {katun:{safety:s1}, kusuma:{safety:s2}} = DATA;
+
+  document.getElementById('s-accident-katun').textContent = sum(s1.accident);
+  document.getElementById('s-accident-kusuma').textContent = sum(s2.accident);
+  document.getElementById('s-kytplan-katun').textContent  = s1.kyt_plan || '–';
+  document.getElementById('s-kytplan-kusuma').textContent  = s2.kyt_plan || '–';
+
+  const dl = days();
+
+  // HYT Bar
+  makeChart('chart-hyt',{
+    type:'bar',
+    data:{
+      labels: dl,
+      datasets:[
+        {label:'katun Plan',    data:s1.hyt_plan,   backgroundColor:'rgba(37,99,235,0.25)',  borderColor:P.katun.line,  borderWidth:1.5},
+        {label:'katun Aktual',  data:s1.hyt_actual,  backgroundColor:P.katun.bar,               borderColor:P.katun.line,  borderWidth:1},
+        {label:'kusuma Plan',    data:s2.hyt_plan,   backgroundColor:'rgba(13,148,136,0.2)',  borderColor:P.kusuma.line,  borderWidth:1.5},
+        {label:'kusuma Aktual',  data:s2.hyt_actual,  backgroundColor:P.kusuma.bar,               borderColor:P.kusuma.line,  borderWidth:1},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+
+  // KYT Grouped Bar
+  makeChart('chart-kyt',{
+    type:'bar',
+    data:{
+      labels:['Katun','Kusuma'],
+      datasets:[
+        {label:'Plan',   data:[s1.kyt_plan,  s2.kyt_plan],  backgroundColor:[P.plan.bar, P.plan.bar], borderColor:[P.plan.line,P.plan.line], borderWidth:1.5, borderRadius:4},
+        {label:'Aktual', data:[s1.kyt_actual, s2.kyt_actual], backgroundColor:[P.katun.bar, P.kusuma.bar],   borderColor:[P.katun.line,  P.kusuma.line],  borderWidth:1,   borderRadius:4},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+
+  // Temuan / Perbaikan / Remain
+  makeChart('chart-hyt-detail',{
+    type:'bar',
+    data:{
+      labels:['HYT Temuan','HYT Perbaikan','Remain'],
+      datasets:[
+        {label:'Katun', data:[sum(s1.hyt_temuan),sum(s1.hyt_perbaikan),sum(s1.remain)], backgroundColor:P.katun.bar, borderColor:P.katun.line, borderWidth:1, borderRadius:5},
+        {label:'Kusuma', data:[sum(s2.hyt_temuan),sum(s2.hyt_perbaikan),sum(s2.remain)], backgroundColor:P.kusuma.bar, borderColor:P.kusuma.line, borderWidth:1, borderRadius:5},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+}
+
+// ─── B. QUALITY ───
+function renderQuality(){
+  const {katun:{quality:q1}, kusuma:{quality:q2}} = DATA;
+
+  document.getElementById('q-flowout-katun').textContent = sum(q1.flowout);
+  document.getElementById('q-flowout-kusuma').textContent = sum(q2.flowout);
+  document.getElementById('q-patrol-katun').textContent  = sum(q1.patrol);
+  document.getElementById('q-patrol-kusuma').textContent  = sum(q2.patrol);
+
+  const dl = days();
+
+  makeChart('chart-flowout',{
+    type:'line',
+    data:{
+      labels:dl,
+      datasets:[
+        {label:'katun Flowout', data:q1.flowout, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
+        {label:'kusuma Flowout', data:q2.flowout, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
+      ]
+    },
+    options:{ plugins: DL_LINE_SPARSE }
+  });
+
+  makeChart('chart-patrol',{
+    type:'line',
+    data:{
+      labels:dl,
+      datasets:[
+        {label:'katun Patrol', data:q1.patrol, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'kusuma Patrol', data:q2.patrol, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+      ]
+    },
+    options:{ plugins: DL_LINE_SPARSE }
+  });
+
+  makeChart('chart-quality-compare',{
+    type:'bar',
+    data:{
+      labels:['Flowout katun','Flowout kusuma','Patrol katun','Patrol kusuma'],
+      datasets:[{
+        label:'Total',
+        data:[sum(q1.flowout),sum(q2.flowout),sum(q1.patrol),sum(q2.patrol)],
+        backgroundColor:[P.katun.bar, P.kusuma.bar, 'rgba(37,99,235,0.45)','rgba(13,148,136,0.45)'],
+        borderColor:    [P.katun.line,P.kusuma.line, P.katun.line,             P.kusuma.line],
+        borderWidth:1, borderRadius:5
+      }]
+    },
+    options:{
+      plugins: {
+        legend:{ display:false },
+        ...DL_BAR
+      }
+    }
+  });
+}
+
+// ─── C. PRODUCTIVITY ───
+function renderProductivity(){
+  const {katun:{productivity:p1}, kusuma:{productivity:p2}} = DATA;
+
+  document.getElementById('p-avg-katun').textContent  = num(avg(p1.prod_actual))+'%';
+  document.getElementById('p-avg-kusuma').textContent  = num(avg(p2.prod_actual))+'%';
+  document.getElementById('p-loss-katun').textContent = num(avg(p1.losstime_total));
+  document.getElementById('p-loss-kusuma').textContent = num(avg(p2.losstime_total));
+
+  const dl = days();
+
+  makeChart('chart-prod-trend',{
+    type:'line',
+    data:{
+      labels:dl,
+      datasets:[
+        {label:'Plan (94%)', data:p1.prod_plan,   borderColor:P.plan.line, borderDash:P.plan.dash, fill:false, tension:0, pointRadius:0, borderWidth:2},
+        {label:'katun Aktual',  data:p1.prod_actual, borderColor:P.katun.line,  backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'kusuma Aktual',  data:p2.prod_actual, borderColor:P.kusuma.line,  backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+      ]
+    },
+    options:{
+      scales:{ y:{ min:60, max:100, ticks:{ callback:v=>v+'%' } } },
+      plugins: DL_LINE_PCT
+    }
+  });
+
+  const lossLabels = ['H.Material','H.Packaging','BDT','Personal','TC','CT'];
+  // Clean muted colors for light theme
+  const lossColors = [
+    'rgba(37,99,235,0.75)',  'rgba(13,148,136,0.75)', 'rgba(202,138,4,0.75)',
+    'rgba(220,38,38,0.75)',  'rgba(124,58,237,0.75)', 'rgba(234,88,12,0.75)'
+  ];
+  const lossBorders = ['#2563eb','#0d9488','#ca8a04','#dc2626','#7c3aed','#ea580c'];
+
+  const lossD1 = [sum(p1.losstime_hm),sum(p1.losstime_hp),sum(p1.losstime_bdt),sum(p1.losstime_personal),sum(p1.losstime_tc),sum(p1.losstime_ct)];
+  const lossD2 = [sum(p2.losstime_hm),sum(p2.losstime_hp),sum(p2.losstime_bdt),sum(p2.losstime_personal),sum(p2.losstime_tc),sum(p2.losstime_ct)];
+
+  const doughnutOpts = {
+    scales:{ x:{display:false}, y:{display:false} },
+    plugins:{ legend:{ position:'right' }, ...DL_DONUT }
+  };
+
+  makeChart('chart-loss-katun',{
+    type:'doughnut',
+    data:{ labels:lossLabels, datasets:[{ data:lossD1, backgroundColor:lossColors, borderColor:'#fff', borderWidth:2, hoverOffset:4 }] },
+    options: doughnutOpts
+  });
+
+  makeChart('chart-loss-kusuma',{
+    type:'doughnut',
+    data:{ labels:lossLabels, datasets:[{ data:lossD2, backgroundColor:lossColors, borderColor:'#fff', borderWidth:2, hoverOffset:4 }] },
+    options: doughnutOpts
+  });
+
+  makeChart('chart-loss-trend',{
+    type:'line',
+    data:{
+      labels:dl,
+      datasets:[
+        {label:'katun Losstime', data:p1.losstime_total, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'kusuma Losstime', data:p2.losstime_total, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'Target (6)',  data:p1.prod_plan.map(()=>6), borderColor:'#dc2626', borderDash:[5,4], fill:false, tension:0, pointRadius:0, borderWidth:2},
+      ]
+    },
+    options:{ plugins: DL_LINE_SPARSE }
+  });
+}
+
+// ─── D. MONOJUKURI ───
+function renderMonojukuri(){
+  const {katun:{monojukuri:m1}, kusuma:{monojukuri:m2}} = DATA;
+
+  document.getElementById('m-gplan-katun').textContent = num(avg(m1.gentani_plan),0);
+  document.getElementById('m-gact-katun').textContent  = num(avg(m1.gentani_actual),1);
+  document.getElementById('m-gplan-kusuma').textContent = num(avg(m2.gentani_plan),0);
+  document.getElementById('m-gact-kusuma').textContent  = num(avg(m2.gentani_actual),1);
+
+  const dl = days();
+
+  makeChart('chart-gentani',{
+    type:'line',
+    data:{
+      labels:dl,
+      datasets:[
+        {label:'katun Plan',   data:m1.gentani_plan,   borderColor:P.katun.line, borderDash:P.plan.dash, fill:false, tension:0,   pointRadius:0, borderWidth:2},
+        {label:'katun Aktual', data:m1.gentani_actual, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'kusuma Plan',   data:m2.gentani_plan,   borderColor:P.kusuma.line, borderDash:P.plan.dash, fill:false, tension:0,   pointRadius:0, borderWidth:2},
+        {label:'kusuma Aktual', data:m2.gentani_actual, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+      ]
+    },
+    options:{ plugins: DL_LINE_SPARSE }
+  });
+
+  const barOpts = { borderRadius:4 };
+  const planBar = { backgroundColor:'rgba(202,138,4,0.55)', borderColor:'#ca8a04', borderWidth:1.5, ...barOpts };
+
+  makeChart('chart-mh-month-katun',{
+    type:'bar',
+    data:{
+      labels: m1.mh_month.labels,
+      datasets:[
+        {label:'Plan',   data:m1.mh_month.plan,   ...planBar},
+        {label:'Aktual', data:m1.mh_month.actual,  backgroundColor:P.katun.bar, borderColor:P.katun.line, borderWidth:1, borderRadius:4},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+
+  makeChart('chart-mh-month-kusuma',{
+    type:'bar',
+    data:{
+      labels: m2.mh_month.labels,
+      datasets:[
+        {label:'Plan',   data:m2.mh_month.plan,   ...planBar},
+        {label:'Aktual', data:m2.mh_month.actual,  backgroundColor:P.kusuma.bar, borderColor:P.kusuma.line, borderWidth:1, borderRadius:4},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+
+  makeChart('chart-mh-weekly',{
+    type:'bar',
+    data:{
+      labels: m1.mh_weekly.weeks,
+      datasets:[
+        {label:'katun Plan',   data:m1.mh_weekly.plan,   backgroundColor:'rgba(37,99,235,0.3)',  borderColor:P.katun.line, borderWidth:1.5, borderRadius:4},
+        {label:'katun Aktual', data:m1.mh_weekly.actual,  backgroundColor:P.katun.bar,              borderColor:P.katun.line, borderWidth:1,   borderRadius:4},
+        {label:'kusuma Plan',   data:m2.mh_weekly.plan,   backgroundColor:'rgba(13,148,136,0.25)',borderColor:P.kusuma.line, borderWidth:1.5, borderRadius:4},
+        {label:'kusuma Aktual', data:m2.mh_weekly.actual,  backgroundColor:P.kusuma.bar,              borderColor:P.kusuma.line, borderWidth:1,   borderRadius:4},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+}
+
+// ─── E. MORAL ───
+function renderMoral(){
+  const {katun:{moral:mo1}, kusuma:{moral:mo2}} = DATA;
+
+  const moralKeys = [
+    {key:'qcc',          label:'QCC',           icon:'🔵', accent:'card-accent-blue',   vc:'c-blue'},
+    {key:'ss',           label:'SS (5S)',        icon:'⭐', accent:'card-accent-yellow', vc:'c-yellow'},
+    {key:'mini_jisuken', label:'Mini Jisuken',   icon:'🔬', accent:'card-accent-teal',   vc:'c-teal'},
+    {key:'r2',           label:'2R',             icon:'♻', accent:'card-accent-green',  vc:'c-green'},
+    {key:'abnormal_apd', label:'Abnormal APD',   icon:'⚠️', accent:'card-accent-orange', vc:'c-orange'},
+    {key:'abnormal_wi',  label:'Abnormal WI',    icon:'📋', accent:'card-accent-red',    vc:'c-red'},
+    {key:'absensi',      label:'Absensi',        icon:'👤', accent:'card-accent-blue',   vc:'c-muted'},
+  ];
+
+  // Stat cards — top 4
+  const container = document.getElementById('moral-stats-katun');
+  container.innerHTML = '';
+  moralKeys.slice(0,4).forEach(m => {
+    const v1 = sum(mo1[m.key]), v2 = sum(mo2[m.key]);
+    container.innerHTML += `
+      <div class="card stat-card ${m.accent}">
+        <div class="card-header">
+          <span class="card-title">${m.icon} ${m.label}</span>
+        </div>
+        <div style="display:flex;gap:20px;align-items:flex-end;margin-top:6px">
+          <div>
+            <div class="stat-value ${m.vc}" style="font-size:2rem">${v1}</div>
+            <div class="stat-label">Katun</div>
+          </div>
+          <div style="padding-bottom:4px">
+            <div style="font-size:1.5rem;font-weight:900;font-family:'Inter',sans-serif;color:var(--text-secondary);letter-spacing:-1px">${v2}</div>
+            <div class="stat-label">Kusuma</div>
+          </div>
+        </div>
+      </div>`;
+  });
+
+  // Activity chart
+  makeChart('chart-moral-activity',{
+    type:'bar',
+    data:{
+      labels:['QCC','SS','Mini Jisuken','2R'],
+      datasets:[
+        {label:'Katun', data:[sum(mo1.qcc),sum(mo1.ss),sum(mo1.mini_jisuken),sum(mo1.r2)], backgroundColor:P.katun.bar, borderColor:P.katun.line, borderWidth:1, borderRadius:5},
+        {label:'Kusuma', data:[sum(mo2.qcc),sum(mo2.ss),sum(mo2.mini_jisuken),sum(mo2.r2)], backgroundColor:P.kusuma.bar, borderColor:P.kusuma.line, borderWidth:1, borderRadius:5},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+
+  // Abnormal chart
+  makeChart('chart-moral-abnormal',{
+    type:'bar',
+    data:{
+      labels:['Abnormal APD','Abnormal WI'],
+      datasets:[
+        {label:'Katun', data:[sum(mo1.abnormal_apd),sum(mo1.abnormal_wi)], backgroundColor:'rgba(234,88,12,0.7)',  borderColor:'#ea580c', borderWidth:1, borderRadius:5},
+        {label:'Kusuma', data:[sum(mo2.abnormal_apd),sum(mo2.abnormal_wi)], backgroundColor:'rgba(220,38,38,0.65)', borderColor:'#dc2626', borderWidth:1, borderRadius:5},
+      ]
+    },
+    options:{ plugins: DL_BAR }
+  });
+
+  // Absensi trend
+  makeChart('chart-absensi',{
+    type:'line',
+    data:{
+      labels:days(),
+      datasets:[
+        {label:'katun Absensi', data:mo1.absensi, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'kusuma Absensi', data:mo2.absensi, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+      ]
+    },
+    options:{ plugins: DL_LINE_SPARSE }
+  });
+
+  // Table
+  const tbody = document.getElementById('moral-table-body');
+  tbody.innerHTML = '';
+  moralKeys.forEach(m => {
+    const v1=sum(mo1[m.key]), v2=sum(mo2[m.key]);
+    const diff = v1 - v2;
+    const badge = diff===0
+      ? '<span class="badge badge-info">Equal</span>'
+      : diff<0
+        ? '<span class="badge badge-good">kusuma Unggul</span>'
+        : '<span class="badge badge-warn">katun Unggul</span>';
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${m.icon} ${m.label}</strong></td>
+        <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue-700)">${v1}</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--teal-600)">${v2}</td>
+        <td>${badge}</td>
+      </tr>`;
+  });
+}
+</script>
+</body>
+</html>
