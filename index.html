@@ -1426,29 +1426,70 @@ const DL_DONUT = {
 // ──────────────────────────────────────────────────────────────────
 // Light-theme chart defaults
 const CD = {
-  responsive: true,
-  maintainAspectRatio: true,
-  plugins: {
-    legend: {
-      labels: {
-        color: '#475569',
-        font: { family:"'DM Sans','Inter',sans-serif", size:11, weight:'600' },
-        padding: 14,
-        boxWidth: 12,
-        usePointStyle: true,
-        pointStyle: 'circle'
-      }
+responsive: true,
+maintainAspectRatio: false,
+
+layout: {
+  padding: {
+    top: 20
+  }
+},
+
+plugins: {
+  legend: {
+    position: 'top',
+
+    labels: {
+      color: '#475569',
+
+      font: {
+        family:"'DM Sans','Inter',sans-serif",
+        size:11,
+        weight:'600'
+      },
+
+      padding: 24,
+      boxWidth: 12,
+
+      usePointStyle: true,
+      pointStyle: 'circle'
+    }
+  },
+
+  datalabels: {
+    anchor: 'end',
+    align: 'top',
+
+    offset: 6,
+
+    color: '#64748b',
+
+    font: {
+      size: 10,
+      weight: '600'
+    }
+  },
+
+  tooltip: {
+    backgroundColor: '#ffffff',
+    borderColor: '#e2e8f0',
+    borderWidth: 1,
+    titleColor: '#0f172a',
+    bodyColor: '#475569',
+    padding: 10,
+
+    titleFont: {
+      family:"'Inter',sans-serif",
+      size:11,
+      weight:'700'
     },
-    tooltip: {
-      backgroundColor: '#ffffff',
-      borderColor: '#e2e8f0',
-      borderWidth: 1,
-      titleColor: '#0f172a',
-      bodyColor: '#475569',
-      padding: 10,
-      titleFont: { family:"'Inter',sans-serif", size:11, weight:'700' },
-      bodyFont:  { family:"'DM Sans',sans-serif", size:12 },
-      boxShadow: '0 4px 12px rgba(15,23,42,0.1)',
+
+    bodyFont: {
+      family:"'DM Sans',sans-serif",
+      size:12
+    }
+  }
+}
     }
   },
   scales: {
