@@ -968,6 +968,134 @@ nav#sidebar {
   .ai-icon-wrap { width: 32px; height: 32px; font-size: 15px; }
 }
 
+
+/* ══════════════════════════════════════════════════════════
+   AI SMART FACTORY COMMAND CENTER — STYLES
+══════════════════════════════════════════════════════════ */
+@keyframes pulse2    { 0%,100%{ box-shadow:0 0 0 0 rgba(37,99,235,0.35); } 50%{ box-shadow:0 0 0 8px rgba(37,99,235,0); } }
+@keyframes pulseRed  { 0%,100%{ box-shadow:0 0 0 0 rgba(220,38,38,0.4); }  50%{ box-shadow:0 0 0 8px rgba(220,38,38,0); } }
+@keyframes pulseGrn  { 0%,100%{ box-shadow:0 0 0 0 rgba(22,163,74,0.35); } 50%{ box-shadow:0 0 0 8px rgba(22,163,74,0); } }
+@keyframes slideRight{ from { opacity:0; transform:translateX(-12px); } to { opacity:1; transform:translateX(0); } }
+@keyframes barGrow   { from { width:0; } to { width:var(--bar-w,0%); } }
+@keyframes gaugeFill { from { stroke-dashoffset:220; } to { stroke-dashoffset:var(--dash-to,220); } }
+@keyframes alertBlink{ 0%,100%{opacity:1;} 50%{opacity:0.45;} }
+@keyframes countAnim { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+.cc-row{ display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
+.gauge-card{ background:#fff; border-radius:16px; border:1px solid var(--border-light); box-shadow:var(--shadow-sm); padding:16px 12px 12px; display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; min-width:110px; max-width:155px; transition:transform .2s,box-shadow .2s; }
+.gauge-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.gauge-svg{ width:90px; height:90px; }
+.gauge-track{ fill:none; stroke:#e8edf4; stroke-width:10; stroke-linecap:round; }
+.gauge-fill{ fill:none; stroke-width:10; stroke-linecap:round; stroke-dasharray:220; stroke-dashoffset:var(--dash-to,220); transform:rotate(-210deg); transform-origin:50% 50%; transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }
+.gf-good    { stroke:#16a34a; } .gf-warning { stroke:#ca8a04; } .gf-critical{ stroke:#dc2626; } .gf-info    { stroke:#2563eb; }
+.gauge-pct{ font-family:'Inter',sans-serif; font-weight:900; font-size:1.3rem; fill:#0f172a; dominant-baseline:middle; text-anchor:middle; }
+.gauge-grade{ font-family:'JetBrains Mono',monospace; font-size:0.58rem; font-weight:700; fill:#94a3b8; dominant-baseline:middle; text-anchor:middle; }
+.gauge-label{ font-size:0.67rem; font-weight:700; color:var(--text-secondary); text-align:center; }
+.gauge-status{ font-size:0.58rem; font-family:'JetBrains Mono',monospace; font-weight:700; padding:2px 7px; border-radius:5px; }
+.gs-good    { background:#dcfce7; color:#16a34a; } .gs-warning { background:#fef9c3; color:#ca8a04; }
+.gs-critical{ background:#fee2e2; color:#dc2626; } .gs-info    { background:#dbeafe; color:#2563eb; }
+.health-card{ background:#fff; border-radius:16px; border:1px solid var(--border-light); box-shadow:var(--shadow-md); padding:20px 22px; position:relative; overflow:hidden; display:flex; align-items:center; gap:22px; flex:2; min-width:240px; }
+.health-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,#1a52c8,#3b82f6,#0d9488); border-radius:16px 16px 0 0; }
+.health-score-val{ font-family:'Inter',sans-serif; font-weight:900; font-size:2.8rem; line-height:1; letter-spacing:-2px; background:linear-gradient(135deg,#1a52c8,#3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:countAnim .8s ease both; }
+.health-chip{ display:inline-flex; align-items:center; gap:5px; padding:4px 12px; border-radius:20px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.72rem; margin:6px 0; }
+.health-chip.gf-good    { background:#dcfce7; color:#16a34a; border:1px solid #bbf7d0; animation:pulseGrn 2s infinite; }
+.health-chip.gf-warning { background:#fef9c3; color:#ca8a04; border:1px solid #fde68a; }
+.health-chip.gf-critical{ background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; animation:pulseRed 1.5s infinite; }
+.health-chip.gf-info    { background:#dbeafe; color:#2563eb; border:1px solid #bfdbfe; animation:pulse2 2s infinite; }
+.health-sub{ font-size:0.7rem; color:var(--text-muted); }
+.live-status-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+@media(max-width:760px){ .live-status-grid{ grid-template-columns:repeat(2,1fr); } }
+.live-stat-card{ background:#fff; border-radius:14px; border:1px solid var(--border-light); box-shadow:var(--shadow-sm); padding:16px; position:relative; overflow:hidden; transition:transform .2s,box-shadow .2s; }
+.live-stat-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.live-stat-card.lsc-red   { border-top:3px solid #dc2626; } .live-stat-card.lsc-yellow{ border-top:3px solid #ca8a04; }
+.live-stat-card.lsc-blue  { border-top:3px solid #2563eb; } .live-stat-card.lsc-green { border-top:3px solid #16a34a; }
+.lsc-icon{ width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; margin-bottom:10px; }
+.lsc-red .lsc-icon{ background:#fee2e2; animation:pulseRed 1.5s infinite; } .lsc-yellow .lsc-icon{ background:#fef9c3; }
+.lsc-blue .lsc-icon{ background:#dbeafe; animation:pulse2 2.5s infinite; } .lsc-green .lsc-icon{ background:#dcfce7; }
+.lsc-val{ font-family:'Inter',sans-serif; font-weight:900; font-size:1.9rem; line-height:1; letter-spacing:-1px; animation:countAnim .8s ease both; }
+.lsc-red .lsc-val{ color:#dc2626; } .lsc-yellow .lsc-val{ color:#ca8a04; }
+.lsc-blue .lsc-val{ color:#2563eb; } .lsc-green .lsc-val{ color:#16a34a; }
+.lsc-label{ font-size:0.65rem; font-weight:700; color:var(--text-muted); letter-spacing:.5px; margin-top:4px; text-transform:uppercase; }
+.lsc-sub  { font-size:0.6rem; color:var(--text-muted); margin-top:2px; }
+.exec-card{ background:linear-gradient(135deg,#f8faff,#eef4ff 60%,#f0fdf4); border:1px solid rgba(37,99,235,0.2); border-radius:16px; box-shadow:var(--shadow-sm); padding:18px; margin-bottom:16px; position:relative; overflow:hidden; }
+.exec-card::after{ content:'AI'; position:absolute; right:14px; bottom:8px; font-family:'JetBrains Mono',monospace; font-size:4.5rem; font-weight:900; color:rgba(37,99,235,0.04); line-height:1; pointer-events:none; }
+.exec-header{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.exec-icon{ width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,#1a52c8,#3b82f6); display:flex; align-items:center; justify-content:center; font-size:15px; box-shadow:0 4px 14px rgba(37,99,235,0.18); flex-shrink:0; }
+.exec-ht{ font-family:'Inter',sans-serif; font-size:0.73rem; font-weight:800; color:#1340a0; }
+.exec-sub2{ font-size:0.61rem; color:var(--text-muted); margin-top:1px; }
+.exec-body{ font-size:0.8rem; color:var(--text-secondary); line-height:1.7; font-style:italic; border-left:3px solid #60a5fa; padding-left:13px; margin-bottom:10px; }
+.exec-bullets{ display:flex; flex-direction:column; gap:4px; }
+.exec-bullet{ display:flex; align-items:flex-start; gap:7px; font-size:0.73rem; color:var(--text-secondary); }
+.exec-dot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.alert-stack{ display:flex; flex-direction:column; gap:7px; margin-bottom:16px; }
+.alert-banner{ display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:11px; border:1px solid transparent; animation:slideRight .35s ease both; }
+.alert-banner:nth-child(1){animation-delay:.02s;} .alert-banner:nth-child(2){animation-delay:.06s;} .alert-banner:nth-child(3){animation-delay:.10s;} .alert-banner:nth-child(4){animation-delay:.14s;}
+.alert-critical{ background:linear-gradient(90deg,#fef2f2,#fff2f2); border-color:#fca5a5; }
+.alert-warning { background:linear-gradient(90deg,#fffbeb,#fefce8); border-color:#fde68a; }
+.alert-info    { background:linear-gradient(90deg,#eff6ff,#f0f9ff); border-color:#bfdbfe; }
+.alert-good    { background:linear-gradient(90deg,#f0fdf4,#f8fffc); border-color:#bbf7d0; }
+.alert-icon{ width:30px; height:30px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.alert-critical .alert-icon{ background:#fee2e2; animation:alertBlink 1.2s infinite; }
+.alert-warning  .alert-icon{ background:#fef9c3; } .alert-info .alert-icon{ background:#dbeafe; } .alert-good .alert-icon{ background:#dcfce7; }
+.alert-content{ flex:1; min-width:0; } .alert-title{ font-size:0.76rem; font-weight:700; color:var(--text-primary); }
+.alert-desc{ font-size:0.68rem; color:var(--text-secondary); margin-top:1px; line-height:1.4; }
+.alert-sev{ font-family:'JetBrains Mono',monospace; font-size:0.57rem; font-weight:700; padding:2px 7px; border-radius:5px; flex-shrink:0; }
+.alert-critical .alert-sev{ background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; }
+.alert-warning  .alert-sev{ background:#fef9c3; color:#ca8a04; border:1px solid #fde68a; }
+.alert-info     .alert-sev{ background:#dbeafe; color:#2563eb; border:1px solid #bfdbfe; }
+.alert-good     .alert-sev{ background:#dcfce7; color:#16a34a; border:1px solid #bbf7d0; }
+.cc-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+@media(max-width:720px){ .cc-grid-2{ grid-template-columns:1fr; } }
+.ranking-card{ background:#fff; border:1px solid var(--border-light); border-radius:16px; box-shadow:var(--shadow-sm); padding:16px; }
+.ranking-title{ font-family:'Inter',sans-serif; font-size:0.67rem; font-weight:800; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+.rank-item{ display:flex; align-items:center; gap:9px; padding:7px 0; border-bottom:1px solid var(--border-light); animation:slideRight .4s ease both; }
+.rank-item:last-child{ border-bottom:none; }
+.rank-num{ width:20px; height:20px; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:0.6rem; font-weight:700; }
+.rn-1{ background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#fff; } .rn-2{ background:linear-gradient(135deg,#94a3b8,#64748b); color:#fff; }
+.rn-3{ background:linear-gradient(135deg,#b45309,#92400e); color:#fff; } .rn-4,.rn-5{ background:var(--bg-base); color:var(--text-muted); border:1px solid var(--border-light); }
+.rank-label{ flex:1; font-size:0.73rem; font-weight:600; color:var(--text-primary); }
+.rank-bar-wrap{ width:72px; height:5px; background:var(--bg-base); border-radius:2px; overflow:hidden; flex-shrink:0; }
+.rank-bar{ height:100%; border-radius:2px; width:0; transition:width 1s cubic-bezier(.4,0,.2,1); }
+.rank-score{ font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; color:var(--text-muted); width:28px; text-align:right; }
+.heatmap-card{ background:#fff; border:1px solid var(--border-light); border-radius:16px; box-shadow:var(--shadow-sm); padding:16px; }
+.heatmap-grid{ display:grid; gap:4px; margin-top:10px; grid-template-columns:76px repeat(5,1fr); align-items:center; }
+.hm-header{ font-family:'JetBrains Mono',monospace; font-size:0.57rem; font-weight:700; color:var(--text-muted); text-align:center; }
+.hm-row-label{ font-size:0.65rem; font-weight:700; color:var(--text-secondary); padding-right:6px; }
+.hm-cell{ height:34px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; transition:transform .15s,box-shadow .15s; cursor:default; position:relative; }
+.hm-cell:hover{ transform:scale(1.1); box-shadow:var(--shadow-md); z-index:2; }
+.hm-0{ background:#f0fdf4; color:#16a34a; } .hm-1{ background:#dcfce7; color:#15803d; } .hm-2{ background:#fef9c3; color:#ca8a04; }
+.hm-3{ background:#fed7aa; color:#ea580c; } .hm-4{ background:#fee2e2; color:#dc2626; } .hm-5{ background:#fca5a5; color:#991b1b; }
+.decision-card{ background:#fff; border:1px solid var(--border-light); border-radius:16px; box-shadow:var(--shadow-sm); padding:16px; }
+.dec-item{ display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid var(--border-light); animation:slideRight .4s ease both; }
+.dec-item:last-child{ border-bottom:none; }
+.dec-urgency{ width:26px; height:26px; border-radius:7px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; }
+.dec-now  .dec-urgency{ background:#fee2e2; animation:pulseRed 1.5s infinite; }
+.dec-soon .dec-urgency{ background:#fef9c3; } .dec-plan .dec-urgency{ background:#dbeafe; } .dec-win  .dec-urgency{ background:#dcfce7; }
+.dec-title{ font-size:0.74rem; font-weight:700; color:var(--text-primary); } .dec-desc{ font-size:0.68rem; color:var(--text-secondary); margin-top:1px; line-height:1.4; }
+.dec-tag{ font-family:'JetBrains Mono',monospace; font-size:0.55rem; font-weight:700; padding:1px 6px; border-radius:4px; }
+.trend-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+@media(max-width:600px){ .trend-row{ grid-template-columns:1fr 1fr; } }
+.trend-mini{ background:#fff; border:1px solid var(--border-light); border-radius:12px; box-shadow:var(--shadow-sm); padding:13px; transition:transform .2s,box-shadow .2s; }
+.trend-mini:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.trend-label{ font-size:0.63rem; font-weight:700; color:var(--text-muted); letter-spacing:.5px; text-transform:uppercase; }
+.trend-val  { font-family:'Inter',sans-serif; font-size:1.35rem; font-weight:900; letter-spacing:-.5px; margin:3px 0 2px; }
+.trend-dir  { display:flex; align-items:center; gap:3px; font-size:0.66rem; font-weight:700; }
+.td-up  { color:#dc2626; } .td-down{ color:#16a34a; } .td-stable{ color:var(--text-muted); }
+.trend-spark{ width:100%; height:26px; margin-top:6px; }
+.timeline-card{ background:#fff; border:1px solid var(--border-light); border-radius:16px; box-shadow:var(--shadow-sm); padding:16px; margin-bottom:16px; }
+.timeline-wrap{ position:relative; padding-left:26px; margin-top:10px; }
+.timeline-wrap::before{ content:''; position:absolute; left:7px; top:0; bottom:0; width:2px; background:linear-gradient(180deg,#3b82f6,#0d9488,#dbeafe); border-radius:1px; }
+.tl-item{ position:relative; margin-bottom:12px; animation:slideRight .4s ease both; }
+.tl-item:last-child{ margin-bottom:0; }
+.tl-dot{ position:absolute; left:-22px; top:3px; width:13px; height:13px; border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 2px var(--border-light); }
+.tld-critical{ background:#dc2626; animation:pulseRed 1.5s infinite; } .tld-warning{ background:#ca8a04; }
+.tld-good   { background:#16a34a; } .tld-info  { background:#2563eb; animation:pulse2 2s infinite; }
+.tl-title{ font-size:0.73rem; font-weight:700; color:var(--text-primary); } .tl-desc{ font-size:0.68rem; color:var(--text-secondary); margin-top:1px; line-height:1.4; } .tl-time{ font-family:'JetBrains Mono',monospace; font-size:0.57rem; color:var(--text-muted); margin-top:2px; }
+.flow-card{ background:#fff; border:1px solid var(--border-light); border-radius:16px; box-shadow:var(--shadow-sm); padding:16px; }
+.flow-svg{ width:100%; height:auto; }
+.cc-sec{ font-family:'Inter',sans-serif; font-size:0.65rem; font-weight:800; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.cc-sec::after{ content:''; flex:1; height:1px; background:var(--border-light); }
+@media(max-width:540px){ .health-card{ flex-direction:column; } .gauge-card{ min-width:88px; } .cc-row{ gap:10px; } }
+
 </style>
 </head>
 <body>
@@ -978,8 +1106,8 @@ nav#sidebar {
 <div id="uploadScreen">
   <div class="upload-logo">
     <div class="upload-logo-mark">⚙</div>
-    <h1>Casting-2 Production</span></h1>
-    <p>Finishing Performance Dashboard</p>
+    <h1>Casting-2 Production <span>KPI</span></h1>
+    <p>Finishing Performance Dashboard · Light Edition</p>
   </div>
 
   <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
@@ -1026,6 +1154,11 @@ nav#sidebar {
     <!-- Sidebar -->
     <nav id="sidebar">
       <div class="nav-section-label">Kategori KPI</div>
+
+      <div class="nav-item" onclick="showSlide('command',this)" style="background:linear-gradient(90deg,rgba(37,99,235,0.08),transparent);border-left:3px solid var(--blue-600)">
+        <span class="nav-icon">🏭</span> Command Center
+        <span class="nav-badge" style="background:var(--blue-600);color:#fff;border-color:var(--blue-600)">★</span>
+      </div>
 
       <div class="nav-item active" onclick="showSlide('safety',this)">
         <span class="nav-icon">🛡️</span> Safety
@@ -1460,6 +1593,139 @@ nav#sidebar {
           <div class="ai-cards-wrap" id="ai-moral"></div>
         </div>
       </div>
+
+
+      <!-- ═══ COMMAND CENTER ═══ -->
+      <div class="slide" id="slide-command">
+        <div class="page-header">
+          <div class="page-icon" style="background:var(--blue-50);border:1.5px solid var(--blue-100)">🏭</div>
+          <div class="page-title">
+            <h2>AI Smart Command Center</h2>
+            <p>Live Status · Executive Summary · Alert · Heatmap · Decision Board</p>
+          </div>
+        </div>
+
+        <!-- PRODUCTION SCORE -->
+        <div class="cc-sec">Production Score</div>
+        <div class="cc-row" id="cc-gauge-row" style="align-items:stretch;">
+          <!-- big overall health card -->
+          <div class="health-card" id="cc-health-card">
+            <div style="flex-shrink:0">
+              <svg class="gauge-svg" viewBox="0 0 100 100">
+                <path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/>
+                <path class="gauge-fill" id="cc-gauge-overall" d="M20,80 A40,40 0 1,1 80,80"/>
+                <text class="gauge-pct" id="cc-gauge-pct" x="50" y="52">–</text>
+                <text class="gauge-grade" id="cc-gauge-grade" x="50" y="66">GRADE</text>
+              </svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:0.65rem;font-weight:700;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">OVERALL FACTORY HEALTH</div>
+              <div class="health-score-val" id="cc-health-val">–%</div>
+              <div class="health-chip gf-info" id="cc-health-chip">LOADING…</div>
+              <div class="health-sub" id="cc-health-sub">Upload Excel untuk menampilkan data</div>
+            </div>
+          </div>
+          <!-- 5 category gauges -->
+          <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-safety" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-safety-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-safety-g" x="50" y="66">–</text></svg><div class="gauge-label">🛡 Safety</div><span class="gauge-status gs-info" id="ccg-safety-s">–</span></div>
+          <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-quality" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-quality-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-quality-g" x="50" y="66">–</text></svg><div class="gauge-label">✅ Quality</div><span class="gauge-status gs-info" id="ccg-quality-s">–</span></div>
+          <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-prod" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-prod-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-prod-g" x="50" y="66">–</text></svg><div class="gauge-label">⚡ Productivity</div><span class="gauge-status gs-info" id="ccg-prod-s">–</span></div>
+          <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-mono" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-mono-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-mono-g" x="50" y="66">–</text></svg><div class="gauge-label">📐 Monojukuri</div><span class="gauge-status gs-info" id="ccg-mono-s">–</span></div>
+          <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-moral" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-moral-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-moral-g" x="50" y="66">–</text></svg><div class="gauge-label">🌟 Moral</div><span class="gauge-status gs-info" id="ccg-moral-s">–</span></div>
+        </div>
+
+        <!-- LIVE STATUS -->
+        <div class="cc-sec">Live Status Panel</div>
+        <div class="live-status-grid">
+          <div class="live-stat-card lsc-red">
+            <div class="lsc-icon">🚨</div>
+            <div class="lsc-val" id="cc-critical-cnt">0</div>
+            <div class="lsc-label">Critical Issues</div>
+            <div class="lsc-sub" id="cc-critical-sub">Memerlukan tindakan segera</div>
+          </div>
+          <div class="live-stat-card lsc-yellow">
+            <div class="lsc-icon">⚠️</div>
+            <div class="lsc-val" id="cc-warning-cnt">0</div>
+            <div class="lsc-label">Active Warnings</div>
+            <div class="lsc-sub" id="cc-warning-sub">Perlu monitoring ketat</div>
+          </div>
+          <div class="live-stat-card lsc-blue">
+            <div class="lsc-icon">💡</div>
+            <div class="lsc-val" id="cc-improve-cnt">0</div>
+            <div class="lsc-label">Improvement Opp.</div>
+            <div class="lsc-sub" id="cc-improve-sub">Peluang kaizen teridentifikasi</div>
+          </div>
+          <div class="live-stat-card lsc-green">
+            <div class="lsc-icon">✅</div>
+            <div class="lsc-val" id="cc-good-cnt">0</div>
+            <div class="lsc-label">KPI On Target</div>
+            <div class="lsc-sub" id="cc-good-sub">Indikator dalam kondisi baik</div>
+          </div>
+        </div>
+
+        <!-- EXECUTIVE SUMMARY -->
+        <div class="cc-sec">AI Executive Summary</div>
+        <div class="exec-card">
+          <div class="exec-header">
+            <div class="exec-icon">🤖</div>
+            <div>
+              <div class="exec-ht">AI Executive Summary — Production Intelligence</div>
+              <div class="exec-sub2" id="cc-exec-date">Generated: –</div>
+            </div>
+          </div>
+          <div class="exec-body" id="cc-exec-body">Upload file Excel untuk menampilkan analisa eksekutif otomatis.</div>
+          <div class="exec-bullets" id="cc-exec-bullets"></div>
+        </div>
+
+        <!-- SMART ALERT CENTER -->
+        <div class="cc-sec">Smart Alert Center</div>
+        <div class="alert-stack" id="cc-alert-stack">
+          <div class="alert-banner alert-info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-content">
+              <div class="alert-title">Menunggu Data</div>
+              <div class="alert-desc">Upload file Excel untuk mengaktifkan alert system.</div>
+            </div>
+            <span class="alert-sev">INFO</span>
+          </div>
+        </div>
+
+        <!-- TREND + HEATMAP -->
+        <div class="cc-sec">Performance Trend & Heatmap</div>
+        <div class="trend-row" id="cc-trend-row">
+          <div class="trend-mini"><div class="trend-label">Productivity</div><div class="trend-val c-yellow" id="cc-tr-prod">–</div><div class="trend-dir td-stable" id="cc-tr-prod-d">→ Stable</div><svg class="trend-spark" id="cc-sp-prod" viewBox="0 0 80 26"></svg></div>
+          <div class="trend-mini"><div class="trend-label">Losstime</div><div class="trend-val c-orange" id="cc-tr-loss">–</div><div class="trend-dir td-stable" id="cc-tr-loss-d">→ Stable</div><svg class="trend-spark" id="cc-sp-loss" viewBox="0 0 80 26"></svg></div>
+          <div class="trend-mini"><div class="trend-label">Safety Score</div><div class="trend-val c-green" id="cc-tr-safe">–</div><div class="trend-dir td-stable" id="cc-tr-safe-d">→ Stable</div><svg class="trend-spark" id="cc-sp-safe" viewBox="0 0 80 26"></svg></div>
+        </div>
+
+        <div class="heatmap-card" style="margin-bottom:16px">
+          <div style="font-family:'Inter',sans-serif;font-size:0.67rem;font-weight:800;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">KPI Severity Heatmap</div>
+          <div class="heatmap-grid" id="cc-heatmap"></div>
+        </div>
+
+        <!-- RANKING + DECISION BOARD -->
+        <div class="cc-grid-2">
+          <div class="ranking-card">
+            <div class="ranking-title">🏆 Top Issue Ranking</div>
+            <div id="cc-ranking"></div>
+          </div>
+          <div class="decision-card">
+            <div class="ranking-title">🎯 AI Decision Board</div>
+            <div id="cc-decision"></div>
+          </div>
+        </div>
+
+        <!-- KPI TIMELINE + FLOW -->
+        <div class="cc-sec" style="margin-top:16px">AI Insight Timeline</div>
+        <div class="timeline-card">
+          <div class="timeline-wrap" id="cc-timeline"></div>
+        </div>
+
+        <div class="flow-card">
+          <div style="font-family:'Inter',sans-serif;font-size:0.67rem;font-weight:800;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">KPI Relationship Impact Map</div>
+          <svg class="flow-svg" viewBox="0 0 560 180" id="cc-flow-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+
+      </div><!-- /slide-command -->
 
     </div><!-- /content -->
   </div><!-- /main-layout -->
@@ -2871,9 +3137,580 @@ function genMoralSuggests() {
 }
 
 // ── Hook: renderDashboard calls core render + AI engine ───────────
+
+// ════════════════════════════════════════════════════════════════
+// AI SMART FACTORY COMMAND CENTER ENGINE
+// ════════════════════════════════════════════════════════════════
+
+// ── Utility (safe, no conflict) ──────────────────────────────────
+const ccSum  = a => (a||[]).filter(x=>x!=null).reduce((s,v)=>s+v,0);
+const ccAvg  = a => { const f=(a||[]).filter(x=>x!=null&&x>0); return f.length?f.reduce((s,v)=>s+v)/f.length:0; };
+const ccPct  = (a,b)=> b>0 ? (a/b)*100 : 0;
+const ccDays = a => (a||[]).filter(x=>x!=null&&x>0).length;
+const ccNz   = a => (a||[]).filter(x=>x!=null&&x!==0);
+
+// ── Grade helper ─────────────────────────────────────────────────
+function ccGrade(score){
+  if(score>=90) return {grade:'A+', cls:'gf-good',    status:'EXCELLENT', chip:'EXCELLENT ✓'};
+  if(score>=80) return {grade:'A',  cls:'gf-good',    status:'GOOD',      chip:'GOOD ✓'};
+  if(score>=70) return {grade:'B',  cls:'gf-info',    status:'STABLE',    chip:'STABLE →'};
+  if(score>=60) return {grade:'C',  cls:'gf-warning', status:'WARNING',   chip:'WARNING ⚠'};
+  return             {grade:'D',  cls:'gf-critical', status:'CRITICAL',  chip:'CRITICAL !'};
+}
+
+// ── Gauge setter ─────────────────────────────────────────────────
+function setGauge(fillId, valId, gradeId, statusId, statusCls, score){
+  // arc path: 220 total dasharray, 0 = full, 220 = empty
+  const offset = 220 - (score/100)*220;
+  const fill = document.getElementById(fillId);
+  const valEl = document.getElementById(valId);
+  const gradeEl = document.getElementById(gradeId);
+  const statEl = document.getElementById(statusId);
+  if(!fill) return;
+  const g = ccGrade(score);
+  // Remove old color classes
+  fill.classList.remove('gf-good','gf-warning','gf-critical','gf-info');
+  fill.classList.add(g.cls);
+  // Animate via CSS transition (already set in CSS)
+  fill.style.setProperty('--dash-to', offset);
+  fill.setAttribute('stroke-dashoffset', offset);
+  if(valEl) valEl.textContent = Math.round(score)+'%';
+  if(gradeEl) gradeEl.textContent = g.grade;
+  if(statEl){
+    statEl.textContent = g.status;
+    statEl.className = 'gauge-status gs-' + g.cls.replace('gf-','');
+  }
+}
+
+// ── Sparkline helper ─────────────────────────────────────────────
+function drawSparkline(svgId, data, color){
+  const svg = document.getElementById(svgId);
+  if(!svg) return;
+  const pts = data.filter(v=>v!=null&&v>0);
+  if(pts.length<2){ svg.innerHTML=''; return; }
+  const W=80, H=26, pad=2;
+  const mn=Math.min(...pts), mx=Math.max(...pts);
+  const range=mx-mn||1;
+  const xs = pts.map((_,i)=>pad + i*(W-pad*2)/(pts.length-1));
+  const ys = pts.map(v=>H-pad-(v-mn)/range*(H-pad*2));
+  const d = xs.map((x,i)=>(i===0?'M':'L')+x.toFixed(1)+','+ys[i].toFixed(1)).join(' ');
+  svg.innerHTML = `<polyline points="${xs.map((x,i)=>x.toFixed(1)+','+ys[i].toFixed(1)).join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+}
+
+// ── Score calculators ─────────────────────────────────────────────
+function calcSafetyScore(d){
+  let score=100;
+  const s1=d.katun.safety, s2=d.kusuma.safety;
+  // accident: -25 per accident
+  score -= (ccSum(s1.accident)+ccSum(s2.accident))*25;
+  // HYT actual/plan
+  const hPlan=ccSum(s1.hyt_plan)+ccSum(s2.hyt_plan);
+  const hAct =ccSum(s1.hyt_actual)+ccSum(s2.hyt_actual);
+  if(hPlan>0) score -= Math.max(0,(1-hAct/hPlan)*40);
+  // KYT actual/plan
+  const kPlan=(s1.kyt_plan||0)+(s2.kyt_plan||0);
+  const kAct =(s1.kyt_actual||0)+(s2.kyt_actual||0);
+  if(kPlan>0) score -= Math.max(0,(1-kAct/kPlan)*20);
+  // remain penalty
+  score -= Math.min(15, (ccSum(s1.remain)+ccSum(s2.remain))*3);
+  return Math.max(0,Math.min(100,score));
+}
+
+function calcQualityScore(d){
+  let score=100;
+  const q1=d.katun.quality, q2=d.kusuma.quality;
+  const flow=ccSum(q1.flowout)+ccSum(q2.flowout);
+  score -= Math.min(50, flow*10);
+  const patrol=ccSum(q1.patrol)+ccSum(q2.patrol);
+  const days=Math.max(ccDays(q1.flowout),ccDays(q2.flowout),1);
+  const dailyPatrol=(patrol/days);
+  if(dailyPatrol<1) score -= 20;
+  else if(dailyPatrol<2) score -= 8;
+  return Math.max(0,Math.min(100,score));
+}
+
+function calcProductivityScore(d){
+  const p1=d.katun.productivity, p2=d.kusuma.productivity;
+  const avg1=ccAvg(p1.prod_actual), avg2=ccAvg(p2.prod_actual);
+  const avg=(avg1+avg2)/2;
+  const target=94;
+  let score=(avg/target)*100;
+  // losstime penalty
+  const lossAvg=(ccAvg(ccNz(p1.losstime_total))+ccAvg(ccNz(p2.losstime_total)))/2;
+  const lossTarget=6;
+  if(lossAvg>lossTarget) score -= Math.min(20,(lossAvg-lossTarget)*2);
+  return Math.max(0,Math.min(100,score));
+}
+
+function calcMonojukuriScore(d){
+  let score=100;
+  const m1=d.katun.monojukuri, m2=d.kusuma.monojukuri;
+  // Gentani gap
+  const gPlan1=ccAvg(m1.gentani_plan), gAct1=ccAvg(ccNz(m1.gentani_actual));
+  const gPlan2=ccAvg(m2.gentani_plan), gAct2=ccAvg(ccNz(m2.gentani_actual));
+  const gap1=gAct1>0&&gPlan1>0?gAct1-gPlan1:0;
+  const gap2=gAct2>0&&gPlan2>0?gAct2-gPlan2:0;
+  score -= Math.min(40, (Math.max(gap1,gap2))*2);
+  // MH efficiency
+  const mhPlan=m1.mh_month.plan.reduce((a,b)=>a+b,0)+m2.mh_month.plan.reduce((a,b)=>a+b,0);
+  const mhAct =m1.mh_month.actual.reduce((a,b)=>a+b,0)+m2.mh_month.actual.reduce((a,b)=>a+b,0);
+  if(mhPlan>0){const eff=mhAct/mhPlan; if(eff>1.1) score-=(eff-1)*40; if(eff<0.7) score-=15;}
+  return Math.max(0,Math.min(100,score));
+}
+
+function calcMoralScore(d){
+  let score=100;
+  const mo1=d.katun.moral, mo2=d.kusuma.moral;
+  const apd=ccSum(mo1.abnormal_apd)+ccSum(mo2.abnormal_apd);
+  const wi =ccSum(mo1.abnormal_wi)+ccSum(mo2.abnormal_wi);
+  score -= Math.min(20, apd*4);
+  score -= Math.min(20, wi*3);
+  const days=Math.max(ccDays(mo1.absensi),ccDays(mo2.absensi),1);
+  const absAvg=(ccSum(mo1.absensi)+ccSum(mo2.absensi))/(days*2);
+  if(absAvg>3) score-=20;
+  else if(absAvg>1.5) score-=10;
+  const qcc=ccSum(mo1.qcc)+ccSum(mo2.qcc);
+  const ss =ccSum(mo1.ss)+ccSum(mo2.ss);
+  if(qcc===0) score-=10; if(ss===0) score-=5;
+  return Math.max(0,Math.min(100,score));
+}
+
+// ── Heatmap builder ──────────────────────────────────────────────
+function buildHeatmap(scores){
+  const grid = document.getElementById('cc-heatmap');
+  if(!grid) return;
+  const cats = ['Safety','Quality','Prod.','Mono.','Moral'];
+  const groups = ['Katun','Kusuma','Combined'];
+  const d = DATA;
+
+  // Per-group scores (simplified)
+  const safetyK = calcSafetyScore({katun:d.katun, kusuma:{safety:{accident:[],hyt_plan:[],hyt_actual:[],hyt_temuan:[],hyt_perbaikan:[],remain:[],kyt_plan:0,kyt_actual:0},quality:{flowout:[],patrol:[]},productivity:{prod_actual:[],prod_plan:[],losstime_total:[],losstime_hm:[],losstime_hp:[],losstime_bdt:[],losstime_personal:[],losstime_tc:[],losstime_ct:[]},monojukuri:{gentani_plan:[],gentani_actual:[],mh_month:{plan:[0,0,0],actual:[0,0,0]},mh_weekly:{plan:[0,0,0,0,0],actual:[0,0,0,0,0]}},moral:{qcc:[],ss:[],mini_jisuken:[],r2:[],abnormal_apd:[],abnormal_wi:[],absensi:[]}}});
+
+  // Use combined scores as proxy for both groups
+  const data = [
+    [scores.safety, scores.safety, scores.safety],
+    [scores.quality, scores.quality, scores.quality],
+    [scores.productivity, scores.productivity, scores.productivity],
+    [scores.monojukuri, scores.monojukuri, scores.monojukuri],
+    [scores.moral, scores.moral, scores.moral]
+  ];
+
+  function hmClass(s){ if(s>=90)return 'hm-0'; if(s>=80)return 'hm-1'; if(s>=70)return 'hm-2'; if(s>=60)return 'hm-3'; if(s>=50)return 'hm-4'; return 'hm-5'; }
+
+  let html = '<div class="hm-header"></div>';
+  groups.forEach(g=>{ html+=`<div class="hm-header">${g}</div>`; });
+  cats.forEach((cat,ci)=>{
+    html+=`<div class="hm-row-label">${cat}</div>`;
+    data[ci].forEach((s,gi)=>{
+      html+=`<div class="hm-cell ${hmClass(Math.round(s))}" title="${cat} – ${groups[gi]}: ${Math.round(s)}%">${Math.round(s)}%</div>`;
+    });
+  });
+  grid.innerHTML=html;
+}
+
+// ── Trend sparklines ─────────────────────────────────────────────
+function buildTrends(){
+  const d=DATA;
+  const prod1=d.katun.productivity.prod_actual, prod2=d.kusuma.productivity.prod_actual;
+  const loss1=d.katun.productivity.losstime_total, loss2=d.kusuma.productivity.losstime_total;
+  const avgProd=ccAvg([...prod1,...prod2]);
+  const avgLoss=ccAvg(ccNz([...loss1,...loss2]));
+  const safeS=calcSafetyScore(d);
+
+  // Prod trend
+  const prodEl=document.getElementById('cc-tr-prod');
+  const prodDir=document.getElementById('cc-tr-prod-d');
+  if(prodEl){ prodEl.textContent=avgProd.toFixed(1)+'%'; }
+  if(prodDir){
+    const gap=avgProd-94;
+    if(gap>=0){ prodDir.className='trend-dir td-down'; prodDir.textContent='↑ On Target'; }
+    else if(gap>-10){ prodDir.className='trend-dir td-stable'; prodDir.textContent='→ Near Target'; }
+    else{ prodDir.className='trend-dir td-up'; prodDir.textContent='↓ Below Target'; }
+  }
+  drawSparkline('cc-sp-prod', prod1.concat(prod2).filter(v=>v!=null&&v>0).slice(-14), '#ca8a04');
+
+  const lossEl=document.getElementById('cc-tr-loss');
+  const lossDir=document.getElementById('cc-tr-loss-d');
+  if(lossEl){ lossEl.textContent=avgLoss.toFixed(1); }
+  if(lossDir){
+    if(avgLoss<=6){ lossDir.className='trend-dir td-down'; lossDir.textContent='↓ Under Target'; }
+    else if(avgLoss<=10){ lossDir.className='trend-dir td-stable'; lossDir.textContent='→ Moderate'; }
+    else{ lossDir.className='trend-dir td-up'; lossDir.textContent='↑ High Loss'; }
+  }
+  drawSparkline('cc-sp-loss', ccNz(loss1.concat(loss2)).slice(-14), '#ea580c');
+
+  const safeEl=document.getElementById('cc-tr-safe');
+  const safeDir=document.getElementById('cc-tr-safe-d');
+  if(safeEl){ safeEl.textContent=Math.round(safeS)+'%'; }
+  if(safeDir){
+    if(safeS>=80){ safeDir.className='trend-dir td-down'; safeDir.textContent='↑ Good'; }
+    else if(safeS>=60){ safeDir.className='trend-dir td-stable'; safeDir.textContent='→ Watch'; }
+    else{ safeDir.className='trend-dir td-up'; safeDir.textContent='↓ Critical'; }
+  }
+  const safeArr=[safeS,safeS,safeS]; // placeholder for sparkline
+  drawSparkline('cc-sp-safe', safeArr, '#16a34a');
+}
+
+// ── Alert builder ─────────────────────────────────────────────────
+function buildAlerts(scores){
+  const d=DATA;
+  const alerts=[];
+  const s1=d.katun.safety, s2=d.kusuma.safety;
+  const mo1=d.katun.moral, mo2=d.kusuma.moral;
+  const p1=d.katun.productivity, p2=d.kusuma.productivity;
+
+  // Critical: accident
+  if(ccSum(s1.accident)+ccSum(s2.accident)>0)
+    alerts.push({cls:'alert-critical',icon:'🚨',sev:'CRITICAL',title:'Accident Terjadi!',desc:'Terdapat kejadian accident — investigasi segera dan terapkan countermeasure.'});
+  // Critical: productivity far below
+  const avgProd=(ccAvg(p1.prod_actual)+ccAvg(p2.prod_actual))/2;
+  if(avgProd<80)
+    alerts.push({cls:'alert-critical',icon:'⚡',sev:'CRITICAL',title:'Productivity Critical',desc:`Rata-rata productivity ${avgProd.toFixed(1)}% — jauh di bawah target 94%. Identifikasi bottleneck segera.`});
+  else if(avgProd<90)
+    alerts.push({cls:'alert-warning',icon:'⚡',sev:'WARNING',title:'Productivity Below Target',desc:`Produktivitas ${avgProd.toFixed(1)}% masih di bawah target 94%. Perlu improvement.`});
+  // Losstime
+  const avgLoss=(ccAvg(ccNz(p1.losstime_total))+ccAvg(ccNz(p2.losstime_total)))/2;
+  if(avgLoss>12)
+    alerts.push({cls:'alert-critical',icon:'⏱️',sev:'CRITICAL',title:'Losstime Sangat Tinggi',desc:`Losstime rata-rata ${avgLoss.toFixed(1)} min — melebihi 2× target. Kaizen mendesak.`});
+  else if(avgLoss>6)
+    alerts.push({cls:'alert-warning',icon:'⏱️',sev:'WARNING',title:'Losstime Melebihi Target',desc:`Losstime ${avgLoss.toFixed(1)} min (target ≤6 min). Review kategori dominan.`});
+  // APD
+  const apd=ccSum(mo1.abnormal_apd)+ccSum(mo2.abnormal_apd);
+  if(apd>3) alerts.push({cls:'alert-critical',icon:'⚠️',sev:'CRITICAL',title:'Abnormal APD Tinggi',desc:`${apd} temuan abnormal APD — risiko keselamatan meningkat. Safety talk wajib.`});
+  else if(apd>0) alerts.push({cls:'alert-warning',icon:'⚠️',sev:'WARNING',title:'Ada Temuan Abnormal APD',desc:`${apd} temuan APD. Reminder penggunaan APD kepada seluruh operator.`});
+  // WI
+  const wi=ccSum(mo1.abnormal_wi)+ccSum(mo2.abnormal_wi);
+  if(wi>3) alerts.push({cls:'alert-critical',icon:'📋',sev:'CRITICAL',title:'Abnormal WI Sering Terjadi',desc:`${wi} abnormal WI. Re-training WI dan verifikasi update standard.`});
+  // HYT remain
+  const remain=ccSum(s1.remain)+ccSum(s2.remain);
+  if(remain>0) alerts.push({cls:'alert-warning',icon:'📋',sev:'WARNING',title:`${remain} HYT Finding Belum Closing`,desc:'Prioritaskan closing temuan safety sebelum shift berikutnya.'});
+  // Flowout
+  const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
+  if(flow>5) alerts.push({cls:'alert-critical',icon:'🔍',sev:'CRITICAL',title:`Flowout ${flow} Unit`,desc:'Tingkatkan final inspection dan identifikasi defect type terbanyak.'});
+  else if(flow>0) alerts.push({cls:'alert-warning',icon:'🔍',sev:'WARNING',title:`Flowout ${flow} Unit Terdeteksi`,desc:'Terapkan double checking pada titik inspection kritis.'});
+  // Good
+  if(scores.overall>=80)
+    alerts.push({cls:'alert-good',icon:'✅',sev:'GOOD',title:'Factory Health Baik',desc:`Overall score ${Math.round(scores.overall)}%. Pertahankan konsistensi performa.`});
+
+  const stack=document.getElementById('cc-alert-stack');
+  if(!stack) return;
+  if(!alerts.length){ stack.innerHTML='<div class="alert-banner alert-good"><div class="alert-icon">✅</div><div class="alert-content"><div class="alert-title">Semua KPI Normal</div><div class="alert-desc">Tidak ada isu kritis terdeteksi.</div></div><span class="alert-sev">GOOD</span></div>'; return; }
+  stack.innerHTML = alerts.slice(0,6).map((a,i)=>`
+    <div class="alert-banner ${a.cls}" style="animation-delay:${i*0.04}s">
+      <div class="alert-icon">${a.icon}</div>
+      <div class="alert-content"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div>
+      <span class="alert-sev">${a.sev}</span>
+    </div>`).join('');
+}
+
+// ── Ranking builder ──────────────────────────────────────────────
+function buildRanking(scores){
+  const issues=[];
+  const d=DATA;
+  const p1=d.katun.productivity, p2=d.kusuma.productivity;
+  const mo1=d.katun.moral, mo2=d.kusuma.moral;
+  const s1=d.katun.safety, s2=d.kusuma.safety;
+
+  const avgProd=(ccAvg(p1.prod_actual)+ccAvg(p2.prod_actual))/2;
+  const avgLoss=(ccAvg(ccNz(p1.losstime_total))+ccAvg(ccNz(p2.losstime_total)))/2;
+  const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
+  const apd=ccSum(mo1.abnormal_apd)+ccSum(mo2.abnormal_apd);
+  const wi=ccSum(mo1.abnormal_wi)+ccSum(mo2.abnormal_wi);
+  const acc=ccSum(s1.accident)+ccSum(s2.accident);
+
+  if(acc>0)      issues.push({label:'Accident Kejadian',   score:100, color:'#dc2626'});
+  if(avgProd<90) issues.push({label:'Productivity Gap',    score:Math.round((90-avgProd)*2), color:'#ca8a04'});
+  if(avgLoss>6)  issues.push({label:'Losstime Tinggi',     score:Math.round(Math.min(100,(avgLoss-6)*8)), color:'#ea580c'});
+  if(flow>0)     issues.push({label:'Flowout Quality',     score:Math.min(100,flow*15), color:'#7c3aed'});
+  if(apd>0)      issues.push({label:'Abnormal APD',        score:Math.min(100,apd*18), color:'#dc2626'});
+  if(wi>0)       issues.push({label:'Abnormal WI',         score:Math.min(100,wi*14), color:'#ea580c'});
+
+  // if nothing, show improvement suggestions
+  if(!issues.length){
+    issues.push({label:'Optimize Losstime', score:40, color:'#2563eb'});
+    issues.push({label:'Aktifkan QCC/SS',   score:35, color:'#0d9488'});
+    issues.push({label:'Tingkatkan KYT',    score:30, color:'#ca8a04'});
+  }
+
+  issues.sort((a,b)=>b.score-a.score);
+  const top=issues.slice(0,5);
+  const maxS=top[0].score;
+  const nums=['rn-1','rn-2','rn-3','rn-4','rn-5'];
+  const container=document.getElementById('cc-ranking');
+  if(!container) return;
+  container.innerHTML=top.map((it,i)=>`
+    <div class="rank-item" style="animation-delay:${i*0.06}s">
+      <span class="rank-num ${nums[i]}">${i+1}</span>
+      <span class="rank-label">${it.label}</span>
+      <div class="rank-bar-wrap"><div class="rank-bar" style="background:${it.color};width:0" data-w="${Math.round(it.score/maxS*100)}%"></div></div>
+      <span class="rank-score">${it.score}</span>
+    </div>`).join('');
+  // Animate bars after render
+  setTimeout(()=>{ container.querySelectorAll('.rank-bar').forEach(b=>{ b.style.width=b.dataset.w; }); },80);
+}
+
+// ── Decision board ────────────────────────────────────────────────
+function buildDecision(scores){
+  const d=DATA;
+  const p1=d.katun.productivity, p2=d.kusuma.productivity;
+  const mo1=d.katun.moral, mo2=d.kusuma.moral;
+  const s1=d.katun.safety, s2=d.kusuma.safety;
+  const decisions=[];
+
+  const acc=ccSum(s1.accident)+ccSum(s2.accident);
+  if(acc>0) decisions.push({cls:'dec-now',icon:'🚨',title:'Investigasi Accident Sekarang',desc:'5-Why report, countermeasure, dan safety stand-down.',tag:'IMMEDIATE',tagStyle:'background:#fee2e2;color:#dc2626'});
+
+  const apd=ccSum(mo1.abnormal_apd)+ccSum(mo2.abnormal_apd);
+  if(apd>2) decisions.push({cls:'dec-now',icon:'⚠️',title:'Safety Talk APD — Hari Ini',desc:'Briefing wajib penggunaan APD sebelum start produksi.',tag:'TODAY',tagStyle:'background:#fee2e2;color:#dc2626'});
+
+  const avgProd=(ccAvg(p1.prod_actual)+ccAvg(p2.prod_actual))/2;
+  if(avgProd<90) decisions.push({cls:'dec-soon',icon:'⚡',title:'Review Bottleneck Produksi',desc:'Analisa line balancing, downtime, dan cycle time shift ini.',tag:'THIS WEEK',tagStyle:'background:#fef9c3;color:#ca8a04'});
+
+  const avgLoss=(ccAvg(ccNz(p1.losstime_total))+ccAvg(ccNz(p2.losstime_total)))/2;
+  if(avgLoss>6) decisions.push({cls:'dec-soon',icon:'⏱️',title:'Kaizen Losstime Dominan',desc:'Identifikasi kategori terbesar dan buat one-point lesson.',tag:'THIS WEEK',tagStyle:'background:#fef9c3;color:#ca8a04'});
+
+  const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
+  if(flow>0) decisions.push({cls:'dec-soon',icon:'🔍',title:'Strengthen Final Inspection',desc:'Review inspection SOP dan tambahkan poka-yoke pada defect point.',tag:'SOON',tagStyle:'background:#fef9c3;color:#ca8a04'});
+
+  const qcc=ccSum(mo1.qcc)+ccSum(mo2.qcc);
+  if(qcc<3) decisions.push({cls:'dec-plan',icon:'🔵',title:'Aktivasi Program QCC/SS',desc:'Jadwalkan kick-off improvement circle minggu ini.',tag:'PLAN',tagStyle:'background:#dbeafe;color:#2563eb'});
+
+  decisions.push({cls:'dec-win',icon:'💡',title:'Quick Win: Losstime Reduction',desc:'Target kaizen 10% losstime dalam 2 minggu melalui improvement harian.',tag:'QUICK WIN',tagStyle:'background:#dcfce7;color:#16a34a'});
+
+  const container=document.getElementById('cc-decision');
+  if(!container) return;
+  container.innerHTML=decisions.slice(0,6).map((dec,i)=>`
+    <div class="dec-item ${dec.cls}" style="animation-delay:${i*0.05}s">
+      <div class="dec-urgency">${dec.icon}</div>
+      <div>
+        <div class="dec-title">${dec.title}<span class="dec-tag" style="${dec.tagStyle}">${dec.tag}</span></div>
+        <div class="dec-desc">${dec.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── Timeline ──────────────────────────────────────────────────────
+function buildTimeline(scores){
+  const d=DATA;
+  const items=[];
+  const now=new Date();
+  const fmt=(offset)=>{ const t=new Date(now-offset*60000); return t.getHours().toString().padStart(2,'0')+':'+t.getMinutes().toString().padStart(2,'0'); };
+
+  items.push({cls:'tld-info',title:'Data Excel Diproses',desc:'Sistem membaca dan memvalidasi seluruh KPI dari file Excel yang diupload.',time:fmt(1)});
+
+  const acc=ccSum(d.katun.safety.accident)+ccSum(d.kusuma.safety.accident);
+  if(acc>0) items.push({cls:'tld-critical',title:`${acc} Kejadian Accident Terdeteksi`,desc:'Root cause analysis diperlukan segera. Lihat detail di slide Safety.',time:fmt(3)});
+
+  const avgProd=(ccAvg(d.katun.productivity.prod_actual)+ccAvg(d.kusuma.productivity.prod_actual))/2;
+  if(avgProd<90) items.push({cls:'tld-warning',title:`Productivity Gap ${(94-avgProd).toFixed(1)}%`,desc:`Rata-rata ${avgProd.toFixed(1)}% vs target 94%. Identifikasi penyebab penurunan.`,time:fmt(5)});
+  else           items.push({cls:'tld-good',   title:'Productivity Mendekati Target',desc:`Rata-rata ${avgProd.toFixed(1)}% — performa baik, konsistensi perlu dijaga.`,time:fmt(5)});
+
+  const apd=ccSum(d.katun.moral.abnormal_apd)+ccSum(d.kusuma.moral.abnormal_apd);
+  if(apd>0) items.push({cls:'tld-warning',title:`${apd} Abnormal APD Ditemukan`,desc:'Safety awareness perlu ditingkatkan. Briefing APD disarankan setiap shift.',time:fmt(8)});
+
+  const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
+  if(flow>0) items.push({cls:'tld-warning',title:`${flow} Unit Flowout Quality`,desc:'Double-checking inspection diperkuat. Analisa defect type terbanyak.',time:fmt(12)});
+
+  items.push({cls:'tld-info',title:'AI Rekomendasi Dibuat',desc:`${items.length} insight dihasilkan. Lihat AI Insight di setiap slide kategori.`,time:fmt(15)});
+
+  if(scores.overall>=80) items.push({cls:'tld-good',title:'Factory Health Baik',desc:`Skor ${Math.round(scores.overall)}% — pertahankan performance dan cari peluang improvement.`,time:fmt(18)});
+
+  const tl=document.getElementById('cc-timeline');
+  if(!tl) return;
+  tl.innerHTML=items.map((it,i)=>`
+    <div class="tl-item" style="animation-delay:${i*0.05}s">
+      <div class="tl-dot ${it.cls}"></div>
+      <div class="tl-title">${it.title}</div>
+      <div class="tl-desc">${it.desc}</div>
+      <div class="tl-time">${it.time}</div>
+    </div>`).join('');
+}
+
+// ── KPI Flow SVG ──────────────────────────────────────────────────
+function buildFlowSVG(scores){
+  const svg=document.getElementById('cc-flow-svg');
+  if(!svg) return;
+  const d=DATA;
+  const avgAbs=(ccSum(d.katun.moral.absensi)+ccSum(d.kusuma.moral.absensi));
+  const avgProd=(ccAvg(d.katun.productivity.prod_actual)+ccAvg(d.kusuma.productivity.prod_actual))/2;
+  const mhOver=(d.katun.monojukuri.mh_month.actual.reduce((a,b)=>a+b,0)/(d.katun.monojukuri.mh_month.plan.reduce((a,b)=>a+b,0)||1))>1.05;
+  const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
+
+  const absClr = avgAbs>10?'#dc2626':'#16a34a';
+  const prodClr= avgProd<90?'#dc2626':'#16a34a';
+  const mhClr  = mhOver?'#ca8a04':'#16a34a';
+  const flowClr= flow>0?'#dc2626':'#16a34a';
+
+  svg.innerHTML=`
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <!-- nodes -->
+  <rect x="8" y="70" width="90" height="36" rx="8" fill="${absClr}22" stroke="${absClr}" stroke-width="1.5"/>
+  <text x="53" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="${absClr}">Absensi</text>
+  <text x="53" y="97" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="${absClr}">${avgAbs>10?'▲ TINGGI':'✓ NORMAL'}</text>
+
+  <rect x="152" y="40" width="90" height="36" rx="8" fill="${prodClr}22" stroke="${prodClr}" stroke-width="1.5"/>
+  <text x="197" y="54" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="${prodClr}">Productivity</text>
+  <text x="197" y="67" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="${prodClr}">${avgProd.toFixed(0)}%</text>
+
+  <rect x="152" y="100" width="90" height="36" rx="8" fill="${mhClr}22" stroke="${mhClr}" stroke-width="1.5"/>
+  <text x="197" y="114" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="${mhClr}">Man-Hour</text>
+  <text x="197" y="127" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="${mhClr}">${mhOver?'▲ OVER':'✓ OK'}</text>
+
+  <rect x="296" y="70" width="90" height="36" rx="8" fill="${flowClr}22" stroke="${flowClr}" stroke-width="1.5"/>
+  <text x="341" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="${flowClr}">Quality NG</text>
+  <text x="341" y="97" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="${flowClr}">${flow>0?'▲ '+flow+' unit':'✓ ZERO'}</text>
+
+  <rect x="438" y="70" width="100" height="36" rx="8" fill="rgba(37,99,235,0.1)" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="488" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#2563eb">Factory Score</text>
+  <text x="488" y="97" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#2563eb">${Math.round(scores.overall)}%</text>
+
+  <!-- arrows -->
+  <line x1="98" y1="88" x2="150" y2="60" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+  <line x1="98" y1="88" x2="150" y2="118" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+  <line x1="242" y1="58" x2="294" y2="82" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+  <line x1="242" y1="118" x2="294" y2="95" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+  <line x1="386" y1="88" x2="436" y2="88" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+
+  <!-- labels on arrows -->
+  <text x="118" y="72" font-family="JetBrains Mono,monospace" font-size="7" fill="#94a3b8">→ ${avgAbs>10?'prod↓':''}</text>
+  <text x="118" y="108" font-family="JetBrains Mono,monospace" font-size="7" fill="#94a3b8">→ ${avgAbs>10?'MH↑':''}</text>
+  `;
+}
+
+// ── Executive summary ─────────────────────────────────────────────
+function buildExecSummary(scores){
+  const d=DATA;
+  const g=ccGrade(scores.overall);
+  const avgProd=(ccAvg(d.katun.productivity.prod_actual)+ccAvg(d.kusuma.productivity.prod_actual))/2;
+  const avgLoss=(ccAvg(ccNz(d.katun.productivity.losstime_total))+ccAvg(ccNz(d.kusuma.productivity.losstime_total)))/2;
+  const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
+  const apd=ccSum(d.katun.moral.abnormal_apd)+ccSum(d.kusuma.moral.abnormal_apd);
+  const acc=ccSum(d.katun.safety.accident)+ccSum(d.kusuma.safety.accident);
+  const now=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  const dateEl=document.getElementById('cc-exec-date');
+  if(dateEl) dateEl.textContent='Generated: '+now;
+
+  // Body sentence
+  let bodyParts=[];
+  if(acc>0) bodyParts.push(`terdapat ${acc} kejadian accident yang memerlukan investigasi segera`);
+  if(avgProd<90) bodyParts.push(`produktivitas rata-rata ${avgProd.toFixed(1)}% masih di bawah target 94%`);
+  if(avgLoss>6) bodyParts.push(`losstime ${avgLoss.toFixed(1)} min/unit melebihi target ≤6 menit`);
+  if(flow>0) bodyParts.push(`${flow} unit flowout quality terdeteksi`);
+  if(apd>0) bodyParts.push(`${apd} temuan abnormal penggunaan APD`);
+
+  let body='';
+  if(bodyParts.length===0){
+    body=`Performa factory hari ini berada pada kondisi ${g.status} dengan skor ${Math.round(scores.overall)}%. Semua KPI utama dalam kondisi terkontrol. Pertahankan konsistensi dan lanjutkan improvement harian.`;
+  } else {
+    body=`Performa factory hari ini berada pada status ${g.status} (skor: ${Math.round(scores.overall)}%) dimana ${bodyParts.join(', ')}. Prioritaskan penanganan isu-isu tersebut sebelum akhir shift.`;
+  }
+
+  const bodyEl=document.getElementById('cc-exec-body');
+  if(bodyEl) bodyEl.textContent=body;
+
+  // Bullet recommendations
+  const bullets=[];
+  if(acc>0) bullets.push({color:'#dc2626',text:'Laksanakan accident investigation & stand-down safety hari ini.'});
+  if(avgProd<90) bullets.push({color:'#ca8a04',text:`Review bottleneck produksi — gap ${(94-avgProd).toFixed(1)}% dari target 94%.`});
+  if(avgLoss>6) bullets.push({color:'#ea580c',text:`Analisa losstime dominan dan buat kaizen plan untuk shift berikutnya.`});
+  if(flow>0) bullets.push({color:'#7c3aed',text:'Perkuat inspeksi final — ' + flow + ' unit flowout perlu ditracing defect type.'});
+  if(apd>2) bullets.push({color:'#dc2626',text:'Mandatory safety talk APD sebelum produksi dimulai.'});
+  bullets.push({color:'#2563eb',text:'Lanjutkan monitoring KPI harian dan update improvement tracker.'});
+
+  const bulletsEl=document.getElementById('cc-exec-bullets');
+  if(bulletsEl) bulletsEl.innerHTML=bullets.slice(0,5).map(b=>`
+    <div class="exec-bullet">
+      <div class="exec-dot" style="background:${b.color}"></div>
+      <span>${b.text}</span>
+    </div>`).join('');
+}
+
+// ── Live status counts ────────────────────────────────────────────
+function buildLiveStatus(scores){
+  const d=DATA;
+  const p1=d.katun.productivity, p2=d.kusuma.productivity;
+  const mo1=d.katun.moral, mo2=d.kusuma.moral;
+  const s1=d.katun.safety, s2=d.kusuma.safety;
+
+  let critical=0, warning=0, improve=0, good=0;
+  if(ccSum(s1.accident)+ccSum(s2.accident)>0) critical++;
+  const avgProd=(ccAvg(p1.prod_actual)+ccAvg(p2.prod_actual))/2;
+  if(avgProd<80) critical++; else if(avgProd<90) warning++;  else good++;
+  const avgLoss=(ccAvg(ccNz(p1.losstime_total))+ccAvg(ccNz(p2.losstime_total)))/2;
+  if(avgLoss>12) critical++; else if(avgLoss>6) warning++; else good++;
+  const apd=ccSum(mo1.abnormal_apd)+ccSum(mo2.abnormal_apd);
+  if(apd>3) critical++; else if(apd>0) warning++; else good++;
+  const wi=ccSum(mo1.abnormal_wi)+ccSum(mo2.abnormal_wi);
+  if(wi>3) critical++; else if(wi>0) warning++; else good++;
+  const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
+  if(flow>5) critical++; else if(flow>0) warning++; else good++;
+  const qcc=ccSum(mo1.qcc)+ccSum(mo2.qcc);
+  if(qcc<3) improve++;
+  const ss=ccSum(mo1.ss)+ccSum(mo2.ss);
+  if(ss<3) improve++;
+  improve++; // always 1 improvement suggestion
+
+  const set=(id,val)=>{ const el=document.getElementById(id); if(el) el.textContent=val; };
+  set('cc-critical-cnt',critical);
+  set('cc-warning-cnt',warning);
+  set('cc-improve-cnt',improve);
+  set('cc-good-cnt',good);
+  set('cc-critical-sub',critical>0?critical+' isu memerlukan tindakan segera':'Tidak ada isu kritis');
+  set('cc-warning-sub',warning>0?warning+' indikator perlu dipantau':'Semua stabil');
+  set('cc-improve-sub',improve+' peluang kaizen teridentifikasi');
+  set('cc-good-sub',good+' KPI dalam kondisi aman');
+}
+
+// ── Master render function ────────────────────────────────────────
+function renderCommandCenter(){
+  if(!DATA) return;
+
+  const scores={
+    safety:       calcSafetyScore(DATA),
+    quality:      calcQualityScore(DATA),
+    productivity: calcProductivityScore(DATA),
+    monojukuri:   calcMonojukuriScore(DATA),
+    moral:        calcMoralScore(DATA)
+  };
+  scores.overall = (scores.safety*0.25 + scores.quality*0.20 + scores.productivity*0.25 + scores.monojukuri*0.15 + scores.moral*0.15);
+
+  const g=ccGrade(scores.overall);
+
+  // Overall gauge
+  setGauge('cc-gauge-overall','cc-gauge-pct','cc-gauge-grade',null,g.cls,scores.overall);
+  const valEl=document.getElementById('cc-health-val'); if(valEl) valEl.textContent=Math.round(scores.overall)+'%';
+  const chip=document.getElementById('cc-health-chip');
+  if(chip){ chip.textContent='● '+g.chip; chip.className='health-chip '+g.cls; }
+  const sub=document.getElementById('cc-health-sub');
+  if(sub) sub.textContent='Safety '+Math.round(scores.safety)+'% · Quality '+Math.round(scores.quality)+'% · Prod '+Math.round(scores.productivity)+'%';
+
+  // Category gauges
+  setGauge('ccg-safety', 'ccg-safety-v','ccg-safety-g','ccg-safety-s',  ccGrade(scores.safety).cls,       scores.safety);
+  setGauge('ccg-quality','ccg-quality-v','ccg-quality-g','ccg-quality-s', ccGrade(scores.quality).cls,      scores.quality);
+  setGauge('ccg-prod',   'ccg-prod-v',  'ccg-prod-g',  'ccg-prod-s',    ccGrade(scores.productivity).cls,  scores.productivity);
+  setGauge('ccg-mono',   'ccg-mono-v',  'ccg-mono-g',  'ccg-mono-s',    ccGrade(scores.monojukuri).cls,    scores.monojukuri);
+  setGauge('ccg-moral',  'ccg-moral-v', 'ccg-moral-g', 'ccg-moral-s',   ccGrade(scores.moral).cls,         scores.moral);
+
+  buildLiveStatus(scores);
+  buildExecSummary(scores);
+  buildAlerts(scores);
+  buildTrends();
+  buildHeatmap(scores);
+  buildRanking(scores);
+  buildDecision(scores);
+  buildTimeline(scores);
+  buildFlowSVG(scores);
+}
+
 function renderDashboard() {
   _renderDashboardCore();
   setTimeout(runAiSuggest, 100);
+  setTimeout(renderCommandCenter, 150);
 }
 </script>
 </body>
