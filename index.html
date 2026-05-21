@@ -707,8 +707,267 @@ nav#sidebar {
 /* ═══════════════════════════════
    SPAN HELPERS
 ═══════════════════════════════ */
-.col-span-2 { grid-column: span 2; }
-@media(max-width:560px){ .col-span-2 { grid-column: span 1; } }
+/* ═══════════════════════════════════════════════════════
+   AI SUGGEST / SMART RECOMMENDATION SYSTEM
+═══════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ── */
+.ai-section {
+  margin-top: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  background: var(--bg-white);
+}
+
+.ai-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #f8faff 0%, #eef4ff 100%);
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  user-select: none;
+  gap: 10px;
+}
+
+.ai-section-header:hover {
+  background: linear-gradient(135deg, #eef4ff 0%, #e0ecff 100%);
+}
+
+.ai-header-left {
+  display: flex; align-items: center; gap: 10px;
+}
+
+.ai-brain-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+  flex-shrink: 0;
+}
+
+.ai-section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--blue-800, #1340a0);
+  letter-spacing: 0.3px;
+}
+
+.ai-section-sub {
+  font-size: 0.67rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+.ai-toggle-btn {
+  background: none; border: none;
+  color: var(--text-muted); font-size: 1rem;
+  cursor: pointer; padding: 2px 4px;
+  transition: transform 0.25s ease, color 0.2s;
+  line-height: 1;
+}
+
+.ai-toggle-btn.collapsed { transform: rotate(-90deg); }
+.ai-toggle-btn:hover { color: var(--blue-600); }
+
+.ai-count-badge {
+  background: var(--blue-100);
+  color: var(--blue-700);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border-blue);
+  white-space: nowrap;
+}
+
+/* ── Cards container ── */
+.ai-cards-wrap {
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.ai-cards-wrap.hidden { display: none; }
+
+/* ── Single insight card ── */
+.ai-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: var(--bg-base);
+  position: relative;
+  overflow: hidden;
+  animation: aiCardIn 0.35s ease both;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ai-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+@keyframes aiCardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Status variants */
+.ai-card.status-good {
+  background: linear-gradient(135deg, #f0fdf4 0%, #f8fffe 100%);
+  border-color: #bbf7d0;
+}
+.ai-card.status-warning {
+  background: linear-gradient(135deg, #fffbeb 0%, #fefce8 100%);
+  border-color: #fde68a;
+}
+.ai-card.status-critical {
+  background: linear-gradient(135deg, #fff2f2 0%, #fef2f2 100%);
+  border-color: #fca5a5;
+}
+.ai-card.status-info {
+  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+  border-color: #bfdbfe;
+}
+
+/* Left accent stripe */
+.ai-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 12px 0 0 12px;
+}
+.ai-card.status-good::before   { background: var(--green-600); }
+.ai-card.status-warning::before { background: var(--yellow-600); }
+.ai-card.status-critical::before { background: var(--red-600); }
+.ai-card.status-info::before   { background: var(--blue-600); }
+
+/* Icon */
+.ai-icon-wrap {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+}
+.status-good    .ai-icon-wrap { background: var(--green-100); }
+.status-warning .ai-icon-wrap { background: var(--yellow-100); }
+.status-critical .ai-icon-wrap { background: var(--red-100); }
+.status-info    .ai-icon-wrap { background: var(--blue-100); }
+
+/* Content */
+.ai-content { flex: 1; min-width: 0; }
+
+.ai-card-top {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 5px; flex-wrap: wrap;
+}
+
+.ai-card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-status-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ai-status-badge.good     { background: var(--green-100); color: var(--green-600); border: 1px solid #bbf7d0; }
+.ai-status-badge.warning  { background: var(--yellow-100); color: var(--yellow-600); border: 1px solid #fde68a; }
+.ai-status-badge.critical { background: var(--red-100); color: var(--red-600); border: 1px solid #fca5a5; }
+.ai-status-badge.info     { background: var(--blue-100); color: var(--blue-700); border: 1px solid #bfdbfe; }
+
+.ai-analysis {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 7px;
+}
+
+.ai-action {
+  display: flex; align-items: flex-start; gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.ai-action-arrow {
+  color: var(--blue-600);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ai-card-footer {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px; flex-wrap: wrap;
+}
+
+.ai-priority {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 0.63rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.ai-priority.high   { background: #fef2f2; color: var(--red-600); border: 1px solid #fca5a5; }
+.ai-priority.medium { background: var(--yellow-50); color: var(--yellow-600); border: 1px solid #fde68a; }
+.ai-priority.low    { background: var(--green-50); color: var(--green-600); border: 1px solid #bbf7d0; }
+
+.ai-trend {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 0.63rem; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+}
+.ai-trend.up   { color: var(--red-600); }
+.ai-trend.down { color: var(--green-600); }
+.ai-trend.stable { color: var(--text-muted); }
+
+/* Empty state */
+.ai-empty {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.ai-empty-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+
+/* Stagger animation delay for cards */
+.ai-card:nth-child(1) { animation-delay: 0.04s; }
+.ai-card:nth-child(2) { animation-delay: 0.08s; }
+.ai-card:nth-child(3) { animation-delay: 0.12s; }
+.ai-card:nth-child(4) { animation-delay: 0.16s; }
+.ai-card:nth-child(5) { animation-delay: 0.20s; }
+.ai-card:nth-child(6) { animation-delay: 0.24s; }
+
+@media(max-width:560px){
+  .ai-card { flex-direction: column; gap: 10px; }
+  .ai-icon-wrap { width: 32px; height: 32px; font-size: 15px; }
+}
+
 </style>
 </head>
 <body>
@@ -719,7 +978,7 @@ nav#sidebar {
 <div id="uploadScreen">
   <div class="upload-logo">
     <div class="upload-logo-mark">⚙</div>
-    <h1>Casting-2 Production <span>KPI</span></h1>
+    <h1>Casting-2 Production</span></h1>
     <p>Finishing Performance Dashboard · Light Edition</p>
   </div>
 
@@ -879,6 +1138,24 @@ nav#sidebar {
           </div>
           <div class="chart-wrap"><canvas id="chart-hyt-detail"></canvas></div>
         </div>
+
+        <!-- AI SUGGEST — SAFETY -->
+        <div class="ai-section">
+          <div class="ai-section-header" onclick="toggleAiSection('ai-safety')">
+            <div class="ai-header-left">
+              <div class="ai-brain-icon">🤖</div>
+              <div>
+                <div class="ai-section-title">AI Smart Insight — Safety</div>
+                <div class="ai-section-sub">Analisa otomatis berdasarkan data KPI safety</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="ai-count-badge" id="ai-safety-count">–</span>
+              <button class="ai-toggle-btn" id="ai-safety-toggle">▾</button>
+            </div>
+          </div>
+          <div class="ai-cards-wrap" id="ai-safety"></div>
+        </div>
       </div>
 
       <!-- ═══ B. QUALITY ═══ -->
@@ -932,6 +1209,24 @@ nav#sidebar {
         <div class="card">
           <div class="card-header"><span class="card-title">Perbandingan Grup — Flowout &amp; Patrol</span></div>
           <div class="chart-wrap"><canvas id="chart-quality-compare"></canvas></div>
+        </div>
+
+        <!-- AI SUGGEST — QUALITY -->
+        <div class="ai-section">
+          <div class="ai-section-header" onclick="toggleAiSection('ai-quality')">
+            <div class="ai-header-left">
+              <div class="ai-brain-icon">🤖</div>
+              <div>
+                <div class="ai-section-title">AI Smart Insight — Quality</div>
+                <div class="ai-section-sub">Analisa otomatis flowout, patrol, dan quality leakage</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="ai-count-badge" id="ai-quality-count">–</span>
+              <button class="ai-toggle-btn" id="ai-quality-toggle">▾</button>
+            </div>
+          </div>
+          <div class="ai-cards-wrap" id="ai-quality"></div>
         </div>
       </div>
 
@@ -1004,6 +1299,24 @@ nav#sidebar {
           <div class="card-header"><span class="card-title">Losstime Total — Group Comparison Trend</span></div>
           <div class="chart-wrap"><canvas id="chart-loss-trend" style="max-height:220px"></canvas></div>
         </div>
+
+        <!-- AI SUGGEST — PRODUCTIVITY -->
+        <div class="ai-section">
+          <div class="ai-section-header" onclick="toggleAiSection('ai-productivity')">
+            <div class="ai-header-left">
+              <div class="ai-brain-icon">🤖</div>
+              <div>
+                <div class="ai-section-title">AI Smart Insight — Productivity</div>
+                <div class="ai-section-sub">Analisa output, losstime, dan efisiensi produksi</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="ai-count-badge" id="ai-productivity-count">–</span>
+              <button class="ai-toggle-btn" id="ai-productivity-toggle">▾</button>
+            </div>
+          </div>
+          <div class="ai-cards-wrap" id="ai-productivity"></div>
+        </div>
       </div>
 
       <!-- ═══ D. MONOJUKURI ═══ -->
@@ -1063,6 +1376,24 @@ nav#sidebar {
           <div class="card-header"><span class="card-title">MH Plan vs Aktual — Per Minggu (Both Groups)</span></div>
           <div class="chart-wrap"><canvas id="chart-mh-weekly" style="max-height:260px"></canvas></div>
         </div>
+
+        <!-- AI SUGGEST — MONOJUKURI -->
+        <div class="ai-section">
+          <div class="ai-section-header" onclick="toggleAiSection('ai-monojukuri')">
+            <div class="ai-header-left">
+              <div class="ai-brain-icon">🤖</div>
+              <div>
+                <div class="ai-section-title">AI Smart Insight — Monojukuri</div>
+                <div class="ai-section-sub">Analisa gentani, man-hour, dan efisiensi improvement</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="ai-count-badge" id="ai-monojukuri-count">–</span>
+              <button class="ai-toggle-btn" id="ai-monojukuri-toggle">▾</button>
+            </div>
+          </div>
+          <div class="ai-cards-wrap" id="ai-monojukuri"></div>
+        </div>
       </div>
 
       <!-- ═══ E. MORAL ═══ -->
@@ -1109,6 +1440,24 @@ nav#sidebar {
               <tbody id="moral-table-body"></tbody>
             </table>
           </div>
+        </div>
+
+        <!-- AI SUGGEST — MORAL -->
+        <div class="ai-section">
+          <div class="ai-section-header" onclick="toggleAiSection('ai-moral')">
+            <div class="ai-header-left">
+              <div class="ai-brain-icon">🤖</div>
+              <div>
+                <div class="ai-section-title">AI Smart Insight — Moral</div>
+                <div class="ai-section-sub">Analisa engagement, disiplin, dan budaya improvement</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="ai-count-badge" id="ai-moral-count">–</span>
+              <button class="ai-toggle-btn" id="ai-moral-toggle">▾</button>
+            </div>
+          </div>
+          <div class="ai-cards-wrap" id="ai-moral"></div>
         </div>
       </div>
 
@@ -1489,9 +1838,7 @@ plugins: {
       size:12
     }
   }
-}
-    }
-  },
+},
   scales: {
     x: {
       ticks: {
@@ -1546,7 +1893,7 @@ const days = () => DATA.dates.map(v=>'H'+v);
 // ═══════════════════════════════════════
 // RENDER ALL
 // ═══════════════════════════════════════
-function renderDashboard(){
+function _renderDashboardCore(){
   renderSafety();
   renderQuality();
   renderProductivity();
@@ -1657,7 +2004,7 @@ function renderQuality(){
     options:{
       plugins: {
         legend:{ display:false },
-        ...DL_BAR
+        datalabels: DL_BAR.datalabels
       }
     }
   });
@@ -1703,7 +2050,7 @@ function renderProductivity(){
 
   const doughnutOpts = {
     scales:{ x:{display:false}, y:{display:false} },
-    plugins:{ legend:{ position:'right' }, ...DL_DONUT }
+    plugins:{ legend:{ position:'right' }, datalabels: DL_DONUT.datalabels }
   };
 
   makeChart('chart-loss-katun',{
@@ -1894,6 +2241,639 @@ function renderMoral(){
         <td>${badge}</td>
       </tr>`;
   });
+}  // end renderMoral
+
+// ════════════════════════════════════════════════════════════════
+// AI SMART INSIGHT ENGINE
+// Rule-based recommendation system — local, no external API
+// ════════════════════════════════════════════════════════════════
+
+// ── Toggle collapse ──────────────────────────────────────────────
+function toggleAiSection(id) {
+  const wrap = document.getElementById(id);
+  const btn  = document.getElementById(id + '-toggle');
+  if (!wrap) return;
+  const hidden = wrap.classList.toggle('hidden');
+  if (btn) {
+    btn.textContent = hidden ? '▾' : '▾';
+    btn.classList.toggle('collapsed', hidden);
+  }
+}
+
+// ── Render a single insight card ────────────────────────────────
+function aiCard({ icon, title, status, analysis, action, priority, trend, trendLabel, delay }) {
+  const statusMap = {
+    good:     { badge:'AMAN',     cls:'good',     iconBg:'status-good'     },
+    warning:  { badge:'WARNING',  cls:'warning',  iconBg:'status-warning'  },
+    critical: { badge:'CRITICAL', cls:'critical', iconBg:'status-critical' },
+    info:     { badge:'INFO',     cls:'info',     iconBg:'status-info'     },
+  };
+  const s = statusMap[status] || statusMap['info'];
+
+  const priorityMap = {
+    high:   { label:'⬆ PRIORITAS TINGGI', cls:'high'   },
+    medium: { label:'● PRIORITAS SEDANG', cls:'medium' },
+    low:    { label:'⬇ PRIORITAS RENDAH', cls:'low'    },
+  };
+  const p = priorityMap[priority] || priorityMap['medium'];
+
+  let trendHtml = '';
+  if (trend && trendLabel) {
+    const tClass = trend === 'up' ? 'up' : trend === 'down' ? 'down' : 'stable';
+    const tArrow = trend === 'up' ? '▲' : trend === 'down' ? '▼' : '→';
+    trendHtml = `<span class="ai-trend ${tClass}">${tArrow} ${trendLabel}</span>`;
+  }
+
+  const styleDelay = delay ? `animation-delay:${delay}s` : '';
+
+  return `
+  <div class="ai-card status-${s.iconBg}" style="${styleDelay}">
+    <div class="ai-icon-wrap">${icon}</div>
+    <div class="ai-content">
+      <div class="ai-card-top">
+        <span class="ai-card-title">${title}</span>
+        <span class="ai-status-badge ${s.cls}">${s.badge}</span>
+      </div>
+      <div class="ai-analysis">${analysis}</div>
+      <div class="ai-action"><span class="ai-action-arrow">→</span><span>${action}</span></div>
+      <div class="ai-card-footer">
+        <span class="ai-priority ${p.cls}">${p.label}</span>
+        ${trendHtml}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── Set section (renders all cards into a container) ─────────────
+function setAiSection(sectionId, cards) {
+  const wrap  = document.getElementById(sectionId);
+  const badge = document.getElementById(sectionId + '-count');
+  if (!wrap) return;
+
+  if (!cards || cards.length === 0) {
+    wrap.innerHTML = `
+      <div class="ai-empty">
+        <span class="ai-empty-icon">✅</span>
+        Semua indikator dalam kondisi normal. Pertahankan performa!
+      </div>`;
+    if (badge) badge.textContent = '0 insight';
+    return;
+  }
+
+  wrap.innerHTML = cards.join('');
+  if (badge) badge.textContent = cards.length + (cards.length === 1 ? ' insight' : ' insights');
+}
+
+// ── Utility helpers ──────────────────────────────────────────────
+const aiSum  = arr => (arr || []).filter(x => x != null).reduce((a, b) => a + b, 0);
+const aiAvg  = arr => { const f = (arr || []).filter(x => x != null && x > 0); return f.length ? f.reduce((a, b) => a + b) / f.length : 0; };
+const aiPct  = (a, b) => b > 0 ? (a / b) * 100 : 0;
+// Non-null days count (how far into the month are we)
+const aiDays = arr => (arr || []).filter(x => x != null && x > 0).length;
+// Last N non-null values
+const aiLast = (arr, n) => (arr || []).filter(x => x != null).slice(-n);
+
+// ── Main runner — called after every renderDashboard() ───────────
+function runAiSuggest() {
+  if (!DATA) return;
+  genSafetySuggests();
+  genQualitySuggests();
+  genProductivitySuggests();
+  genMonojukriSuggests();
+  genMoralSuggests();
+}
+
+// ════════════════════════════════════════════════════════════════
+// A. SAFETY RULES
+// ════════════════════════════════════════════════════════════════
+function genSafetySuggests() {
+  const s1 = DATA.katun.safety;
+  const s2 = DATA.kusuma.safety;
+  const cards = [];
+
+  // 1. Accident
+  const acc1 = aiSum(s1.accident), acc2 = aiSum(s2.accident);
+  if (acc1 > 0 || acc2 > 0) {
+    const who = acc1 > 0 && acc2 > 0 ? 'Katun & Kusuma'
+              : acc1 > 0 ? 'Katun' : 'Kusuma';
+    cards.push(aiCard({
+      icon: '🚨', title: 'Accident Terjadi',
+      status: 'critical', priority: 'high',
+      analysis: `Tercatat ${acc1 + acc2} kejadian accident di grup ${who}. Setiap accident memerlukan investigasi root cause segera.`,
+      action: 'Laksanakan accident investigation, buat laporan 5-Why, dan terapkan countermeasure permanen dalam 24 jam.',
+      trend: 'up', trendLabel: `${acc1 + acc2} kejadian`
+    }));
+  } else {
+    cards.push(aiCard({
+      icon: '🛡️', title: 'Zero Accident',
+      status: 'good', priority: 'low',
+      analysis: 'Tidak ada kejadian accident pada periode ini. Performa safety excellent.',
+      action: 'Pertahankan safety culture dan lanjutkan patrol HYT/KYT secara konsisten.',
+      trend: 'stable', trendLabel: '0 accident'
+    }));
+  }
+
+  // 2. HYT Plan vs Actual
+  const hytPlan1 = aiSum(s1.hyt_plan), hytAct1 = aiSum(s1.hyt_actual);
+  const hytPlan2 = aiSum(s2.hyt_plan), hytAct2 = aiSum(s2.hyt_actual);
+  const hytPct1 = aiPct(hytAct1, hytPlan1);
+  const hytPct2 = aiPct(hytAct2, hytPlan2);
+  const hytMinPct = Math.min(hytPct1, hytPct2);
+
+  if (hytMinPct < 70) {
+    const laggingGroup = hytPct1 < hytPct2 ? 'Katun' : 'Kusuma';
+    cards.push(aiCard({
+      icon: '📋', title: 'HYT Aktual Jauh di Bawah Target',
+      status: 'critical', priority: 'high',
+      analysis: `Capaian HYT Katun ${hytPct1.toFixed(0)}% dan Kusuma ${hytPct2.toFixed(0)}% dari plan. Grup ${laggingGroup} paling perlu perhatian.`,
+      action: 'Tingkatkan intensitas safety patrol harian. Leader wajib memimpin HYT setiap shift dan mencatat hasilnya.',
+      trend: 'down', trendLabel: `Min ${hytMinPct.toFixed(0)}%`
+    }));
+  } else if (hytMinPct < 90) {
+    cards.push(aiCard({
+      icon: '📋', title: 'HYT Perlu Peningkatan',
+      status: 'warning', priority: 'medium',
+      analysis: `Capaian HYT Katun ${hytPct1.toFixed(0)}% dan Kusuma ${hytPct2.toFixed(0)}%. Masih ada gap terhadap target bulanan.`,
+      action: 'Reminder leader untuk safety patrol rutin. Jadwalkan HYT di awal shift dan dokumentasikan setiap temuan.',
+      trend: 'stable', trendLabel: `Avg ${((hytPct1+hytPct2)/2).toFixed(0)}%`
+    }));
+  } else {
+    cards.push(aiCard({
+      icon: '📋', title: 'HYT Mencapai Target',
+      status: 'good', priority: 'low',
+      analysis: `HYT Katun ${hytPct1.toFixed(0)}% dan Kusuma ${hytPct2.toFixed(0)}%. Aktivitas HYT berjalan dengan baik.`,
+      action: 'Pertahankan konsistensi patrol HYT. Dokumentasikan best practice untuk referensi improvement berikutnya.',
+      trend: 'stable', trendLabel: 'On Target'
+    }));
+  }
+
+  // 3. HYT Remain (open findings)
+  const remain1 = aiSum(s1.remain), remain2 = aiSum(s2.remain);
+  const totalRemain = remain1 + remain2;
+  const totalTemuan = aiSum(s1.hyt_temuan) + aiSum(s2.hyt_temuan);
+  if (totalRemain > 0) {
+    const remainPct = aiPct(totalRemain, totalTemuan);
+    const st = remainPct > 50 ? 'critical' : remainPct > 25 ? 'warning' : 'info';
+    const pr = remainPct > 50 ? 'high' : 'medium';
+    cards.push(aiCard({
+      icon: '⚠️', title: 'HYT Remain Belum Closing',
+      status: st, priority: pr,
+      analysis: `Terdapat ${totalRemain} temuan yang belum di-closing (Katun: ${remain1}, Kusuma: ${remain2}). ${remainPct.toFixed(0)}% dari total temuan masih terbuka.`,
+      action: 'Prioritaskan closing finding HYT sebelum shift berikutnya. PIC temuan wajib melaporkan progress harian kepada leader.',
+      trend: remain1 + remain2 > 0 ? 'up' : 'stable',
+      trendLabel: `${totalRemain} open finding`
+    }));
+  }
+
+  // 4. KYT Plan vs Actual
+  const kytPlan1 = s1.kyt_plan || 0, kytAct1 = s1.kyt_actual || 0;
+  const kytPlan2 = s2.kyt_plan || 0, kytAct2 = s2.kyt_actual || 0;
+  const kytPct1 = aiPct(kytAct1, kytPlan1);
+  const kytPct2 = aiPct(kytAct2, kytPlan2);
+  if ((kytPct1 < 80 || kytPct2 < 80) && (kytPlan1 > 0 || kytPlan2 > 0)) {
+    const lagging = kytPct1 < kytPct2 ? `Katun (${kytPct1.toFixed(0)}%)` : `Kusuma (${kytPct2.toFixed(0)}%)`;
+    cards.push(aiCard({
+      icon: '🎯', title: 'KYT Activity Belum Stabil',
+      status: kytPct1 < 60 || kytPct2 < 60 ? 'critical' : 'warning',
+      priority: kytPct1 < 60 || kytPct2 < 60 ? 'high' : 'medium',
+      analysis: `Capaian KYT Katun: ${kytAct1}/${kytPlan1} (${kytPct1.toFixed(0)}%), Kusuma: ${kytAct2}/${kytPlan2} (${kytPct2.toFixed(0)}%). ${lagging} paling tertinggal.`,
+      action: 'Wajibkan KYT briefing sebelum start produksi setiap hari. Leader memimpin dan mendokumentasikan topik KYT harian.',
+      trend: 'down', trendLabel: `Min ${Math.min(kytPct1, kytPct2).toFixed(0)}%`
+    }));
+  } else if (kytPlan1 > 0 || kytPlan2 > 0) {
+    cards.push(aiCard({
+      icon: '🎯', title: 'KYT Activity Konsisten',
+      status: 'good', priority: 'low',
+      analysis: `KYT Katun: ${kytAct1}/${kytPlan1} (${kytPct1.toFixed(0)}%), Kusuma: ${kytAct2}/${kytPlan2} (${kytPct2.toFixed(0)}%). Safety culture berjalan dengan baik.`,
+      action: 'Variasikan topik KYT agar tidak repetitif. Libatkan operator untuk berbagi pengalaman hazard di area masing-masing.',
+      trend: 'stable', trendLabel: 'Konsisten'
+    }));
+  }
+
+  setAiSection('ai-safety', cards);
+}
+
+// ════════════════════════════════════════════════════════════════
+// B. QUALITY RULES
+// ════════════════════════════════════════════════════════════════
+function genQualitySuggests() {
+  const q1 = DATA.katun.quality;
+  const q2 = DATA.kusuma.quality;
+  const cards = [];
+
+  const flow1 = aiSum(q1.flowout), flow2 = aiSum(q2.flowout);
+  const pat1  = aiSum(q1.patrol),  pat2  = aiSum(q2.patrol);
+  const days1 = aiDays(q1.flowout), days2 = aiDays(q2.flowout);
+
+  // 1. Flowout analysis
+  if (flow1 > 0 || flow2 > 0) {
+    const total = flow1 + flow2;
+    const worse = flow1 > flow2 ? 'Katun' : 'Kusuma';
+    cards.push(aiCard({
+      icon: '🔍', title: 'Flowout Terdeteksi',
+      status: total > 5 ? 'critical' : 'warning',
+      priority: total > 5 ? 'high' : 'medium',
+      analysis: `Total flowout: ${total} unit (Katun: ${flow1}, Kusuma: ${flow2}). Grup ${worse} memiliki flowout lebih tinggi. Setiap flowout adalah indikasi quality leakage ke customer.`,
+      action: 'Tingkatkan double-checking pada final inspection. Identifikasi defect type terbanyak dan terapkan poka-yoke pada sumber masalah.',
+      trend: total > 0 ? 'up' : 'stable', trendLabel: `${total} unit flowout`
+    }));
+  } else {
+    cards.push(aiCard({
+      icon: '✅', title: 'Zero Flowout',
+      status: 'good', priority: 'low',
+      analysis: 'Tidak ada flowout pada periode ini. Kualitas produk terjaga dengan baik.',
+      action: 'Pertahankan standar inspection. Dokumentasikan poin kontrol kritis yang berkontribusi pada zero flowout ini.',
+      trend: 'stable', trendLabel: '0 unit flowout'
+    }));
+  }
+
+  // 2. Patrol internal analysis
+  // Estimate days worked based on flowout data length
+  const workDays = Math.max(days1, days2, 1);
+  const dailyPatrol1 = days1 > 0 ? pat1 / days1 : 0;
+  const dailyPatrol2 = days2 > 0 ? pat2 / days2 : 0;
+
+  if (pat1 === 0 && pat2 === 0) {
+    cards.push(aiCard({
+      icon: '🔎', title: 'Patrol Internal Belum Ada Data',
+      status: 'warning', priority: 'medium',
+      analysis: 'Tidak ada data patrol internal yang tercatat pada periode ini. Patrol internal merupakan deteksi dini penting untuk mencegah defect melonjak.',
+      action: 'Pastikan leader melakukan patrol internal setiap shift dan mencatat temuan secara konsisten di form check sheet.',
+      trend: 'stable', trendLabel: 'No data'
+    }));
+  } else {
+    const totalPatrol = pat1 + pat2;
+    const avgPatrolPerDay = totalPatrol / workDays;
+    if (avgPatrolPerDay < 1) {
+      cards.push(aiCard({
+        icon: '🔎', title: 'Frekuensi Patrol Internal Rendah',
+        status: 'warning', priority: 'medium',
+        analysis: `Rata-rata patrol Katun ${dailyPatrol1.toFixed(1)}/hari, Kusuma ${dailyPatrol2.toFixed(1)}/hari. Frekuensi patrol perlu ditingkatkan untuk deteksi dini defect.`,
+        action: 'Tetapkan jadwal patrol internal minimal 1x/shift. Leader bertanggung jawab mendokumentasikan setiap temuan patrol.',
+        trend: 'down', trendLabel: `${avgPatrolPerDay.toFixed(1)} patrol/hari`
+      }));
+    } else {
+      cards.push(aiCard({
+        icon: '🔎', title: 'Patrol Internal Aktif',
+        status: 'good', priority: 'low',
+        analysis: `Patrol internal Katun: ${pat1} temuan, Kusuma: ${pat2} temuan. Aktivitas patrol berjalan dan quality monitoring aktif.`,
+        action: 'Pastikan semua temuan patrol segera ditindaklanjuti. Buat trend temuan untuk identifikasi pola defect berulang.',
+        trend: 'stable', trendLabel: `${totalPatrol} temuan total`
+      }));
+    }
+  }
+
+  // 3. Cross-analysis: flowout vs patrol
+  if ((flow1 + flow2 > 0) && (pat1 + pat2 > 0)) {
+    cards.push(aiCard({
+      icon: '📊', title: 'Analisa Quality Leakage',
+      status: 'info', priority: 'medium',
+      analysis: `Meski patrol aktif (${pat1 + pat2} temuan), flowout masih terjadi (${flow1 + flow2} unit). Ada indikasi masih terdapat gap pada inspection coverage atau standar acceptance.`,
+      action: 'Review titik-titik inspection yang terlewat. Evaluasi apakah standar WI inspection sudah diikuti dan update jika diperlukan.',
+      trend: 'stable', trendLabel: 'Perlu review'
+    }));
+  }
+
+  setAiSection('ai-quality', cards);
+}
+
+// ════════════════════════════════════════════════════════════════
+// C. PRODUCTIVITY RULES
+// ════════════════════════════════════════════════════════════════
+function genProductivitySuggests() {
+  const p1 = DATA.katun.productivity;
+  const p2 = DATA.kusuma.productivity;
+  const cards = [];
+
+  const avgProd1 = aiAvg(p1.prod_actual);
+  const avgProd2 = aiAvg(p2.prod_actual);
+  const prodTarget = 94;
+  const lossTarget = 6;
+  const avgLoss1 = aiAvg(p1.losstime_total.filter(v => v != null && v > 0));
+  const avgLoss2 = aiAvg(p2.losstime_total.filter(v => v != null && v > 0));
+
+  // 1. Productivity vs target
+  const worstProd = Math.min(avgProd1, avgProd2);
+  const bestProd  = Math.max(avgProd1, avgProd2);
+  const gapWorst  = prodTarget - worstProd;
+
+  if (worstProd < 80) {
+    const lagging = avgProd1 < avgProd2 ? `Katun (${avgProd1.toFixed(1)}%)` : `Kusuma (${avgProd2.toFixed(1)}%)`;
+    cards.push(aiCard({
+      icon: '⚡', title: 'Produktivitas Jauh di Bawah Target',
+      status: 'critical', priority: 'high',
+      analysis: `Rata-rata productivity Katun: ${avgProd1.toFixed(1)}%, Kusuma: ${avgProd2.toFixed(1)}%. Target 94%. Gap terbesar di ${lagging} (${gapWorst.toFixed(1)}% di bawah target).`,
+      action: 'Lakukan investigasi bottleneck proses segera. Identifikasi downtime terbesar, review cycle time, dan pastikan kecukupan manpower setiap shift.',
+      trend: 'down', trendLabel: `Gap ${gapWorst.toFixed(1)}% vs target`
+    }));
+  } else if (worstProd < prodTarget) {
+    cards.push(aiCard({
+      icon: '⚡', title: 'Produktivitas Perlu Peningkatan',
+      status: 'warning', priority: 'medium',
+      analysis: `Rata-rata Katun ${avgProd1.toFixed(1)}%, Kusuma ${avgProd2.toFixed(1)}% (target ${prodTarget}%). Terdapat gap yang perlu diatasi untuk mencapai target bulanan.`,
+      action: 'Identifikasi hari-hari dengan productivity rendah. Fokuskan improvement pada shift dengan capaian di bawah rata-rata grup lainnya.',
+      trend: avgProd1 < prodTarget || avgProd2 < prodTarget ? 'down' : 'stable',
+      trendLabel: `Avg ${((avgProd1 + avgProd2)/2).toFixed(1)}%`
+    }));
+  } else {
+    cards.push(aiCard({
+      icon: '⚡', title: 'Target Produktivitas Tercapai',
+      status: 'good', priority: 'low',
+      analysis: `Rata-rata Katun ${avgProd1.toFixed(1)}%, Kusuma ${avgProd2.toFixed(1)}%. Kedua grup mencapai target ${prodTarget}%.`,
+      action: 'Pertahankan konsistensi. Identifikasi hari-hari terbaik dan replikasi kondisinya sebagai standar operasi ideal.',
+      trend: 'stable', trendLabel: 'On Target'
+    }));
+  }
+
+  // 2. Losstime analysis
+  const worstLoss = Math.max(avgLoss1, avgLoss2);
+  if (worstLoss > lossTarget * 2) {
+    const high = avgLoss1 > avgLoss2 ? `Katun (${avgLoss1.toFixed(1)} min)` : `Kusuma (${avgLoss2.toFixed(1)} min)`;
+    cards.push(aiCard({
+      icon: '⏱️', title: 'Losstime Sangat Tinggi',
+      status: 'critical', priority: 'high',
+      analysis: `Losstime Katun ${avgLoss1.toFixed(1)} min/unit, Kusuma ${avgLoss2.toFixed(1)} min/unit. Target ≤${lossTarget} min. ${high} melebihi 2x target.`,
+      action: 'Analisa breakdown losstime per kategori (H.Material, H.Packaging, BDT, Personal, TC, CT). Fokus countermeasure pada kategori dengan kontribusi terbesar.',
+      trend: 'up', trendLabel: `Max ${worstLoss.toFixed(1)} min`
+    }));
+  } else if (worstLoss > lossTarget) {
+    cards.push(aiCard({
+      icon: '⏱️', title: 'Losstime Melebihi Target',
+      status: 'warning', priority: 'medium',
+      analysis: `Losstime Katun ${avgLoss1.toFixed(1)} min/unit, Kusuma ${avgLoss2.toFixed(1)} min/unit. Target ≤${lossTarget} min. Perlu improvement pada aktivitas yang menyebabkan loss.`,
+      action: 'Review kategori losstime terbesar dari breakdown chart. Terapkan kaizen kecil pada aktivitas dengan losstime terbanyak untuk quick win.',
+      trend: 'up', trendLabel: `Avg ${((avgLoss1 + avgLoss2)/2).toFixed(1)} min`
+    }));
+  } else if (worstLoss > 0) {
+    cards.push(aiCard({
+      icon: '⏱️', title: 'Losstime Terkendali',
+      status: 'good', priority: 'low',
+      analysis: `Losstime Katun ${avgLoss1.toFixed(1)} min/unit, Kusuma ${avgLoss2.toFixed(1)} min/unit. Masih dalam batas target ≤${lossTarget} min.`,
+      action: 'Pertahankan dan coba turunkan losstime lebih jauh. Identifikasi peluang kaizen yang bisa mengurangi waktu tunggu dan motion.',
+      trend: 'stable', trendLabel: 'Within Target'
+    }));
+  }
+
+  // 3. Losstime dominant category
+  const lossK = [aiSum(p1.losstime_hm), aiSum(p1.losstime_hp), aiSum(p1.losstime_bdt), aiSum(p1.losstime_personal), aiSum(p1.losstime_tc), aiSum(p1.losstime_ct)];
+  const lossNames = ['Handling Material', 'Handling Packaging', 'BDT', 'Personal', 'TC', 'CT'];
+  const maxLossIdx = lossK.indexOf(Math.max(...lossK));
+  const maxLossVal = lossK[maxLossIdx];
+  if (maxLossVal > 0) {
+    const totalLossK = lossK.reduce((a, b) => a + b, 0);
+    const pctDom = aiPct(maxLossVal, totalLossK);
+    if (pctDom > 30) {
+      cards.push(aiCard({
+        icon: '📉', title: `Losstime Dominan: ${lossNames[maxLossIdx]}`,
+        status: pctDom > 50 ? 'critical' : 'warning', priority: 'medium',
+        analysis: `Kategori "${lossNames[maxLossIdx]}" menyumbang ${pctDom.toFixed(0)}% dari total losstime Katun. Ini adalah area improvement dengan dampak terbesar.`,
+        action: `Fokuskan kaizen pada pengurangan ${lossNames[maxLossIdx]}. Buat one-point lesson dan standarisasi proses untuk menghilangkan waste utama ini.`,
+        trend: 'up', trendLabel: `${pctDom.toFixed(0)}% dari total loss`
+      }));
+    }
+  }
+
+  setAiSection('ai-productivity', cards);
+}
+
+// ════════════════════════════════════════════════════════════════
+// D. MONOJUKURI RULES
+// ════════════════════════════════════════════════════════════════
+function genMonojukriSuggests() {
+  const m1 = DATA.katun.monojukuri;
+  const m2 = DATA.kusuma.monojukuri;
+  const cards = [];
+
+  const gentaniPlan1 = aiAvg(m1.gentani_plan);
+  const gentaniAct1  = aiAvg(m1.gentani_actual.filter(v => v != null && v > 0));
+  const gentaniPlan2 = aiAvg(m2.gentani_plan);
+  const gentaniAct2  = aiAvg(m2.gentani_actual.filter(v => v != null && v > 0));
+
+  // 1. Gentani plan vs actual
+  const gentaniGap1 = gentaniAct1 - gentaniPlan1;
+  const gentaniGap2 = gentaniAct2 - gentaniPlan2;
+
+  // Positive gap means actual > plan (slower = bad in cycle time context)
+  if (gentaniGap1 > 5 || gentaniGap2 > 5) {
+    const worse = gentaniGap1 > gentaniGap2 ? 'Katun' : 'Kusuma';
+    const gap = Math.max(gentaniGap1, gentaniGap2);
+    cards.push(aiCard({
+      icon: '📐', title: 'Gentani Aktual Melebihi Plan',
+      status: gap > 10 ? 'critical' : 'warning', priority: gap > 10 ? 'high' : 'medium',
+      analysis: `Katun: plan ${gentaniPlan1.toFixed(0)}s, aktual ${gentaniAct1.toFixed(1)}s (gap +${gentaniGap1.toFixed(1)}s). Kusuma: plan ${gentaniPlan2.toFixed(0)}s, aktual ${gentaniAct2.toFixed(1)}s (gap +${gentaniGap2.toFixed(1)}s). Grup ${worse} paling tertinggal.`,
+      action: 'Review proses dengan cycle time terpanjang. Identifikasi motion loss, waiting, dan re-work yang menambah waktu siklus aktual.',
+      trend: 'up', trendLabel: `Gap max +${gap.toFixed(1)}s`
+    }));
+  } else if (gentaniAct1 > 0 && gentaniAct2 > 0) {
+    const bestGap = Math.min(Math.abs(gentaniGap1), Math.abs(gentaniGap2));
+    cards.push(aiCard({
+      icon: '📐', title: 'Gentani Sesuai Target',
+      status: 'good', priority: 'low',
+      analysis: `Katun: aktual ${gentaniAct1.toFixed(1)}s vs plan ${gentaniPlan1.toFixed(0)}s. Kusuma: aktual ${gentaniAct2.toFixed(1)}s vs plan ${gentaniPlan2.toFixed(0)}s. Cycle time terkendali.`,
+      action: 'Pertahankan dan cari peluang improvement untuk menekan gentani lebih jauh. Libatkan operator dalam identifikasi micro-improvement.',
+      trend: 'stable', trendLabel: 'On Plan'
+    }));
+  }
+
+  // 2. MH plan vs actual (monthly)
+  const mhPlanTot1 = m1.mh_month.plan.reduce((a, b) => a + b, 0);
+  const mhActTot1  = m1.mh_month.actual.reduce((a, b) => a + b, 0);
+  const mhPlanTot2 = m2.mh_month.plan.reduce((a, b) => a + b, 0);
+  const mhActTot2  = m2.mh_month.actual.reduce((a, b) => a + b, 0);
+
+  if (mhPlanTot1 > 0 || mhPlanTot2 > 0) {
+    const mhEff1 = mhPlanTot1 > 0 ? aiPct(mhActTot1, mhPlanTot1) : 0;
+    const mhEff2 = mhPlanTot2 > 0 ? aiPct(mhActTot2, mhPlanTot2) : 0;
+
+    if (mhEff1 > 110 || mhEff2 > 110) {
+      const over = mhEff1 > mhEff2 ? `Katun (${mhEff1.toFixed(0)}%)` : `Kusuma (${mhEff2.toFixed(0)}%)`;
+      cards.push(aiCard({
+        icon: '👥', title: 'MH Aktual Melebihi Plan',
+        status: 'warning', priority: 'medium',
+        analysis: `MH efisiensi Katun: ${mhEff1.toFixed(0)}%, Kusuma: ${mhEff2.toFixed(0)}% dari plan. ${over} menggunakan jam kerja melebihi rencana, berpotensi cost overrun.`,
+        action: 'Review distribusi kerja dan cycle time. Identifikasi overtime yang dapat dihindari melalui perbaikan alur proses dan keseimbangan beban kerja.',
+        trend: 'up', trendLabel: `Max ${Math.max(mhEff1, mhEff2).toFixed(0)}% dari plan`
+      }));
+    } else if (mhEff1 < 80 || mhEff2 < 80) {
+      const under = mhEff1 < mhEff2 ? `Katun (${mhEff1.toFixed(0)}%)` : `Kusuma (${mhEff2.toFixed(0)}%)`;
+      cards.push(aiCard({
+        icon: '👥', title: 'MH Aktual di Bawah Plan',
+        status: 'info', priority: 'low',
+        analysis: `MH realisasi Katun ${mhEff1.toFixed(0)}%, Kusuma ${mhEff2.toFixed(0)}% dari plan. ${under} perlu diperiksa — bisa indikasi produksi tidak berjalan sesuai rencana.`,
+        action: 'Verifikasi data MH dan cross-check dengan output produksi. Pastikan tidak ada absensi massal atau downtime panjang yang tidak tercatat.',
+        trend: 'down', trendLabel: `Min ${Math.min(mhEff1, mhEff2).toFixed(0)}% realisasi`
+      }));
+    } else {
+      cards.push(aiCard({
+        icon: '👥', title: 'MH Efisiensi Optimal',
+        status: 'good', priority: 'low',
+        analysis: `MH realisasi Katun ${mhEff1.toFixed(0)}%, Kusuma ${mhEff2.toFixed(0)}% dari plan. Penggunaan jam kerja sesuai rencana.`,
+        action: 'Pertahankan efisiensi MH. Dorong improvement kecil untuk menurunkan MH plan secara bertahap melalui aktivitas monojukuri.',
+        trend: 'stable', trendLabel: 'Sesuai Plan'
+      }));
+    }
+  }
+
+  // 3. Weekly MH trend
+  const weeklyAct1 = m1.mh_weekly.actual.filter(v => v > 0);
+  const weeklyAct2 = m2.mh_weekly.actual.filter(v => v > 0);
+  if (weeklyAct1.length >= 2) {
+    const lastTwo1 = weeklyAct1.slice(-2);
+    const trend1 = lastTwo1[1] - lastTwo1[0];
+    if (trend1 > 100) {
+      cards.push(aiCard({
+        icon: '📈', title: 'MH Mingguan Katun Meningkat',
+        status: 'warning', priority: 'medium',
+        analysis: `MH Katun minggu terakhir (${lastTwo1[1].toFixed(0)}) naik ${trend1.toFixed(0)} dari minggu sebelumnya (${lastTwo1[0].toFixed(0)}). Tren peningkatan konsumsi MH perlu dipantau.`,
+        action: 'Identifikasi penyebab peningkatan MH minggu ini. Periksa apakah ada pekerjaan tambahan, rework, atau model change yang belum diantisipasi.',
+        trend: 'up', trendLabel: `+${trend1.toFixed(0)} MH/minggu`
+      }));
+    }
+  }
+
+  setAiSection('ai-monojukuri', cards);
+}
+
+// ════════════════════════════════════════════════════════════════
+// E. MORAL RULES
+// ════════════════════════════════════════════════════════════════
+function genMoralSuggests() {
+  const mo1 = DATA.katun.moral;
+  const mo2 = DATA.kusuma.moral;
+  const cards = [];
+
+  const qcc1  = aiSum(mo1.qcc),  qcc2  = aiSum(mo2.qcc);
+  const ss1   = aiSum(mo1.ss),   ss2   = aiSum(mo2.ss);
+  const jis1  = aiSum(mo1.mini_jisuken), jis2  = aiSum(mo2.mini_jisuken);
+  const r2_1  = aiSum(mo1.r2),   r2_2  = aiSum(mo2.r2);
+  const apd1  = aiSum(mo1.abnormal_apd), apd2  = aiSum(mo2.abnormal_apd);
+  const wi1   = aiSum(mo1.abnormal_wi),  wi2   = aiSum(mo2.abnormal_wi);
+  const abs1  = aiSum(mo1.absensi),      abs2  = aiSum(mo2.absensi);
+
+  // 1. QCC activity
+  const totalQcc = qcc1 + qcc2;
+  if (totalQcc === 0) {
+    cards.push(aiCard({
+      icon: '🔵', title: 'QCC Activity Belum Berjalan',
+      status: 'warning', priority: 'medium',
+      analysis: 'Tidak ada aktivitas QCC yang tercatat pada periode ini. QCC adalah tulang punggung improvement partisipatif dari operator.',
+      action: 'Aktifkan kembali circle QCC yang ada. Leader mendorong dan memfasilitasi minimal 1 pertemuan QCC per grup per minggu.',
+      trend: 'down', trendLabel: '0 aktivitas'
+    }));
+  } else if (totalQcc < 3) {
+    cards.push(aiCard({
+      icon: '🔵', title: 'QCC Activity Rendah',
+      status: 'info', priority: 'medium',
+      analysis: `Total QCC Katun: ${qcc1}, Kusuma: ${qcc2}. Partisipasi masih rendah. Improvement culture perlu dibangun lebih intensif.`,
+      action: 'Tingkatkan partisipasi QCC dengan theme improvement sederhana yang relate dengan masalah harian operator. Beri recognition kepada anggota aktif.',
+      trend: 'stable', trendLabel: `${totalQcc} total aktivitas`
+    }));
+  } else {
+    cards.push(aiCard({
+      icon: '🔵', title: 'QCC Activity Aktif',
+      status: 'good', priority: 'low',
+      analysis: `QCC Katun: ${qcc1}, Kusuma: ${qcc2}. Aktivitas improvement circle berjalan dengan baik. Total ${totalQcc} aktivitas tercatat.`,
+      action: 'Pastikan setiap circle memiliki tema jelas dan PDCA yang terstruktur. Siapkan presentasi hasil QCC untuk sharing best practice antar grup.',
+      trend: 'stable', trendLabel: `${totalQcc} aktivitas`
+    }));
+  }
+
+  // 2. SS (5S) activity
+  const totalSS = ss1 + ss2;
+  if (totalSS === 0) {
+    cards.push(aiCard({
+      icon: '⭐', title: 'SS Activity Tidak Ada Catatan',
+      status: 'warning', priority: 'medium',
+      analysis: 'Tidak ada aktivitas SS yang tercatat. 5S adalah fondasi dari semua improvement dan mempengaruhi keselamatan, kualitas, dan produktivitas.',
+      action: 'Jadwalkan SS audit mingguan. Buat checklist area tanggung jawab per operator dan tempel di board visual area kerja.',
+      trend: 'down', trendLabel: '0 aktivitas'
+    }));
+  }
+
+  // 3. Abnormal APD
+  const totalApd = apd1 + apd2;
+  if (totalApd > 3) {
+    cards.push(aiCard({
+      icon: '⚠️', title: 'Temuan Abnormal APD Tinggi',
+      status: 'critical', priority: 'high',
+      analysis: `Total abnormal APD: ${totalApd} (Katun: ${apd1}, Kusuma: ${apd2}). Penggunaan APD yang tidak sesuai meningkatkan risiko kecelakaan kerja secara signifikan.`,
+      action: 'Lakukan safety talk khusus APD. Leader wajib melakukan spot check penggunaan APD setiap hari dan berikan teguran langsung kepada yang melanggar.',
+      trend: 'up', trendLabel: `${totalApd} temuan APD`
+    }));
+  } else if (totalApd > 0) {
+    cards.push(aiCard({
+      icon: '⚠️', title: 'Ada Temuan Abnormal APD',
+      status: 'warning', priority: 'medium',
+      analysis: `Tercatat ${totalApd} temuan abnormal APD (Katun: ${apd1}, Kusuma: ${apd2}). Segera tangani sebelum menjadi kebiasaan buruk.`,
+      action: 'Ingatkan kembali pentingnya APD saat briefing harian. Pastikan APD tersedia dalam kondisi baik dan mudah diakses di setiap area kerja.',
+      trend: 'up', trendLabel: `${totalApd} temuan`
+    }));
+  }
+
+  // 4. Abnormal WI
+  const totalWi = wi1 + wi2;
+  if (totalWi > 3) {
+    cards.push(aiCard({
+      icon: '📋', title: 'Abnormal WI Sering Terjadi',
+      status: 'critical', priority: 'high',
+      analysis: `Total abnormal WI: ${totalWi} (Katun: ${wi1}, Kusuma: ${wi2}). Penyimpangan dari work instruction berpotensi menyebabkan defect dan risiko keselamatan.`,
+      action: 'Verifikasi apakah WI sudah up-to-date dan mudah dipahami. Lakukan re-training WI untuk operator yang paling sering ditemukan abnormal.',
+      trend: 'up', trendLabel: `${totalWi} abnormal WI`
+    }));
+  } else if (totalWi > 0) {
+    cards.push(aiCard({
+      icon: '📋', title: 'Ada Temuan Abnormal WI',
+      status: 'warning', priority: 'medium',
+      analysis: `Tercatat ${totalWi} temuan abnormal WI (Katun: ${wi1}, Kusuma: ${wi2}). Setiap penyimpangan dari WI berpotensi menjadi sumber defect.`,
+      action: 'Sosialisasikan WI terbaru kepada seluruh operator. Pasang visual aid di titik kritis proses sebagai pengingat langkah kerja yang benar.',
+      trend: 'stable', trendLabel: `${totalWi} temuan`
+    }));
+  }
+
+  // 5. Mini Jisuken
+  const totalJis = jis1 + jis2;
+  if (totalJis === 0) {
+    cards.push(aiCard({
+      icon: '🔬', title: 'Mini Jisuken Belum Aktif',
+      status: 'info', priority: 'low',
+      analysis: 'Tidak ada aktivitas mini jisuken pada periode ini. Mini jisuken adalah kegiatan improvement mandiri yang mendorong ownership operator.',
+      action: 'Identifikasi area loss terbesar dan jadikan tema jisuken. Leader memfasilitasi operator untuk melakukan observasi langsung dan mengusulkan improvement.',
+      trend: 'stable', trendLabel: '0 aktivitas'
+    }));
+  }
+
+  // 6. Absensi
+  const absDays1 = aiDays(mo1.absensi), absDays2 = aiDays(mo2.absensi);
+  const avgAbs1 = absDays1 > 0 ? abs1 / absDays1 : 0;
+  const avgAbs2 = absDays2 > 0 ? abs2 / absDays2 : 0;
+  const maxAvgAbs = Math.max(avgAbs1, avgAbs2);
+
+  if (maxAvgAbs > 3) {
+    const highAbs = avgAbs1 > avgAbs2 ? `Katun (avg ${avgAbs1.toFixed(1)}/hari)` : `Kusuma (avg ${avgAbs2.toFixed(1)}/hari)`;
+    cards.push(aiCard({
+      icon: '👤', title: 'Absensi Tinggi',
+      status: 'critical', priority: 'high',
+      analysis: `Rata-rata absensi Katun ${avgAbs1.toFixed(1)} orang/hari, Kusuma ${avgAbs2.toFixed(1)} orang/hari. ${highAbs} paling berdampak terhadap output dan moral tim.`,
+      action: 'Identifikasi alasan absensi (sakit, izin, alfa). Lakukan komunikasi personal dengan anggota yang sering absen. Pertimbangkan manpower balancing harian.',
+      trend: 'up', trendLabel: `Avg ${maxAvgAbs.toFixed(1)} orang/hari`
+    }));
+  } else if (maxAvgAbs > 1) {
+    cards.push(aiCard({
+      icon: '👤', title: 'Absensi Perlu Dipantau',
+      status: 'warning', priority: 'medium',
+      analysis: `Rata-rata absensi Katun ${avgAbs1.toFixed(1)}/hari, Kusuma ${avgAbs2.toFixed(1)}/hari. Tren absensi perlu dipantau agar tidak berdampak pada produktivitas.`,
+      action: 'Lakukan daily check in morning meeting. Komunikasi rutin dengan member dan pastikan lingkungan kerja kondusif untuk menurunkan angka absensi.',
+      trend: 'stable', trendLabel: `Avg ${maxAvgAbs.toFixed(1)} orang/hari`
+    }));
+  }
+
+  setAiSection('ai-moral', cards);
+}
+
+// ── Hook: renderDashboard calls core render + AI engine ───────────
+function renderDashboard() {
+  _renderDashboardCore();
+  setTimeout(runAiSuggest, 100);
 }
 </script>
 </body>
