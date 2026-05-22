@@ -590,6 +590,8 @@ nav#sidebar {
 ═══════════════════════════════ */
 .chart-wrap { position: relative; width: 100%; }
 .chart-wrap canvas { max-height: 260px; }
+.chart-hyt-wrap { min-height: 340px; }
+.chart-hyt-wrap canvas { max-height: 340px; min-height: 340px; }
 
 /* ═══════════════════════════════
    TABLES
@@ -1172,8 +1174,8 @@ nav#sidebar {
         <span class="nav-icon">⚡</span> Productivity
         <span class="nav-badge">C</span>
       </div>
-      <div class="nav-item" onclick="showSlide('Monozukuri',this)">
-        <span class="nav-icon">📐</span> Monozukuri
+      <div class="nav-item" onclick="showSlide('monojukuri',this)">
+        <span class="nav-icon">📐</span> Monojukuri
         <span class="nav-badge">D</span>
       </div>
       <div class="nav-item" onclick="showSlide('moral',this)">
@@ -1257,7 +1259,7 @@ nav#sidebar {
         <div class="grid-2" style="margin-bottom:16px">
           <div class="card">
             <div class="card-header"><span class="card-title">HYT Plan vs Aktual</span></div>
-            <div class="chart-wrap"><canvas id="chart-hyt"></canvas></div>
+            <div class="chart-wrap chart-hyt-wrap"><canvas id="chart-hyt"></canvas></div>
           </div>
           <div class="card">
             <div class="card-header"><span class="card-title">KYT Plan vs Aktual</span></div>
@@ -1452,12 +1454,12 @@ nav#sidebar {
         </div>
       </div>
 
-      <!-- ═══ D. Monozukuri ═══ -->
-      <div class="slide" id="slide-Monozukuri">
+      <!-- ═══ D. MONOJUKURI ═══ -->
+      <div class="slide" id="slide-monojukuri">
         <div class="page-header">
           <div class="page-icon" style="background:var(--blue-50);border:1.5px solid var(--blue-100)">📐</div>
           <div class="page-title">
-            <h2>D. Monozukuri — Gentani</h2>
+            <h2>D. Monojukuri — Gentani</h2>
             <p>Gentani Plan &amp; Aktual · Man-Hour Analysis</p>
           </div>
         </div>
@@ -1510,22 +1512,22 @@ nav#sidebar {
           <div class="chart-wrap"><canvas id="chart-mh-weekly" style="max-height:260px"></canvas></div>
         </div>
 
-        <!-- AI SUGGEST — Monozukuri -->
+        <!-- AI SUGGEST — MONOJUKURI -->
         <div class="ai-section">
-          <div class="ai-section-header" onclick="toggleAiSection('ai-Monozukuri')">
+          <div class="ai-section-header" onclick="toggleAiSection('ai-monojukuri')">
             <div class="ai-header-left">
               <div class="ai-brain-icon">🤖</div>
               <div>
-                <div class="ai-section-title">AI Smart Insight — Monozukuri</div>
+                <div class="ai-section-title">AI Smart Insight — Monojukuri</div>
                 <div class="ai-section-sub">Analisa gentani, man-hour, dan efisiensi improvement</div>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:8px">
-              <span class="ai-count-badge" id="ai-Monozukuri-count">–</span>
-              <button class="ai-toggle-btn" id="ai-Monozukuri-toggle">▾</button>
+              <span class="ai-count-badge" id="ai-monojukuri-count">–</span>
+              <button class="ai-toggle-btn" id="ai-monojukuri-toggle">▾</button>
             </div>
           </div>
-          <div class="ai-cards-wrap" id="ai-Monozukuri"></div>
+          <div class="ai-cards-wrap" id="ai-monojukuri"></div>
         </div>
       </div>
 
@@ -1600,13 +1602,13 @@ nav#sidebar {
         <div class="page-header">
           <div class="page-icon" style="background:var(--blue-50);border:1.5px solid var(--blue-100)">🏭</div>
           <div class="page-title">
-            <h2>AI Smart Command Center</h2>
-            <p>Live Status · Executive Summary · Alert · Heatmap · Decision Board</p>
+            <h2>AI Smart Factory Command Center</h2>
+            <p>Factory Health · Live Status · Executive Summary · Alert · Heatmap · Decision Board</p>
           </div>
         </div>
 
-        <!-- PRODUCTION SCORE -->
-        <div class="cc-sec">Production Score</div>
+        <!-- FACTORY HEALTH SCORE -->
+        <div class="cc-sec">Factory Health Score</div>
         <div class="cc-row" id="cc-gauge-row" style="align-items:stretch;">
           <!-- big overall health card -->
           <div class="health-card" id="cc-health-card">
@@ -1629,7 +1631,7 @@ nav#sidebar {
           <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-safety" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-safety-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-safety-g" x="50" y="66">–</text></svg><div class="gauge-label">🛡 Safety</div><span class="gauge-status gs-info" id="ccg-safety-s">–</span></div>
           <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-quality" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-quality-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-quality-g" x="50" y="66">–</text></svg><div class="gauge-label">✅ Quality</div><span class="gauge-status gs-info" id="ccg-quality-s">–</span></div>
           <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-prod" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-prod-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-prod-g" x="50" y="66">–</text></svg><div class="gauge-label">⚡ Productivity</div><span class="gauge-status gs-info" id="ccg-prod-s">–</span></div>
-          <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-mono" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-mono-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-mono-g" x="50" y="66">–</text></svg><div class="gauge-label">📐 Monozukuri</div><span class="gauge-status gs-info" id="ccg-mono-s">–</span></div>
+          <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-mono" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-mono-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-mono-g" x="50" y="66">–</text></svg><div class="gauge-label">📐 Monojukuri</div><span class="gauge-status gs-info" id="ccg-mono-s">–</span></div>
           <div class="gauge-card"><svg class="gauge-svg" viewBox="0 0 100 100"><path class="gauge-track" d="M20,80 A40,40 0 1,1 80,80"/><path class="gauge-fill gf-info" id="ccg-moral" d="M20,80 A40,40 0 1,1 80,80"/><text class="gauge-pct" id="ccg-moral-v" x="50" y="52">–</text><text class="gauge-grade" id="ccg-moral-g" x="50" y="66">–</text></svg><div class="gauge-label">🌟 Moral</div><span class="gauge-status gs-info" id="ccg-moral-s">–</span></div>
         </div>
 
@@ -1823,25 +1825,31 @@ function parseData(raw){
   const first = v => (v.find(x => x != null && x !== 0) ?? 0);
 
   function getMHMonthly(rows){
-    const labels = ['REG','DOT','HOT'];
-    const f = (rows, m, col=33) => {
-      const r = rows.find(rw => rw && String(rw[1]).toLowerCase() === m);
-      return r ? (Number(r[col]) || 0) : 0;
-    };
+    // Monthly MH = Mei Acc Plan (col45) and Mei Acc Actual (col46)
+    // stored as overflow in mh_total_actual row (Reg) and the 2 rows after it (DOT, HOT).
+    const n   = (r,i) => (r && r[i] != null && !isNaN(Number(r[i]))) ? Number(r[i]) : 0;
+    const idx = rows.findIndex(rw => rw && String(rw[1]).toLowerCase() === 'mh_total_actual');
+    if(idx < 0) return { labels:['REG','DOT','HOT'], plan:[0,0,0], actual:[0,0,0] };
+    const rReg = rows[idx]     || [];
+    const rDot = rows[idx + 1] || [];
+    const rHot = rows[idx + 2] || [];
     return {
-      labels,
-      plan:   [f(rows,'mh_reg_plan'),  f(rows,'mh_dot_plan'),  f(rows,'mh_hot_plan')],
-      actual: [f(rows,'mh_reg_actual'),f(rows,'mh_dot_actual'),f(rows,'mh_hot_actual')]
+      labels: ['REG','DOT','HOT'],
+      plan:   [n(rReg,45), n(rDot,45), n(rHot,45)],
+      actual: [n(rReg,46), n(rDot,46), n(rHot,46)]
     };
   }
 
   function getWeeklyMH(rows){
-    const r = rows.find(rw => rw && String(rw[1]).toLowerCase() === 'mh_total_plan');
+    // Weekly totals in mh_reg_actual extras:
+    // col44=W1Plan, col45=W1Act, col46=W2Plan, col47=W2Act, ... col52=W5Plan, col53=W5Act
+    const n = (r,i) => (r[i] != null && !isNaN(Number(r[i]))) ? Number(r[i]) : 0;
+    const r = rows.find(rw => rw && String(rw[1]).toLowerCase() === 'mh_reg_actual');
     if(!r) return { weeks:['W1','W2','W3','W4','W5'], plan:[0,0,0,0,0], actual:[0,0,0,0,0] };
     const plan=[], actual=[];
     for(let i=0;i<5;i++){
-      plan.push(  Number(r[45+i*2]) || 0);
-      actual.push(Number(r[46+i*2]) || 0);
+      plan.push(  n(r, 44 + i*2));
+      actual.push(n(r, 45 + i*2));
     }
     return { weeks:['W1','W2','W3','W4','W5'], plan, actual };
   }
@@ -1868,7 +1876,7 @@ function parseData(raw){
         losstime_ct: rv1('losstime_ct'),
         losstime_total: rv1('losstime_total'),
       },
-      Monozukuri:{
+      monojukuri:{
         gentani_plan: rv1('gentani_plan'), gentani_actual: rv1('gentani_actual'),
         mh_month: getMHMonthly(katun), mh_weekly: getWeeklyMH(katun),
       },
@@ -1898,7 +1906,7 @@ function parseData(raw){
         losstime_ct: rv2('losstime_ct'),
         losstime_total: rv2('losstime_total'),
       },
-      Monozukuri:{
+      monojukuri:{
         gentani_plan: rv2('gentani_plan'), gentani_actual: rv2('gentani_actual'),
         mh_month: getMHMonthly(kusuma), mh_weekly: getWeeklyMH(kusuma),
       },
@@ -1938,81 +1946,80 @@ const P = {
 // Register datalabels plugin globally
 Chart.register(ChartDataLabels);
 
-// ── Datalabel presets ──────────────────────────────────────────────
-// BAR: value on top of each bar, hidden when value is 0 or null
+// ── Datalabel presets ─────────────────────────────────────────────
+const _dlFmt  = v => (v == null) ? '' : (Number.isInteger(Number(v)) ? Math.round(v) : Number(v).toFixed(1));
+const _dlFmtP = v => (v == null) ? '' : Number(v).toFixed(1) + '%';
+const _dlShow = ctx => { const v = ctx.dataset.data[ctx.dataIndex]; return v != null && v !== 0; };
+const _dlShowLine = ctx => {
+  const v = ctx.dataset.data[ctx.dataIndex];
+  if (v == null || v === 0) return false;
+  if ((ctx.dataset.pointRadius ?? 3) === 0) return false; // skip dashed plan/target lines
+  return ctx.dataIndex % 4 === 0; // every 4th point — cleaner for 31-day charts
+};
+
+// BAR: value above bar, clamped inside canvas
 const DL_BAR = {
   datalabels: {
-    display: ctx => {
-      const v = ctx.dataset.data[ctx.dataIndex];
-      return v != null && v !== 0;
-    },
-    anchor: 'end',
-    align: 'top',
-    offset: 2,
+    display: _dlShow,
+    anchor: 'end', align: 'end', offset: 2,
+    clamp: true, clip: false,
     font: { family:"'JetBrains Mono',monospace", size: 10, weight:'700' },
     color: '#334155',
-    formatter: v => v == null ? '' : (Number.isInteger(v) ? v : Number(v).toFixed(1)),
-    clip: false,
+    formatter: _dlFmt,
   }
 };
 
-// BAR with % suffix (prod%)
+// BAR %
 const DL_BAR_PCT = {
   datalabels: {
-    display: ctx => {
-      const v = ctx.dataset.data[ctx.dataIndex];
-      return v != null && v !== 0;
-    },
-    anchor: 'end',
-    align: 'top',
-    offset: 2,
+    display: _dlShow,
+    anchor: 'end', align: 'end', offset: 2,
+    clamp: true, clip: false,
     font: { family:"'JetBrains Mono',monospace", size: 10, weight:'700' },
     color: '#334155',
-    formatter: v => v == null ? '' : Number(v).toFixed(1) + '%',
-    clip: false,
+    formatter: _dlFmtP,
   }
 };
 
-// LINE: label on each data point, only for non-null non-zero values
-// For dense daily trends we show every 3rd point to avoid clutter
+// LINE sparse — every 4th visible point; skip plan/target dash lines
 const DL_LINE_SPARSE = {
   datalabels: {
-    display: ctx => {
-      const v = ctx.dataset.data[ctx.dataIndex];
-      if (v == null || v === 0) return false;
-      return ctx.dataIndex % 3 === 0;          // every 3rd point
-    },
-    anchor: 'top',
-    align: 'top',
-    offset: 4,
+    display: _dlShowLine,
+    anchor: 'top', align: 'top', offset: 5,
+    clamp: true, clip: false,
     font: { family:"'JetBrains Mono',monospace", size: 9, weight:'600' },
     color: ctx => ctx.dataset.borderColor || '#334155',
-    backgroundColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: 'rgba(255,255,255,0.92)',
     borderRadius: 3,
-    padding: { top:1, bottom:1, left:3, right:3 },
-    formatter: v => v == null ? '' : (Number.isInteger(v) ? v : Number(v).toFixed(1)),
-    clip: false,
+    padding: { top:2, bottom:2, left:4, right:4 },
+    formatter: _dlFmt,
   }
 };
 
-// LINE with % suffix
+// LINE % sparse
 const DL_LINE_PCT = {
   datalabels: {
-    display: ctx => {
-      const v = ctx.dataset.data[ctx.dataIndex];
-      if (v == null || v === 0) return false;
-      return ctx.dataIndex % 3 === 0;
-    },
-    anchor: 'top',
-    align: 'top',
-    offset: 4,
+    display: _dlShowLine,
+    anchor: 'top', align: 'top', offset: 5,
+    clamp: true, clip: false,
     font: { family:"'JetBrains Mono',monospace", size: 9, weight:'600' },
     color: ctx => ctx.dataset.borderColor || '#334155',
-    backgroundColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: 'rgba(255,255,255,0.92)',
     borderRadius: 3,
-    padding: { top:1, bottom:1, left:3, right:3 },
-    formatter: v => v == null ? '' : Number(v).toFixed(1) + '%',
-    clip: false,
+    padding: { top:2, bottom:2, left:4, right:4 },
+    formatter: _dlFmtP,
+  }
+};
+
+// HYT: condensed for 4-dataset grouped bar (legend at bottom)
+const DL_HYT = {
+  datalabels: {
+    display: _dlShow,
+    anchor: 'end', align: 'end', offset: 1,
+    clamp: true, clip: false,
+    font: { family:"'JetBrains Mono',monospace", size: 9, weight:'700' },
+    color: '#334155',
+    formatter: _dlFmt,
   }
 };
 
@@ -2044,11 +2051,7 @@ const CD = {
 responsive: true,
 maintainAspectRatio: false,
 
-layout: {
-  padding: {
-    top: 20
-  }
-},
+layout: { padding: { top: 28, right: 6, bottom: 4, left: 4 } },
 
 plugins: {
   legend: {
@@ -2071,19 +2074,7 @@ plugins: {
     }
   },
 
-  datalabels: {
-    anchor: 'end',
-    align: 'top',
-
-    offset: 6,
-
-    color: '#64748b',
-
-    font: {
-      size: 10,
-      weight: '600'
-    }
-  },
+  datalabels: { display: false },  // disabled globally; each chart sets own DL_* preset
 
   tooltip: {
     backgroundColor: '#ffffff',
@@ -2137,14 +2128,18 @@ function makeChart(id, cfg){
 
 function deepMerge(t, s){
   if(typeof s !== 'object' || s === null) return s;
-  const out = Array.isArray(s) ? s : Object.assign({}, t);
-  if(!Array.isArray(s)){
-    for(const k in s){
-      if(['data','datasets','labels'].includes(k)) out[k] = s[k];
-      else if(typeof s[k]==='object' && s[k]!==null && !Array.isArray(s[k])
-           && typeof t[k]==='object' && t[k]!==null){
-        out[k] = deepMerge(t[k], s[k]);
-      } else out[k] = s[k];
+  if(Array.isArray(s)) return s;
+  const out = Object.assign({}, t);
+  for(const k in s){
+    if(['data','datasets','labels'].includes(k)){
+      out[k] = s[k];
+    } else if(k === 'datalabels'){
+      out[k] = s[k]; // always full-replace, never deep-merge
+    } else if(typeof s[k]==='object' && s[k]!==null && !Array.isArray(s[k])
+         && typeof t[k]==='object' && t[k]!==null && !Array.isArray(t[k])){
+      out[k] = deepMerge(t[k], s[k]);
+    } else {
+      out[k] = s[k];
     }
   }
   return out;
@@ -2163,7 +2158,7 @@ function _renderDashboardCore(){
   renderSafety();
   renderQuality();
   renderProductivity();
-  renderMonozukuri();
+  renderMonojukuri();
   renderMoral();
 }
 
@@ -2184,13 +2179,23 @@ function renderSafety(){
     data:{
       labels: dl,
       datasets:[
-        {label:'katun Plan',    data:s1.hyt_plan,   backgroundColor:'rgba(37,99,235,0.25)',  borderColor:P.katun.line,  borderWidth:1.5},
-        {label:'katun Aktual',  data:s1.hyt_actual,  backgroundColor:P.katun.bar,               borderColor:P.katun.line,  borderWidth:1},
-        {label:'kusuma Plan',    data:s2.hyt_plan,   backgroundColor:'rgba(13,148,136,0.2)',  borderColor:P.kusuma.line,  borderWidth:1.5},
-        {label:'kusuma Aktual',  data:s2.hyt_actual,  backgroundColor:P.kusuma.bar,               borderColor:P.kusuma.line,  borderWidth:1},
+        {label:'Katun Plan',   data:s1.hyt_plan,   backgroundColor:'rgba(37,99,235,0.22)', borderColor:P.katun.line,  borderWidth:1.5},
+        {label:'Katun Aktual', data:s1.hyt_actual, backgroundColor:P.katun.bar,            borderColor:P.katun.line,  borderWidth:1},
+        {label:'Kusuma Plan',  data:s2.hyt_plan,   backgroundColor:'rgba(13,148,136,0.18)',borderColor:P.kusuma.line, borderWidth:1.5},
+        {label:'Kusuma Aktual',data:s2.hyt_actual, backgroundColor:P.kusuma.bar,           borderColor:P.kusuma.line, borderWidth:1},
       ]
     },
-    options:{ plugins: DL_BAR }
+    options:{
+      layout: { padding: { top:34, right:10, bottom:4, left:4 } },
+      plugins: {
+        legend: { position:'bottom', labels:{ padding:12, boxWidth:10, font:{size:10} } },
+        datalabels: DL_HYT.datalabels
+      },
+      scales: {
+        y: { beginAtZero:true, ticks:{ stepSize:1, maxTicksLimit:8 } },
+        x: { ticks:{ maxTicksLimit:14, font:{size:9} } }
+      }
+    }
   });
 
   // KYT Grouped Bar
@@ -2236,11 +2241,11 @@ function renderQuality(){
     data:{
       labels:dl,
       datasets:[
-        {label:'katun Flowout', data:q1.flowout, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
-        {label:'kusuma Flowout', data:q2.flowout, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
+        {label:'Katun Flowout',  data:q1.flowout, borderColor:P.katun.line,  backgroundColor:P.katun.fill,  fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
+        {label:'Kusuma Flowout', data:q2.flowout, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
       ]
     },
-    options:{ plugins: DL_LINE_SPARSE }
+    options:{ scales:{ y:{ beginAtZero:true } }, plugins: DL_LINE_SPARSE }
   });
 
   makeChart('chart-patrol',{
@@ -2248,11 +2253,11 @@ function renderQuality(){
     data:{
       labels:dl,
       datasets:[
-        {label:'katun Patrol', data:q1.patrol, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
-        {label:'kusuma Patrol', data:q2.patrol, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'Katun Patrol',  data:q1.patrol, borderColor:P.katun.line,  backgroundColor:P.katun.fill,  fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
+        {label:'Kusuma Patrol', data:q2.patrol, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
       ]
     },
-    options:{ plugins: DL_LINE_SPARSE }
+    options:{ scales:{ y:{ beginAtZero:true } }, plugins: DL_LINE_SPARSE }
   });
 
   makeChart('chart-quality-compare',{
@@ -2292,13 +2297,14 @@ function renderProductivity(){
     data:{
       labels:dl,
       datasets:[
-        {label:'Plan (94%)', data:p1.prod_plan,   borderColor:P.plan.line, borderDash:P.plan.dash, fill:false, tension:0, pointRadius:0, borderWidth:2},
-        {label:'katun Aktual',  data:p1.prod_actual, borderColor:P.katun.line,  backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
-        {label:'kusuma Aktual',  data:p2.prod_actual, borderColor:P.kusuma.line,  backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'Plan (94%)',   data:p1.prod_plan,   borderColor:P.plan.line,  borderDash:P.plan.dash, fill:false, tension:0, pointRadius:0, borderWidth:2},
+        {label:'Katun Aktual', data:p1.prod_actual, borderColor:P.katun.line,  backgroundColor:P.katun.fill,  fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
+        {label:'Kusuma Aktual',data:p2.prod_actual, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
       ]
     },
     options:{
-      scales:{ y:{ min:60, max:100, ticks:{ callback:v=>v+'%' } } },
+      layout: { padding:{ top:32, right:6, bottom:4, left:4 } },
+      scales:{ y:{ min:60, max:105, ticks:{ callback:v=>v+'%', stepSize:10 } } },
       plugins: DL_LINE_PCT
     }
   });
@@ -2315,8 +2321,10 @@ function renderProductivity(){
   const lossD2 = [sum(p2.losstime_hm),sum(p2.losstime_hp),sum(p2.losstime_bdt),sum(p2.losstime_personal),sum(p2.losstime_tc),sum(p2.losstime_ct)];
 
   const doughnutOpts = {
-    scales:{ x:{display:false}, y:{display:false} },
-    plugins:{ legend:{ position:'right' }, datalabels: DL_DONUT.datalabels }
+    plugins:{
+      legend:{ position:'right', labels:{ padding:10, boxWidth:10, font:{size:10} } },
+      datalabels: DL_DONUT.datalabels
+    }
   };
 
   makeChart('chart-loss-katun',{
@@ -2336,18 +2344,21 @@ function renderProductivity(){
     data:{
       labels:dl,
       datasets:[
-        {label:'katun Losstime', data:p1.losstime_total, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
-        {label:'kusuma Losstime', data:p2.losstime_total, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
-        {label:'Target (6)',  data:p1.prod_plan.map(()=>6), borderColor:'#dc2626', borderDash:[5,4], fill:false, tension:0, pointRadius:0, borderWidth:2},
+        {label:'Katun Losstime', data:p1.losstime_total, borderColor:P.katun.line,  backgroundColor:P.katun.fill,  fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
+        {label:'Kusuma Losstime',data:p2.losstime_total, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
+        {label:'Target (6)',     data:p1.prod_plan.map(()=>6), borderColor:'#dc2626', borderDash:[5,4], fill:false, tension:0, pointRadius:0, borderWidth:2},
       ]
     },
-    options:{ plugins: DL_LINE_SPARSE }
+    options:{
+      scales:{ y:{ beginAtZero:true } },
+      plugins: DL_LINE_SPARSE
+    }
   });
 }
 
-// ─── D. Monozukuri ───
-function renderMonozukuri(){
-  const {katun:{Monozukuri:m1}, kusuma:{Monozukuri:m2}} = DATA;
+// ─── D. MONOJUKURI ───
+function renderMonojukuri(){
+  const {katun:{monojukuri:m1}, kusuma:{monojukuri:m2}} = DATA;
 
   document.getElementById('m-gplan-katun').textContent = num(avg(m1.gentani_plan),0);
   document.getElementById('m-gact-katun').textContent  = num(avg(m1.gentani_actual),1);
@@ -2361,13 +2372,16 @@ function renderMonozukuri(){
     data:{
       labels:dl,
       datasets:[
-        {label:'katun Plan',   data:m1.gentani_plan,   borderColor:P.katun.line, borderDash:P.plan.dash, fill:false, tension:0,   pointRadius:0, borderWidth:2},
-        {label:'katun Aktual', data:m1.gentani_actual, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
-        {label:'kusuma Plan',   data:m2.gentani_plan,   borderColor:P.kusuma.line, borderDash:P.plan.dash, fill:false, tension:0,   pointRadius:0, borderWidth:2},
-        {label:'kusuma Aktual', data:m2.gentani_actual, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'Katun Plan',   data:m1.gentani_plan,   borderColor:P.katun.line,  borderDash:P.plan.dash, fill:false, tension:0,   pointRadius:0, borderWidth:2},
+        {label:'Katun Aktual', data:m1.gentani_actual, borderColor:P.katun.line,  backgroundColor:P.katun.fill,  fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
+        {label:'Kusuma Plan',  data:m2.gentani_plan,   borderColor:P.kusuma.line, borderDash:P.plan.dash, fill:false, tension:0,   pointRadius:0, borderWidth:2},
+        {label:'Kusuma Aktual',data:m2.gentani_actual, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
       ]
     },
-    options:{ plugins: DL_LINE_SPARSE }
+    options:{
+      scales:{ y:{ beginAtZero:false } },
+      plugins: DL_LINE_SPARSE
+    }
   });
 
   const barOpts = { borderRadius:4 };
@@ -2378,11 +2392,11 @@ function renderMonozukuri(){
     data:{
       labels: m1.mh_month.labels,
       datasets:[
-        {label:'Plan',   data:m1.mh_month.plan,   ...planBar},
-        {label:'Aktual', data:m1.mh_month.actual,  backgroundColor:P.katun.bar, borderColor:P.katun.line, borderWidth:1, borderRadius:4},
+        {label:'Acc. Plan (s.d. skrg)', data:m1.mh_month.plan,   ...planBar},
+        {label:'Acc. Aktual',           data:m1.mh_month.actual,  backgroundColor:P.katun.bar, borderColor:P.katun.line, borderWidth:1, borderRadius:4},
       ]
     },
-    options:{ plugins: DL_BAR }
+    options:{ plugins: DL_BAR, scales:{ y:{ beginAtZero:true } } }
   });
 
   makeChart('chart-mh-month-kusuma',{
@@ -2390,11 +2404,11 @@ function renderMonozukuri(){
     data:{
       labels: m2.mh_month.labels,
       datasets:[
-        {label:'Plan',   data:m2.mh_month.plan,   ...planBar},
-        {label:'Aktual', data:m2.mh_month.actual,  backgroundColor:P.kusuma.bar, borderColor:P.kusuma.line, borderWidth:1, borderRadius:4},
+        {label:'Acc. Plan (s.d. skrg)', data:m2.mh_month.plan,   ...planBar},
+        {label:'Acc. Aktual',           data:m2.mh_month.actual,  backgroundColor:P.kusuma.bar, borderColor:P.kusuma.line, borderWidth:1, borderRadius:4},
       ]
     },
-    options:{ plugins: DL_BAR }
+    options:{ plugins: DL_BAR, scales:{ y:{ beginAtZero:true } } }
   });
 
   makeChart('chart-mh-weekly',{
@@ -2402,10 +2416,10 @@ function renderMonozukuri(){
     data:{
       labels: m1.mh_weekly.weeks,
       datasets:[
-        {label:'katun Plan',   data:m1.mh_weekly.plan,   backgroundColor:'rgba(37,99,235,0.3)',  borderColor:P.katun.line, borderWidth:1.5, borderRadius:4},
-        {label:'katun Aktual', data:m1.mh_weekly.actual,  backgroundColor:P.katun.bar,              borderColor:P.katun.line, borderWidth:1,   borderRadius:4},
-        {label:'kusuma Plan',   data:m2.mh_weekly.plan,   backgroundColor:'rgba(13,148,136,0.25)',borderColor:P.kusuma.line, borderWidth:1.5, borderRadius:4},
-        {label:'kusuma Aktual', data:m2.mh_weekly.actual,  backgroundColor:P.kusuma.bar,              borderColor:P.kusuma.line, borderWidth:1,   borderRadius:4},
+        {label:'Katun Plan',   data:m1.mh_weekly.plan,   backgroundColor:'rgba(37,99,235,0.28)', borderColor:P.katun.line,  borderWidth:1.5, borderRadius:4},
+        {label:'Katun Aktual', data:m1.mh_weekly.actual, backgroundColor:P.katun.bar,              borderColor:P.katun.line,  borderWidth:1,   borderRadius:4},
+        {label:'Kusuma Plan',  data:m2.mh_weekly.plan,   backgroundColor:'rgba(13,148,136,0.22)',  borderColor:P.kusuma.line, borderWidth:1.5, borderRadius:4},
+        {label:'Kusuma Aktual',data:m2.mh_weekly.actual, backgroundColor:P.kusuma.bar,             borderColor:P.kusuma.line, borderWidth:1,   borderRadius:4},
       ]
     },
     options:{ plugins: DL_BAR }
@@ -2481,11 +2495,11 @@ function renderMoral(){
     data:{
       labels:days(),
       datasets:[
-        {label:'katun Absensi', data:mo1.absensi, borderColor:P.katun.line, backgroundColor:P.katun.fill, fill:true, tension:0.4, pointRadius:3},
-        {label:'kusuma Absensi', data:mo2.absensi, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3},
+        {label:'Katun Absensi',  data:mo1.absensi, borderColor:P.katun.line,  backgroundColor:P.katun.fill,  fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.katun.line},
+        {label:'Kusuma Absensi', data:mo2.absensi, borderColor:P.kusuma.line, backgroundColor:P.kusuma.fill, fill:true, tension:0.4, pointRadius:3, pointBackgroundColor:P.kusuma.line},
       ]
     },
-    options:{ plugins: DL_LINE_SPARSE }
+    options:{ scales:{ y:{ beginAtZero:true } }, plugins: DL_LINE_SPARSE }
   });
 
   // Table
@@ -2903,11 +2917,11 @@ function genProductivitySuggests() {
 }
 
 // ════════════════════════════════════════════════════════════════
-// D. Monozukuri RULES
+// D. MONOJUKURI RULES
 // ════════════════════════════════════════════════════════════════
 function genMonojukriSuggests() {
-  const m1 = DATA.katun.Monozukuri;
-  const m2 = DATA.kusuma.Monozukuri;
+  const m1 = DATA.katun.monojukuri;
+  const m2 = DATA.kusuma.monojukuri;
   const cards = [];
 
   const gentaniPlan1 = aiAvg(m1.gentani_plan);
@@ -2974,7 +2988,7 @@ function genMonojukriSuggests() {
         icon: '👥', title: 'MH Efisiensi Optimal',
         status: 'good', priority: 'low',
         analysis: `MH realisasi Katun ${mhEff1.toFixed(0)}%, Kusuma ${mhEff2.toFixed(0)}% dari plan. Penggunaan jam kerja sesuai rencana.`,
-        action: 'Pertahankan efisiensi MH. Dorong improvement kecil untuk menurunkan MH plan secara bertahap melalui aktivitas Monozukuri.',
+        action: 'Pertahankan efisiensi MH. Dorong improvement kecil untuk menurunkan MH plan secara bertahap melalui aktivitas monojukuri.',
         trend: 'stable', trendLabel: 'Sesuai Plan'
       }));
     }
@@ -2997,7 +3011,7 @@ function genMonojukriSuggests() {
     }
   }
 
-  setAiSection('ai-Monozukuri', cards);
+  setAiSection('ai-monojukuri', cards);
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -3242,9 +3256,9 @@ function calcProductivityScore(d){
   return Math.max(0,Math.min(100,score));
 }
 
-function calcMonozukuriScore(d){
+function calcMonojukuriScore(d){
   let score=100;
-  const m1=d.katun.Monozukuri, m2=d.kusuma.Monozukuri;
+  const m1=d.katun.monojukuri, m2=d.kusuma.monojukuri;
   // Gentani gap
   const gPlan1=ccAvg(m1.gentani_plan), gAct1=ccAvg(ccNz(m1.gentani_actual));
   const gPlan2=ccAvg(m2.gentani_plan), gAct2=ccAvg(ccNz(m2.gentani_actual));
@@ -3284,14 +3298,14 @@ function buildHeatmap(scores){
   const d = DATA;
 
   // Per-group scores (simplified)
-  const safetyK = calcSafetyScore({katun:d.katun, kusuma:{safety:{accident:[],hyt_plan:[],hyt_actual:[],hyt_temuan:[],hyt_perbaikan:[],remain:[],kyt_plan:0,kyt_actual:0},quality:{flowout:[],patrol:[]},productivity:{prod_actual:[],prod_plan:[],losstime_total:[],losstime_hm:[],losstime_hp:[],losstime_bdt:[],losstime_personal:[],losstime_tc:[],losstime_ct:[]},Monozukuri:{gentani_plan:[],gentani_actual:[],mh_month:{plan:[0,0,0],actual:[0,0,0]},mh_weekly:{plan:[0,0,0,0,0],actual:[0,0,0,0,0]}},moral:{qcc:[],ss:[],mini_jisuken:[],r2:[],abnormal_apd:[],abnormal_wi:[],absensi:[]}}});
+  const safetyK = calcSafetyScore({katun:d.katun, kusuma:{safety:{accident:[],hyt_plan:[],hyt_actual:[],hyt_temuan:[],hyt_perbaikan:[],remain:[],kyt_plan:0,kyt_actual:0},quality:{flowout:[],patrol:[]},productivity:{prod_actual:[],prod_plan:[],losstime_total:[],losstime_hm:[],losstime_hp:[],losstime_bdt:[],losstime_personal:[],losstime_tc:[],losstime_ct:[]},monojukuri:{gentani_plan:[],gentani_actual:[],mh_month:{plan:[0,0,0],actual:[0,0,0]},mh_weekly:{plan:[0,0,0,0,0],actual:[0,0,0,0,0]}},moral:{qcc:[],ss:[],mini_jisuken:[],r2:[],abnormal_apd:[],abnormal_wi:[],absensi:[]}}});
 
   // Use combined scores as proxy for both groups
   const data = [
     [scores.safety, scores.safety, scores.safety],
     [scores.quality, scores.quality, scores.quality],
     [scores.productivity, scores.productivity, scores.productivity],
-    [scores.Monozukuri, scores.Monozukuri, scores.Monozukuri],
+    [scores.monojukuri, scores.monojukuri, scores.monojukuri],
     [scores.moral, scores.moral, scores.moral]
   ];
 
@@ -3533,7 +3547,7 @@ function buildFlowSVG(scores){
   const d=DATA;
   const avgAbs=(ccSum(d.katun.moral.absensi)+ccSum(d.kusuma.moral.absensi));
   const avgProd=(ccAvg(d.katun.productivity.prod_actual)+ccAvg(d.kusuma.productivity.prod_actual))/2;
-  const mhOver=(d.katun.Monozukuri.mh_month.actual.reduce((a,b)=>a+b,0)/(d.katun.Monozukuri.mh_month.plan.reduce((a,b)=>a+b,0)||1))>1.05;
+  const mhOver=(d.katun.monojukuri.mh_month.actual.reduce((a,b)=>a+b,0)/(d.katun.monojukuri.mh_month.plan.reduce((a,b)=>a+b,0)||1))>1.05;
   const flow=ccSum(d.katun.quality.flowout)+ccSum(d.kusuma.quality.flowout);
 
   const absClr = avgAbs>10?'#dc2626':'#16a34a';
@@ -3674,10 +3688,10 @@ function renderCommandCenter(){
     safety:       calcSafetyScore(DATA),
     quality:      calcQualityScore(DATA),
     productivity: calcProductivityScore(DATA),
-    Monozukuri:   calcMonozukuriScore(DATA),
+    monojukuri:   calcMonojukuriScore(DATA),
     moral:        calcMoralScore(DATA)
   };
-  scores.overall = (scores.safety*0.25 + scores.quality*0.20 + scores.productivity*0.25 + scores.Monozukuri*0.15 + scores.moral*0.15);
+  scores.overall = (scores.safety*0.25 + scores.quality*0.20 + scores.productivity*0.25 + scores.monojukuri*0.15 + scores.moral*0.15);
 
   const g=ccGrade(scores.overall);
 
@@ -3693,7 +3707,7 @@ function renderCommandCenter(){
   setGauge('ccg-safety', 'ccg-safety-v','ccg-safety-g','ccg-safety-s',  ccGrade(scores.safety).cls,       scores.safety);
   setGauge('ccg-quality','ccg-quality-v','ccg-quality-g','ccg-quality-s', ccGrade(scores.quality).cls,      scores.quality);
   setGauge('ccg-prod',   'ccg-prod-v',  'ccg-prod-g',  'ccg-prod-s',    ccGrade(scores.productivity).cls,  scores.productivity);
-  setGauge('ccg-mono',   'ccg-mono-v',  'ccg-mono-g',  'ccg-mono-s',    ccGrade(scores.Monozukuri).cls,    scores.Monozukuri);
+  setGauge('ccg-mono',   'ccg-mono-v',  'ccg-mono-g',  'ccg-mono-s',    ccGrade(scores.monojukuri).cls,    scores.monojukuri);
   setGauge('ccg-moral',  'ccg-moral-v', 'ccg-moral-g', 'ccg-moral-s',   ccGrade(scores.moral).cls,         scores.moral);
 
   buildLiveStatus(scores);
